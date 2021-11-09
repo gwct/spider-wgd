@@ -30,7 +30,8 @@ html_template = """
 		<div class="col-2-24" id="margin"></div>
 		<div class="col-20-24" id="main_col">
 			<ul>
-				<li><h3><a href="annotations.html">Sample annotation stats</a></h3></li>
+				<li><h3><a href="annotations.html">Annotation stats</a></h3></li>
+				<li><h3><a href="orthologs.html">Ortholog clustering stats</a></h3></li>
 			</ul>
 		</div>
         <div class="col-2-24" id="margin"></div>
