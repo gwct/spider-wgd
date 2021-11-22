@@ -1,0 +1,9 @@
+1. Download data via links on spreadsheet
+2. isofilter
+3. Combine sequences: find . -type f -name *.fa -exec cat {} \; > spider-16spec-peptides.fa
+4. Make blast databse: makeblastdb -in ../isofilter/spider-16spec-peptides.fa -dbtype prot -out spider-16spec-blastdb
+5. BLAST: run_blash.sh
+    -95556641 hits
+6. Filter BLAST output by eval: grep -v "#" spider-16spec-blast-output.txt | awk '{if($11 <= 1e-3){print}}' > spider-16spec-blast-output-1e-3.txt
+    -68559308 hits
+6. FastOrtho
