@@ -1,0 +1,12 @@
+input_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/cds/
+# Directory containing CDS with filenames: <orthogroup>.fa
+# FASTA headers should be in the format: <species ID>-<transcript ID>-<protein ID>
+
+locus_file: /n/home07/gthomas/projects/spider-wgd/data/multi-spec-orthogroups.txt
+# A file containing a list of loci/clusters, one per line, to run the pipeline on
+
+output_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/
+# The directory to write all output
+
+conda_env_path: /n/home07/gthomas/anaconda3/envs/cds-aln-2/
+# The path to the conda environment with the Guidance package installed

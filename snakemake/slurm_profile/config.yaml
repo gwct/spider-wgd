@@ -1,0 +1,21 @@
+jobs: 64
+cluster:
+  mkdir -p {OUTDIR}/slurm-logs/{rule}/ &&
+  sbatch
+  --partition={resources.partition}
+  --nodes={resources.nodes}
+  --cpus-per-task={resources.cpus}
+  --job-name={rule}-{wildcards}
+  --mem={resources.mem}
+  --time={resources.time}
+  --output={OUTDIR}/slurm-logs/{rule}/{rule}-{wildcards}-%j.out
+default-resources:
+  - partition='holy-info,holy-cow,holy-smokes'
+  - nodes='1'
+  - mem_mb=4000
+  - mem='4g'
+  - time='4:00:00'
+  - cpus=4
+restart-times: 4
+latency-wait: 10
+verbose: true
