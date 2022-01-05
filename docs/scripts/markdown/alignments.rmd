@@ -113,7 +113,7 @@ t_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended",
 
 ## Sequences by species
 
-```{r seq-summary-spec, out.width="50%", fig.align = "center", warning=FALSE, eval=F}
+```{r seq-summary-spec, out.width="50%", fig.align = "center", warning=FALSE}
 
 spec_seq_data_orig = data.frame("species"=c("smimo", "cscul", "turti", "crotu", "iscap", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "sscab", "tanti", "vdest", "bmori", "dmela", "lhesp"),
                            "sequences.total"=c(19066, 21224, 12748, 23880, 13238, 19248, 14306, 10400, 17927, 17237, 6989, 17281, 8603, 10367, 10737, 12397),
