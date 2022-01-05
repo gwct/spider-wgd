@@ -1,0 +1,354 @@
+---
+title: "Chelicerate coding alignments"
+author: "[gwct](https://gwct.github.io/)"
+date: "`r format(Sys.time(), '%m/%d/%Y %H:%M:%S %Z')`"
+output:
+  #html_document:
+  rmdformats::robobook:
+    highlight: kate
+    includes:
+      in_header: '../html-chunks/rmd_header.html'
+    df_print: paged
+    code_folding: hide
+    number_sections: true
+    toc_depth: 3
+---
+
+```{r setup, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+library(ggplot2)
+library(cowplot)
+library(ggbeeswarm)
+library(reshape2)
+library(ggpubr)
+#library(plyr)
+library(dplyr)
+library(kableExtra)
+library(here)
+source("../lib/design.r")
+
+```
+
+
+# Sequence retrieval
+
+Sequence retrieval and alignment of spider orthogroups was done as follows:
+
+1. Extract CDS and peptide sequences for each orthogroup with sequences from at least 4 species (see https://gwct.github.io/spider-wgd/orthologs.html) while accounting for inconsistencies between CDS and peptide sequences (e.g. sometimes the translation of the CDS sequence doesn't match because the peptide sequence has extra X's in it, some CDS have premature stop codons, etc. See below for full accounting).
+2. Align CDS sequences with Guidance 2, removing any columns with a score below 0.93 (Guidance default).
+3. For each alignment, trim gappy regions by using a sliding window of 3 codons and removing windows that have 2 codons with 2 or more gaps in more than 50% of sequences.
+4. After this trimming, for each alignment filter the sequences by removing any that are still made up of >20% gaps.
+5. Finally, remove any alignments with sequences from fewer than 4 taxa after filtering.
+5. Translate to peptide sequence.
+6. For each alignment, remove sequences that are >20% gaps.
+7. For each alignment, remove 3-codon windows in which 2 or more codons have 2 or more gaps in >50% of sequences.
+8. Remove any samples with premature stop codons.
+
+
+# Sequence summary table
+
+```{r seq-summary-table, out.width="50%", fig.align = "center", warning=FALSE}
+
+t_data = data.frame("Step"=c("Orthogroups with seqs from at least 4 species",
+                             "Total sequences from orthogroups with at least 4 species",
+                             "CDS sequences with multiple matching headers",
+                             "CDS not divisible by 3",
+                             "CDS with premature stop codons",
+                             "CDS with translations that exactly match annotated peptide sequence",
+                             "CDS with translations that exactly match annotated peptide sequence AFTER removing X's from peptide sequence",
+                             "CDS not divisble by 3, but match peptide sequence after removing 1 or 2 NT from END of the CDS sequence",
+                             "CDS not divisble by 3, but match peptide sequence after removing 1 or 2 NT from BEGINNING of the CDS sequence",
+                             "CDS whose translation is a subsequence of annotated peptide",
+                             "CDS whose translation is a subsequence of annotated peptide AFTER removing X's from peptide sequence",
+                             "CDS not divisble by 3, but is a subsequence of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence",
+                             "CDS not divisble by 3, but is a subsequence of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence AND removing X's from annotated peptide",
+                             "CDS not divisble by 3, but is a match of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence AND removing X's from the annotated peptide",
+                             "CDS sequences with translations that do not match the annotated peptide sequence and cannot easily be corrected",
+                             "Total sequences written",
+                             "Total orthogroups retained"
+                             ),
+                    "Status/action taken"=c("Initial",
+                               "Initial",
+                               "Removed",
+                               "Removed",
+                               "Removed",
+                               "Retained",
+                               "Corrected and retained",
+                               "Corrected and retained",
+                               "Corrected and retained",
+                               "Corrected and retained",
+                               "Corrected and retained",
+                               "Corrected and retained",
+                               "Corrected and retained",
+                               "Corrected and retained",
+                               "Removed",
+                               "Final",
+                               "Final"),
+                    "Count"=c(11983,
+                              235648,
+                              8,
+                              4160,
+                              652,
+                              230002,
+                              129,
+                              2926,
+                              728,
+                              129,
+                              22,
+                              238,
+                              2,
+                              1,
+                              1022,
+                              233966,
+                              11936
+                              )
+                    )
+
+
+t_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+```
+
+
+## Sequences by species
+
+```{r seq-summary-spec, out.width="50%", fig.align = "center", warning=FALSE, eval=F}
+
+spec_seq_data_orig = data.frame("species"=c("smimo", "cscul", "turti", "crotu", "iscap", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "sscab", "tanti", "vdest", "bmori", "dmela", "lhesp"),
+                           "sequences.total"=c(19066, 21224, 12748, 23880, 13238, 19248, 14306, 10400, 17927, 17237, 6989, 17281, 8603, 10367, 10737, 12397),
+                           #"non.div.3"=c(),
+                           "wrong.translation"=c(18, 0, 2, 151, 7, 114, 0, 126, 9, 315, 36, 1, 17, 31, 83, 0),
+                           "stop.codons"=c(0, 231, 0, 0, 0, 97, 0, 196, 0, 24, 0, 0, 10, 0, 94, 0),
+                           "sequences.retained"=c(19048, 20881, 12746, 23729, 13231, 19031, 14306, 10078, 17918, 16896, 6953, 17280, 8576, 10336, 10560, 12397)
+                           )
+
+
+spec_seq_data = select(spec_seq_data_orig, -sequences.total)
+
+spec_seq_data_long = melt(spec_seq_data, id.vars=c("species"))
+
+spec_p = ggplot(spec_seq_data_long, aes(x=species, y=value, fill=variable)) +
+  geom_bar(position="stack", stat="identity") +
+  scale_y_continuous(expand=c(0,0)) +
+  xlab("Species") +
+  ylab("# of sequences") +
+  bartheme() +
+  theme(legend.position="bottom") +
+  coord_flip()
+print(spec_p)
+
+
+spec_seq_data_orig %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+```
+
+# Alignment summary table
+
+```{r aln-summary-table, out.width="50%", fig.align = "center", warning=FALSE}
+
+aln_data = read.csv(here("data", "aln-stats-spec4-seq20-site50.log"), sep="\t", header=T, comment.char="#")
+
+t_data = data.frame("Step"=c("Alignments before filtering",
+                             "Sequences before filtering",
+                             "Sequences above gappy threshold (removed)",
+                             "Alignments wither fewer than 4 sequences after filtering (removed)",
+                             "Alignments after filtering",
+                             "Sequences after filtering"),
+                    "Count"=c(11936,
+                              140274,
+                              33932,
+                              2079,
+                              9857,
+                              100821))
+
+t_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+```
+
+# Alignment length (codons)
+
+Distributions visualized from subset of alignments with length less than 1000 codons. 
+
+- Red points denote average lengths considering the FULL distribution
+- Blue points denote median lengths considering the FULL distribution
+- Table shows summary statistics from FULL distribution
+
+```{r aln-lens, out.width="50%", fig.align = "center", warning=FALSE}
+
+pre_guid_len = select(aln_data, align, pre.guidance.codon.length)
+names(pre_guid_len)[2] = "length"
+pre_guid_len$label = "Pre Guidance filtering"
+
+pre_filt_len = select(aln_data, align, pre.codon.aln.length)
+names(pre_filt_len)[2] = "length"
+pre_filt_len$label = "Pre codon window filtering"
+
+post_filt_len = select(aln_data, align, post.codon.aln.length)
+names(post_filt_len)[2] = "length"
+post_filt_len$label = "Post filtering"
+
+aln_lens = rbind(pre_guid_len, pre_filt_len, post_filt_len)
+
+aln_means = aln_lens %>% group_by(label) %>% summarize(avg.length=mean(length, na.rm=T), median.length=median(length, na.rm=T), max.length=max(length, na.rm=T))
+
+aln_lens$label = factor(aln_lens$label, levels=c("Pre Guidance filtering", "Pre codon window filtering", "Post filtering"), ordered=T)
+aln_lens = subset(aln_lens, length < 1000)
+
+aln_means$label = factor(aln_means$label, levels=c("Pre Guidance filtering", "Pre codon window filtering", "Post filtering"), ordered=T)
+
+aln_lens_p = ggplot(aln_lens, aes(x=label, y=length, group=label)) +
+  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
+  geom_point(data=aln_means, aes(x=label, y=avg.length), size=2, color="red") +
+  geom_point(data=aln_means, aes(x=label, y=median.length), size=2, color="blue") +
+  ylab("Alignment length (codons)") +
+  xlab("") +
+  scale_fill_manual(labels=c("Pre Guidance filtering", "Pre codon window filtering", "Post filtering"), values=corecol()) +
+  bartheme() +
+  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+print(aln_lens_p)
+
+aln_means[c(3,2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+```
+
+# Alignment sequence length (codons, ungapped) per alignment
+
+Distributions visualized from subset of alignments with length less than 1000 codons. 
+
+- Red points denote average lengths considering the FULL distribution
+- Blue points denote median lengths considering the FULL distribution
+- Table shows summary statistics from FULL distribution
+
+Pre = before codon window trimming and gappy sequence removal
+
+```{r ungap-aln-lens, out.width="50%", fig.align = "center", warning=FALSE}
+
+pre_filt_len = select(aln_data, align, pre.avg.nongap.length)
+names(pre_filt_len)[2] = "length"
+pre_filt_len$label = "Pre filtering"
+
+post_filt_len = select(aln_data, align, post.avg.nongap.length)
+names(post_filt_len)[2] = "length"
+post_filt_len$label = "Post filtering"
+
+aln_lens = rbind(pre_filt_len, post_filt_len)
+
+aln_means = aln_lens %>% group_by(label) %>% summarize(avg.length=mean(length, na.rm=T), median.length=median(length, na.rm=T), max.length=max(length, na.rm=T))
+
+aln_lens$label = factor(aln_lens$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+aln_lens = subset(aln_lens, length < 1000)
+
+aln_means$label = factor(aln_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+
+aln_lens_p = ggplot(aln_lens, aes(x=label, y=length, group=label)) +
+  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
+  geom_point(data=aln_means, aes(x=label, y=avg.length), size=2, color="red") +
+  geom_point(data=aln_means, aes(x=label, y=median.length), size=2, color="blue") +
+  ylab("Avg. ungapped sequence length (codons)") +
+  xlab("") +
+  scale_fill_manual(labels=c("Pre filtering", "Post filtering"), values=corecol(pal="wilke")) +
+  bartheme() +
+  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+print(aln_lens_p)
+
+aln_means[c(2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+```
+
+# Gappy sites per alignment
+
+Sites where >20% of sequences contain gaps (---)
+
+Recall, the codon window filter removes windows where 2 codons have 2 or more gaps in a 3 codon window in 50% or more of sequences.
+
+Distributions visualized from subset of alignments with fewer than 1000 gappy sites. 
+
+- Red points denote average number of gappy sites considering the FULL distribution
+- Blue points denote median number of gappy sites considering the FULL distribution
+- Table shows summary statistics from FULL distribution
+
+Pre = before codon window trimming and gappy sequence removal
+
+```{r gappy-sites, out.width="50%", fig.align = "center", warning=FALSE}
+
+pre_filt_sites = select(aln_data, align, pre.gappy.sites)
+names(pre_filt_sites)[2] = "gappy.sites"
+pre_filt_sites$label = "Pre filtering"
+
+post_filt_sites = select(aln_data, align, post.gappy.sites)
+names(post_filt_sites)[2] = "gappy.sites"
+post_filt_sites$label = "Post filtering"
+
+aln_gappy_sites = rbind(pre_filt_sites, post_filt_sites)
+
+aln_gappy_means = aln_gappy_sites %>% group_by(label) %>% summarize(avg.gappy.sites=mean(gappy.sites, na.rm=T), median.gappy.sites=median(gappy.sites, na.rm=T), max.gappy.sites=max(gappy.sites, na.rm=T))
+
+aln_gappy_sites$label = factor(aln_gappy_sites$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+aln_gappy_sites = subset(aln_gappy_sites, gappy.sites < 1000)
+
+aln_gappy_means$label = factor(aln_gappy_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+
+aln_gappy_p = ggplot(aln_gappy_sites, aes(x=label, y=gappy.sites, group=label)) +
+  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
+  geom_point(data=aln_gappy_means, aes(x=label, y=avg.gappy.sites), size=2, color="red") +
+  geom_point(data=aln_gappy_means, aes(x=label, y=median.gappy.sites), size=2, color="blue") +
+  ylab("# of gappy sites (codons)") +
+  xlab("") +
+  scale_fill_manual(labels=c("Pre filtering", "Post filtering"), values=corecol()) +
+  bartheme() +
+  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+print(aln_gappy_p)
+
+aln_gappy_means[c(2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+```
+
+# Informative sites (NTs) per alignment
+
+An alignment site is informative if it has at least 2 alleles present in at least 2 sequences.
+
+Distributions visualized from subset of alignments with fewer than 1000 informative sites. 
+
+- Red points denote average number of informative sites considering the FULL distribution
+- Blue points denote median number of informative sites considering the FULL distribution
+- Table shows summary statistics from FULL distribution
+
+Pre = before codon window trimming and gappy sequence removal
+
+```{r informative-sites, out.width="50%", fig.align = "center", warning=FALSE}
+
+pre_filt_sites = select(aln_data, align, pre.informative.nt.sites)
+names(pre_filt_sites)[2] = "informative.sites"
+pre_filt_sites$label = "Pre filtering"
+
+post_filt_sites = select(aln_data, align, post.informative.nt.sites)
+names(post_filt_sites)[2] = "informative.sites"
+post_filt_sites$label = "Post filtering"
+
+aln_informative_sites = rbind(pre_filt_sites, post_filt_sites)
+
+aln_informative_means = aln_informative_sites %>% group_by(label) %>% summarize(avg.informative.sites=mean(informative.sites, na.rm=T), median.informative.sites=median(informative.sites, na.rm=T), max.informative.sites=max(informative.sites, na.rm=T))
+
+aln_informative_sites$label = factor(aln_informative_sites$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+aln_informative_sites = subset(aln_informative_sites, informative.sites < 1000)
+
+aln_informative_means$label = factor(aln_informative_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+
+aln_informative_p = ggplot(aln_informative_sites, aes(x=label, y=informative.sites, group=label)) +
+  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
+  geom_point(data=aln_informative_means, aes(x=label, y=avg.informative.sites), size=2, color="red") +
+  geom_point(data=aln_informative_means, aes(x=label, y=median.informative.sites), size=2, color="blue") +
+  ylab("# of informative sites (nucleotides)") +
+  xlab("") +
+  scale_fill_manual(labels=c("Pre filtering", "Post filtering"), values=corecol()) +
+  bartheme() +
+  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+print(aln_informative_p)
+
+aln_informative_means[c(2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+```

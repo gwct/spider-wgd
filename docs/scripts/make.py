@@ -10,6 +10,7 @@ parser.add_argument("--all", dest="all", help="Build all pages", action="store_t
 parser.add_argument("--index", dest="index", help="Without --all: build index.html. With --all: exlude index.html", action="store_true", default=False);
 parser.add_argument("--annotations", dest="annotations", help="Without --all: build annotations.html. With --all: exlude annotations.html", action="store_true", default=False);
 parser.add_argument("--orthologs", dest="orthologs", help="Without --all: build orthologs.html. With --all: exlude orthologs.html", action="store_true", default=False);
+parser.add_argument("--alignments", dest="alignments", help="Without --all: build alignments.html. With --all: exlude alignments.html", action="store_true", default=False);
 # parser.add_argument("--people", dest="people", help="Without --all: build people.html. With --all: exlude people.html", action="store_true", default=False);
 # parser.add_argument("--links", dest="links", help="Without --all: build links.html. With --all: exlude links.html", action="store_true", default=False);
 args = parser.parse_args();
@@ -22,6 +23,7 @@ pages = {
     'index' : args.index,
     'annotations' : args.annotations,
     'orthologs' : args.orthologs,
+    'alignments' : args.alignments,
     # 'people' : args.people,
     # 'links' : args.links
 }
@@ -37,6 +39,9 @@ if pages['annotations']:
 
 if pages['orthologs']:
     os.system("Rscript orthologs_generator.r");
+
+if pages['alignments']:
+    os.system("Rscript alignments_generator.r");
 
 # if pages['people']:
 #     os.system("python people_generator.py");
