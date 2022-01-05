@@ -41,10 +41,6 @@ Sequence retrieval and alignment of spider orthogroups was done as follows:
 4. After this trimming, for each alignment filter the sequences by removing any that are still made up of >20% gaps.
 5. Finally, remove any alignments with sequences from fewer than 4 taxa after filtering.
 5. Translate to peptide sequence.
-6. For each alignment, remove sequences that are >20% gaps.
-7. For each alignment, remove 3-codon windows in which 2 or more codons have 2 or more gaps in >50% of sequences.
-8. Remove any samples with premature stop codons.
-
 
 # Sequence summary table
 
