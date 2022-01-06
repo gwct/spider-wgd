@@ -13,3 +13,4 @@
 10. Snakemake CDS alignment pipeline:
     i.      Guidance
     ii.     Trim/filter and translate alignments with aln_filter.py
+            time -p python aln_filter.py -i /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/01-Guidance/ -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/02-Filter/ --overwrite

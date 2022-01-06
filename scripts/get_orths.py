@@ -24,7 +24,7 @@ seqs = { s : {'pep' : {}, 'cds' : {}, 'ids' : {}} for s in specs }
 cds_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/genomes/";
 pep_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/isofilter/";
 ortholog_file = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/spider-fastortho-i3.out";
-outdir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/";
+outdir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq-tmp/";
 
 outfilename = "/n/home07/gthomas/projects/spider-wgd/data/multi-spec-orthogroups.txt";
 # A file to track the orthogroups that have at least 4 taxa represented for Guidance
@@ -124,6 +124,7 @@ with open(logfilename, "w") as logfile:
     # The total number of clusters from the i3 file
 
     num_written = 0;
+    num_written_d = defaultdict(int);
     incorrect_num_seqs = [];
     seqs_w_stop = 0;
     seqs_w_stop_d = defaultdict(int);
@@ -143,6 +144,8 @@ with open(logfilename, "w") as logfile:
         multi_cds = 0;
         wrong_translation = 0;
         wrong_translation_d = defaultdict(int);
+        total_seqs_pre = 0;
+        total_seqs_pre_d = defaultdict(int);
         for line in open(ortholog_file):
         # Go through every ortholog cluster in the file
 
@@ -157,6 +160,8 @@ with open(logfilename, "w") as logfile:
 
             expected_seqs = int(cluster_info[1].replace("(", ""));
             # Extract the number of sequences in the cluster
+
+            total_seqs_pre += expected_seqs;
 
             expected_taxa = int(cluster_info[2].replace("genes,", ""));
             # The number of taxa in the current orthogroup
@@ -191,6 +196,8 @@ with open(logfilename, "w") as logfile:
                     spec = orth[:orth.index("-")].lower();
                     pid = orth[orth.index("-")+1:];
                     # Split the ortholog id into the species label and protein id
+
+                    total_seqs_pre_d[spec] += 1;
 
                     if re.search("-PA.[\d]+", pid):
                         pid = pid[:-2];
@@ -478,6 +485,7 @@ with open(logfilename, "w") as logfile:
                         cur_num_written += 1;
                         num_written += 1;
                         cur_taxa_written.append(spec);
+                        num_written_d[spec] += 1;
                         # Update trackers
                 ## End ortho cluster loop
             ## Close output files
@@ -503,30 +511,52 @@ with open(logfilename, "w") as logfile:
 
     CORE.PWS("# " + CORE.getDateTime() + " Done!", logfile);
     CORE.PWS("# " + CORE.getDateTime() + " Clusters with at least 4 taxa: " + str(og_4taxa), logfile);
+    CORE.PWS("# " + CORE.getDateTime() + " Total sequences in clusters: " + str(total_seqs_pre), logfile);
+    for spec in total_seqs_pre_d:
+        CORE.PWS("# " + CORE.getDateTime() + " " + spec + " " + str(total_seqs_pre_d[spec]), logfile);
+    CORE.PWS("# ----------------", logfile);
+
     CORE.PWS("# " + CORE.getDateTime() + " Total sequences written: " + str(num_written), logfile);
+    for spec in num_written_d:
+        CORE.PWS("# " + CORE.getDateTime() + " " + spec + " " + str(num_written_d[spec]), logfile);
+    CORE.PWS("# ----------------", logfile);
+
     if incorrect_num_seqs:
         CORE.PWS("# " + CORE.getDateTime() + " " + str(len(incorrect_num_seqs)) + " clusters didn't have the correct number of sequences written:", logfile);
         for seq in incorrect_num_seqs:
             CORE.PWS("# " + CORE.getDateTime() + "\t" + seq, logfile);
+    CORE.PWS("# ----------------", logfile);
+
     if multi_cds:
         CORE.PWS("# " + CORE.getDateTime() + " " + str(multi_cds) + " sequences had multiple headers. See above.", logfile);
+    CORE.PWS("# ----------------", logfile);
+
     if non_div3:
         CORE.PWS("# " + CORE.getDateTime() + " " + str(non_div3) + " CDS sequences not divisible by 3.", logfile);
-        # for spec in non_div3_d:
-        #     CORE.PWS("# " + CORE.getDateTime() + " " + spec + " " + str(non_div3_d[spec]), logfile);
+        for spec in non_div3_d:
+            CORE.PWS("# " + CORE.getDateTime() + " " + spec + " " + str(non_div3_d[spec]), logfile);
+    CORE.PWS("# ----------------", logfile);
+
     if wrong_translation:
         CORE.PWS("# " + CORE.getDateTime() + " " + str(wrong_translation) + " CDS sequences have translations that don't match the peptide sequence. See above.", logfile);
         for spec in wrong_translation_d:
             CORE.PWS("# " + CORE.getDateTime() + " " + spec + " " + str(wrong_translation_d[spec]), logfile);
+    CORE.PWS("# ----------------", logfile);
+
     if seqs_w_stop:
         CORE.PWS("# " + CORE.getDateTime() + " " + str(seqs_w_stop) + " CDS sequences have stop codons. See above.", logfile);
         for spec in seqs_w_stop_d:
             CORE.PWS("# " + CORE.getDateTime() + " " + spec + " " + str(seqs_w_stop_d[spec]), logfile);
+    CORE.PWS("# ----------------", logfile);
+
     CORE.PWS("# " + CORE.getDateTime() + " Match code case counts:", logfile);
     for match_case in match_code_counts:
         CORE.PWS("# " + CORE.getDateTime() + " " + match_case + " " + str(match_code_counts[match_case]), logfile);
+    CORE.PWS("# ----------------", logfile);
+
     if lt_4taxa_after:
         CORE.PWS("# " + CORE.getDateTime() + " " + str(lt_4taxa_after) + " orthogroups with less than 4 genes AFTER correction", logfile);
+    CORE.PWS("# ----------------", logfile);
 ## Close log file
 
 
