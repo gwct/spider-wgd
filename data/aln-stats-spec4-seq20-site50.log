@@ -1,7 +1,7 @@
 # CDS alignment filter
-# PYTHON VERSION: 3.9.6
+# PYTHON VERSION: 3.10.0
 # Script call:    aln_filter.py -i /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/01-Guidance/ -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/02-Filter/ --overwrite
-# Runtime:        01/05/2022 20:49:47
+# Runtime:        01/06/2022 12:43:00
 # ----------------
 # IO OPTIONS
 # Input CDS directory:    /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/01-Guidance
@@ -12,7 +12,7 @@
 # --overwrite set:        Overwriting previous files in output directory.
 # Log file:               /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/02-Filter-spec4-seq20-site50/aln-stats-spec4-seq20-site50.log
 # ----------------
-# 01.05.2022 | 20:49:47 Beginning filter.
+# 01.06.2022 | 12:43:00 Beginning filter.
 align	pre guidance codon length	guidance codons rm	pre num seqs	pre num species	pre codon aln length	pre avg nongap length	pre uniq seqs	pre ident seqs	pre gappy seqs	pre invariant sites	pre informative codon sites	pre informative nt sites	pre stop codons	pre percent sites with gap	pre gappy sites	sites filtered	post num seqs	post num species	post codon aln length	post avg nongap length	post uniq seqs	post ident seqs	post gappy seqs	post invariant sites	post informative codon sites	post informative nt sites	post stop codons	post percent sites with gap	post gappy sites
 ORTHOMCL16792	4293.666666666666	3198.6666666666665	4	4	1095	277.0	4	0	4	0	0	0	0	1095	1095	1087	2	2	8	3.75	4	0	2	0	0	0	0	8	8
 ORTHOMCL9772	1164.6666666666665	661.6666666666666	7	7	503	201.28571428571428	7	0	7	0	64	144	0	395	395	314	5	5	189	145.14285714285714	7	0	2	0	58	134	0	87	87
@@ -11954,7 +11954,8 @@ ORTHOMCL4259	528.6666666666666	206.66666666666666	15	15	322	233.93333333333334	1
 # Pre-filter alignments: 11936
 # Pre-filter sequences : 140274
 # Alignments removed with too few species: 2079
+# Alignments removed for being too short: 642
 # Samples removed above gappy threshold:    33932
 # Samples removed with premature stops:    0
-# Post-filter alignments: 9857
-# Post-filter sequences : 100821
+# Post-filter alignments: 9629
+# Post-filter sequences : 98910

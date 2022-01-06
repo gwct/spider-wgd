@@ -148,16 +148,20 @@ t_data = data.frame("Step"=c("Alignments before filtering",
                              "Sequences before filtering",
                              "Sequences above gappy threshold (removed)",
                              "Alignments wither fewer than 4 sequences after filtering (removed)",
+                             "Alignments shorter than 33 codons after filtering (removed)",
                              "Alignments after filtering",
                              "Sequences after filtering"),
                     "Count"=c(11936,
                               140274,
                               33932,
                               2079,
-                              9857,
-                              100821))
+                              642,
+                              9629,
+                              98910))
 
 t_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+aln_data = subset(aln_data, post.codon.aln.length >= 33)
 
 ```
 
@@ -197,6 +201,7 @@ aln_lens_p = ggplot(aln_lens, aes(x=label, y=length, group=label)) +
   geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
   geom_point(data=aln_means, aes(x=label, y=avg.length), size=2, color="red") +
   geom_point(data=aln_means, aes(x=label, y=median.length), size=2, color="blue") +
+  geom_hline(yintercept=33) +
   ylab("Alignment length (codons)") +
   xlab("") +
   scale_fill_manual(labels=c("Pre Guidance filtering", "Pre codon window filtering", "Post filtering"), values=corecol()) +
