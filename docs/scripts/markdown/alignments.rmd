@@ -314,7 +314,7 @@ Distributions visualized from subset of alignments with fewer than 1000 informat
 
 Pre = before codon window trimming and gappy sequence removal
 
-```{r informative-sites, out.width="50%", fig.align = "center", warning=FALSE}
+```{r informative-sites-nt, out.width="50%", fig.align = "center", warning=FALSE}
 
 pre_filt_sites = select(aln_data, align, pre.informative.nt.sites)
 names(pre_filt_sites)[2] = "informative.sites"
@@ -346,5 +346,93 @@ aln_informative_p = ggplot(aln_informative_sites, aes(x=label, y=informative.sit
 print(aln_informative_p)
 
 aln_informative_means[c(2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+```
+
+Binning loci by # of informative sites. The largest bin both pre- and post-filter is informative sites = 0.
+
+```{r informative-sites-nt-tables, out.width="50%", fig.align = "center", warning=FALSE}
+bins = seq(-1, max(aln_data$pre.informative.nt.sites, na.rm=T), by=1)
+bin_labels = seq(0, max(aln_data$pre.informative.nt.sites, na.rm=T), by=1)
+pre_counts = hist(aln_data$pre.informative.nt.sites, breaks=bins, include.lowest=T, plot=F)$counts
+pre_binned = data.frame("informative.sites"=bin_labels, "loci"=pre_counts)
+
+head(pre_binned) %>% kable(caption="Pre-filter informative sites (NT)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+
+bins = seq(-1, max(aln_data$post.informative.nt.sites, na.rm=T), by=1)
+bin_labels = seq(0, max(aln_data$post.informative.nt.sites, na.rm=T), by=1)
+post_counts = hist(aln_data$post.informative.nt.sites, breaks=bins, include.lowest=T, plot=F)$counts
+post_binned = data.frame("informative.sites"=bin_labels, "loci"=post_counts)
+
+head(post_binned) %>% kable(caption="Post-filter informative sites (NT)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+```
+
+# Informative sites (codons) per alignment
+
+An alignment site is informative if it has at least 2 alleles present in at least 2 sequences.
+
+Distributions visualized from subset of alignments with fewer than 1000 informative sites. 
+
+- Red points denote average number of informative sites considering the FULL distribution
+- Blue points denote median number of informative sites considering the FULL distribution
+- Table shows summary statistics from FULL distribution
+
+Pre = before codon window trimming and gappy sequence removal
+
+```{r informative-sites-codon, out.width="50%", fig.align = "center", warning=FALSE}
+
+pre_filt_sites = select(aln_data, align, pre.informative.codon.sites)
+names(pre_filt_sites)[2] = "informative.sites"
+pre_filt_sites$label = "Pre filtering"
+
+post_filt_sites = select(aln_data, align, post.informative.codon.sites)
+names(post_filt_sites)[2] = "informative.sites"
+post_filt_sites$label = "Post filtering"
+
+aln_informative_sites = rbind(pre_filt_sites, post_filt_sites)
+
+aln_informative_means = aln_informative_sites %>% group_by(label) %>% summarize(avg.informative.sites=mean(informative.sites, na.rm=T), median.informative.sites=median(informative.sites, na.rm=T), max.informative.sites=max(informative.sites, na.rm=T))
+
+aln_informative_sites$label = factor(aln_informative_sites$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+aln_informative_sites = subset(aln_informative_sites, informative.sites < 1000)
+
+aln_informative_means$label = factor(aln_informative_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+
+aln_informative_p = ggplot(aln_informative_sites, aes(x=label, y=informative.sites, group=label)) +
+  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
+  geom_point(data=aln_informative_means, aes(x=label, y=avg.informative.sites), size=2, color="red") +
+  geom_point(data=aln_informative_means, aes(x=label, y=median.informative.sites), size=2, color="blue") +
+  ylab("# of informative sites (codons)") +
+  xlab("") +
+  scale_fill_manual(labels=c("Pre filtering", "Post filtering"), values=corecol()) +
+  bartheme() +
+  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+print(aln_informative_p)
+
+aln_informative_means[c(2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+```
+
+Binning loci by # of informative sites. The largest bin both pre- and post-filter is informative sites = 0.
+
+```{r informative-sites-codon-tables, out.width="50%", fig.align = "center", warning=FALSE}
+bins = seq(-1, max(aln_data$pre.informative.codon.sites, na.rm=T), by=1)
+bin_labels = seq(0, max(aln_data$pre.informative.codon.sites, na.rm=T), by=1)
+pre_counts = hist(aln_data$pre.informative.codon.sites, breaks=bins, include.lowest=T, plot=F)$counts
+pre_binned = data.frame("informative.sites"=bin_labels, "loci"=pre_counts)
+
+head(pre_binned) %>% kable(caption="Pre-filter informative sites (codons)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+
+bins = seq(-1, max(aln_data$post.informative.codon.sites, na.rm=T), by=1)
+bin_labels = seq(0, max(aln_data$post.informative.codon.sites, na.rm=T), by=1)
+post_counts = hist(aln_data$post.informative.codon.sites, breaks=bins, include.lowest=T, plot=F)$counts
+post_binned = data.frame("informative.sites"=bin_labels, "loci"=post_counts)
+
+head(post_binned) %>% kable(caption="Post-filter informative sites (codons)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+
+```
 
 ```
