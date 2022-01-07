@@ -1,0 +1,18 @@
+Step,Status/action taken,Count
+Orthogroups with seqs from at least 4 species,Initial,11983
+Total sequences from orthogroups with at least 4 species,Removed,235648
+CDS sequences with multiple matching headers,Removed,8
+CDS not divisible by 3,Attempted to correct (see below),4160
+CDS with premature stop codons,Removed,652
+CDS with translations that exactly match annotated peptide sequence,Retained,230002
+CDS with translations that exactly match annotated peptide sequence AFTER removing X's from peptide sequence,Corrected and retained,129
+"CDS not divisble by 3, but match peptide sequence after removing 1 or 2 NT from END of the CDS sequence",Corrected and retained,2926
+"CDS not divisble by 3, but match peptide sequence after removing 1 or 2 NT from BEGINNING of the CDS sequence",Corrected and retained,728
+CDS whose translation is a subsequence of annotated peptide,Corrected and retained,129
+CDS whose translation is a subsequence of annotated peptide AFTER removing X's from peptide sequence,Corrected and retained,22
+"CDS not divisble by 3, but is a subsequence of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence",Corrected and retained,238
+"CDS not divisble by 3, but is a subsequence of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence AND removing X's from annotated peptide",Corrected and retained,2
+"CDS not divisble by 3, but is a match of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence AND removing X's from the annotated peptide",Corrected and retained,1
+CDS sequences with translations that do not match the annotated peptide sequence and cannot easily be corrected,Removed,1022
+Total sequences written,Final,233966
+Total orthogroups retained,Final,11936

@@ -1,0 +1,17 @@
+species,abbr,sequences total,wrong translation,stop codons,sequences retained
+Stegodyphus mimosarum,smimo,19066,18,0,19048
+Centruroides sculpturatus,cscul,21224,112,231,20881
+Tetranychus urticae,turti,12748,2,0,12746
+Carcinoscorpius rotundicauda,crotu,23880,151,0,23729
+Ixodes scapularis,iscap,13238,7,0,13231
+Limulus polyphemus,lpoly,19248,114,97,19031
+Loxosceles reclusa,lrecl,14306,0,0,14306
+Metaseiulus occidentalis,mocci,10400,126,196,10078
+Nephila clavipes,nclav,17927,9,0,17918
+Parasteatoda tepidariorum,ptepi,17237,315,24,16896
+Sarcoptes scabiei,sscab,6989,36,0,6953
+Trichonephila antipodiana,tanti,17281,1,0,17280
+Varroa destructor,vdest,8603,17,10,8576
+Bombyx mori,bmori,10367,31,0,10336
+Drosophila melanogaster,dmela,10737,83,94,10560
+Latrodectus hesperus,lhesp,12397,0,0,12397

@@ -46,63 +46,9 @@ Sequence retrieval and alignment of spider orthogroups was done as follows:
 
 ```{r seq-summary-table, out.width="50%", fig.align = "center", warning=FALSE}
 
-t_data = data.frame("Step"=c("Orthogroups with seqs from at least 4 species",
-                             "Total sequences from orthogroups with at least 4 species",
-                             "CDS sequences with multiple matching headers",
-                             "CDS not divisible by 3",
-                             "CDS with premature stop codons",
-                             "CDS with translations that exactly match annotated peptide sequence",
-                             "CDS with translations that exactly match annotated peptide sequence AFTER removing X's from peptide sequence",
-                             "CDS not divisble by 3, but match peptide sequence after removing 1 or 2 NT from END of the CDS sequence",
-                             "CDS not divisble by 3, but match peptide sequence after removing 1 or 2 NT from BEGINNING of the CDS sequence",
-                             "CDS whose translation is a subsequence of annotated peptide",
-                             "CDS whose translation is a subsequence of annotated peptide AFTER removing X's from peptide sequence",
-                             "CDS not divisble by 3, but is a subsequence of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence",
-                             "CDS not divisble by 3, but is a subsequence of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence AND removing X's from annotated peptide",
-                             "CDS not divisble by 3, but is a match of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence AND removing X's from the annotated peptide",
-                             "CDS sequences with translations that do not match the annotated peptide sequence and cannot easily be corrected",
-                             "Total sequences written",
-                             "Total orthogroups retained"
-                             ),
-                    "Status/action taken"=c("Initial",
-                               "Initial",
-                               "Removed",
-                               "Removed",
-                               "Removed",
-                               "Retained",
-                               "Corrected and retained",
-                               "Corrected and retained",
-                               "Corrected and retained",
-                               "Corrected and retained",
-                               "Corrected and retained",
-                               "Corrected and retained",
-                               "Corrected and retained",
-                               "Corrected and retained",
-                               "Removed",
-                               "Final",
-                               "Final"),
-                    "Count"=c(11983,
-                              235648,
-                              8,
-                              4160,
-                              652,
-                              230002,
-                              129,
-                              2926,
-                              728,
-                              129,
-                              22,
-                              238,
-                              2,
-                              1,
-                              1022,
-                              233966,
-                              11936
-                              )
-                    )
+get_orths_stats = read.csv(here("data", "get-orths-stats.csv"), header=T)
 
-
-t_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+get_orths_stats %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
 ```
 
@@ -111,16 +57,9 @@ t_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended",
 
 ```{r seq-summary-spec, out.width="50%", fig.align = "center", warning=FALSE}
 
-spec_seq_data_orig = data.frame("species"=c("smimo", "cscul", "turti", "crotu", "iscap", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "sscab", "tanti", "vdest", "bmori", "dmela", "lhesp"),
-                           "sequences.total"=c(19066, 21224, 12748, 23880, 13238, 19248, 14306, 10400, 17927, 17237, 6989, 17281, 8603, 10367, 10737, 12397),
-                           #"non.div.3"=c(),
-                           "wrong.translation"=c(18, 0, 2, 151, 7, 114, 0, 126, 9, 315, 36, 1, 17, 31, 83, 0),
-                           "stop.codons"=c(0, 231, 0, 0, 0, 97, 0, 196, 0, 24, 0, 0, 10, 0, 94, 0),
-                           "sequences.retained"=c(19048, 20881, 12746, 23729, 13231, 19031, 14306, 10078, 17918, 16896, 6953, 17280, 8576, 10336, 10560, 12397)
-                           )
+spec_seq_data_orig = read.csv(here("data", "get-orths-spec-stats.csv"), header=T)
 
-
-spec_seq_data = select(spec_seq_data_orig, -sequences.total)
+spec_seq_data = select(spec_seq_data_orig, -sequences.total, -abbr)
 
 spec_seq_data_long = melt(spec_seq_data, id.vars=c("species"))
 
@@ -144,24 +83,9 @@ spec_seq_data_orig %>% kable() %>% kable_styling(bootstrap_options=c("striped", 
 
 aln_data = read.csv(here("data", "aln-stats-spec4-seq20-site50.log"), sep="\t", header=T, comment.char="#")
 
-t_data = data.frame("Step"=c("Alignments before filtering",
-                             "Sequences before filtering",
-                             "Sequences above gappy threshold (removed)",
-                             "Alignments wither fewer than 4 sequences after filtering (removed)",
-                             "Alignments shorter than 33 codons after filtering (removed)",
-                             "Alignments after filtering",
-                             "Sequences after filtering"),
-                    "Count"=c(11936,
-                              140274,
-                              33932,
-                              2079,
-                              642,
-                              9629,
-                              98910))
+aln_summary_data = read.csv(here("data", "aln-stats-summary.csv"), header=T)
 
-t_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
-
-aln_data = subset(aln_data, post.codon.aln.length >= 33)
+aln_summary_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
 ```
 
