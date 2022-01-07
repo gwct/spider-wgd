@@ -39,7 +39,7 @@ Sequence retrieval and alignment of spider orthogroups was done as follows:
 2. Align CDS sequences with Guidance 2, removing any columns with a score below 0.93 (Guidance default).
 3. For each alignment, trim gappy regions by using a sliding window of 3 codons and removing windows that have 2 codons with 2 or more gaps in more than 50% of sequences.
 4. After this trimming, for each alignment filter the sequences by removing any that are still made up of >20% gaps.
-5. Finally, remove any alignments with sequences from fewer than 4 species after filtering.
+5. Finally, remove any alignments with sequences from fewer than 4 species or shorter than 33 codons after filtering.
 5. Translate to peptide sequence.
 
 # Sequence summary table
