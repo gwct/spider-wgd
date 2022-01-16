@@ -42,7 +42,7 @@ source("../lib/get_tree_info.r")
 #htmltools::includeHTML("../html-chunks/rmd_nav.html")
 ```
 
-[< Back to summary](summary_210.html)
+[< Back to project](index.html)
 
 # Full coding species tree
 
@@ -293,3 +293,5 @@ for every gene tree{
 }
 
 ```
+
+[< Back to project](index.html)
