@@ -44,8 +44,6 @@ source("../lib/get_tree_info.r")
 
 [< Back to project](index.html)
 
-# Full coding species tree
-
 ```{r file-setup, out.width="75%", fig.align = "center", warning=FALSE}
 save_tree_fig = F
 # Meta options. Comment tree_type when running form generator
