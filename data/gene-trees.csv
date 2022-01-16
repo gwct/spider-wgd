@@ -1,0 +1,10 @@
+Step,Status/action taken,Count
+Gene trees successfully inferred,Initial,9629
+Gene trees without outgroup,Removed,3132
+"Gene trees with both outgroups, but not rooted",Removed,817
+Gene trees rooted by DMELA,Retained,1754
+Gene trees rooted by BMORI,Retained,665
+Gene trees rooted by both outgroups,Retained,3261
+Gene trees rooted (total),Final,5680
+Single copy gene trees,Initial,19
+Single copy gene trees rooted,Final,19

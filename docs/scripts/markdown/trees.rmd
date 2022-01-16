@@ -1,0 +1,295 @@
+---
+title: "Chelicerate species trees"
+author: "[gwct](https://gwct.github.io/)"
+date: "`r format(Sys.time(), '%m/%d/%Y %H:%M:%S %Z')`"
+output:
+  #html_document:
+  rmdformats::robobook:
+    highlight: kate
+    includes:
+      in_header: '../html-chunks/rmd_header.html'
+    df_print: paged
+    code_folding: hide
+    number_sections: true
+    toc_depth: 3
+---
+
+```{r setup, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+library(ggplot2)
+library(cowplot)
+#library(ggbeeswarm)
+library(dplyr)
+library(kableExtra)
+#library(tidyr)
+library(ggtree)
+#library(phytools)
+#library(phangorn)
+#library(reshape2)
+library(ggExtra)
+#library(ggrepel)
+#library(vroom)
+#library(ggdist)
+#library(stringr)
+#library(ggsignif)
+library(here)
+source("../lib/design.r")
+source("../lib/get_tree_info.r")
+#source("C:/Users/grt814/bin/core/corelib/design.r")
+#source("C:/Users/grt814/bin/core/get_tree_info.r")
+
+#htmltools::includeHTML("../html-chunks/rmd_nav.html")
+```
+
+[< Back to summary](summary_210.html)
+
+# Full coding species tree
+
+```{r file-setup, out.width="75%", fig.align = "center", warning=FALSE}
+save_tree_fig = F
+# Meta options. Comment tree_type when running form generator
+
+genome_file = here("data", "chelicerate_genomes-gwct.csv")
+
+summary_file = here("data", "gene-trees.csv")
+
+pro_tree_file = here("data", "trees", "chelicerate-16spec-astral-pro.rooted.tre")
+pro_info_out = here("data", "trees", "chelicerate-16spec-astral-pro-info.rooted.csv")
+pro_info_file = here("data", "trees", "chelicerate-16spec-astral-pro-info-labeled.rooted.csv")
+
+multi_tree_file = here("data", "trees", "chelicerate-16spec-astral-multi.rooted.tre")
+multi_info_out = here("data", "trees", "chelicerate-16spec-astral-multi-info.rooted.csv")
+multi_info_file = here("data", "trees", "chelicerate-16spec-astral-multi-info-labeled.rooted.csv")
+
+single_tree_file = here("data", "trees", "chelicerate-16spec-astral-single-copy.rooted.tre")
+single_info_out = here("data", "trees", "chelicerate-16spec-astral-single-copy-info.rooted.csv")
+single_info_file = here("data", "trees", "chelicerate-16spec-astral-single-copy-info-labeled.rooted.csv")
+
+genome_data = read.csv(genome_file, header=T)
+genome_data = subset(genome_data, Include=="Y")
+
+spec_abbrs = select(genome_data, Species.name, Abbr)
+names(spec_abbrs)[2] = "label"
+
+```
+
+# Gene tree summary
+
+Note that status refers only to the rooting process. All 9629 gene trees were used for ASTRAL-pro and ASTRAL-multi.
+
+```{r gt-summary, out.width="75%", fig.align = "center", warning=FALSE}
+gt_data = read.csv(summary_file, header=T)
+
+gt_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+```
+
+# ASTRAL-pro species tree
+
+Inferred from 9629 gene trees using the C++ implementation of ASTRAL-pro (https://github.com/chaoszhang/ASTER).
+
+All branches have full ASTRAL support (1.0).
+
+Note: Tip branch lengths arbitrarily set to average of internal branch lengths...
+
+#### [Newick tree file (rooted)](../data/trees/chelicerate-16spec-astral-pro.rooted.tre)
+
+```{r astral-pro-tree, out.width="75%", fig.align = "center", warning=FALSE}
+orig_pro_tree = read.tree(pro_tree_file)
+
+tree_to_df_list = treeToDF(orig_pro_tree, add_avg_bl=TRUE)
+pro_info = tree_to_df_list[["info"]]
+pro_tree = tree_to_df_list[["labeled.tree"]]
+# Parse the tree info, and replace the tip branch lengths
+# with the avg. internal branch lengths as "labeled.tree"
+
+pro_info = merge(pro_info, spec_abbrs, by="label", all=TRUE)
+pro_info = pro_info[order(pro_info$node), ]
+# Merge the fulle species names and re-order the rows by the R node
+
+h = corecol(numcol=1, pal="wilke", offset=3)
+l = corecol(numcol=1, offset=3)
+# Colors
+
+famcol = corecol(pal="wilke", numcol=1, offset=2)
+famoffset = 4.5
+# Order labels
+
+pro_tree_fig = ggtree(pro_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
+  xlim(0, 14) +
+  geom_tiplab(aes(label=pro_info$Species.name), fontface='italic', size=4) +
+  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
+  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
+  
+  geom_cladelabel(node=22, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
+  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
+  geom_cladelabel(node=28, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset)
+  
+  #theme(legend.position=c(0.05,0.9))
+print(pro_tree_fig)
+
+```
+
+# ASTRAL-multi species tree
+
+Inferred from 9629 gene trees using the ASTRAL, and the gene-to-species mapping method outlined here: https://github.com/smirarab/ASTRAL/blob/master/astral-tutorial.md#memory-issues-due-to-taxon-names.
+
+All branches have full ASTRAL support (1.0).
+
+Note: Tip branch lengths inferred by ASTRAL since this is treating the paralogs like multiple individuals in a species
+
+#### [Newick tree file (rooted)](../data/trees/chelicerate-16spec-astral-multi.rooted.tre)
+
+```{r astral-multi-tree, out.width="75%", fig.align = "center", warning=FALSE}
+orig_multi_tree = read.tree(multi_tree_file)
+
+tree_to_df_list = treeToDF(orig_multi_tree)
+multi_info = tree_to_df_list[["info"]]
+multi_tree = tree_to_df_list[["labeled.tree"]]
+# Parse the tree info, and replace the tip branch lengths
+# with the avg. internal branch lengths as "labeled.tree"
+
+multi_info = merge(multi_info, spec_abbrs, by="label", all=TRUE)
+multi_info =multi_info[order(multi_info$node), ]
+# Merge the fulle species names and re-order the rows by the R node
+
+h = corecol(numcol=1, pal="wilke", offset=3)
+l = corecol(numcol=1, offset=3)
+# Colors
+
+famcol = corecol(pal="wilke", numcol=1, offset=2)
+famoffset = 3.5
+# Order labels
+
+multi_tree_fig = ggtree(multi_tree, size=0.8, ladderize=F) +#, aes(color=full_data$Family)) +
+  xlim(0, 11) +
+  geom_tiplab(aes(label=multi_info$Species.name), fontface='italic', size=4) +
+  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
+  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
+  
+  geom_cladelabel(node=27, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=10, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
+  geom_cladelabel(node=23, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
+  geom_cladelabel(node=25, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=20, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+    geom_cladelabel(node=5, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset)
+  
+  #theme(legend.position=c(0.05,0.9))
+
+#multi_tree_fig = multi_tree_fig %>% rotate(17) %>% rotate(19) %>% rotate(21) %>% rotate(19) %>% rotate(21)
+
+print(multi_tree_fig)
+
+```
+
+# ASTRAL species tree from 19 single-copy orthologs
+
+Inferred from 19 single-copy orthologs using ASTRAL.
+
+All branches have full ASTRAL support (1.0).
+
+Note: Tip branch lengths arbitrarily set to average of internal branch lengths...
+
+#### [Newick tree file (rooted)](../data/trees/chelicerate-16spec-astral-single-copy.rooted.tre)
+
+```{r astral-single-tree, out.width="75%", fig.align = "center", warning=FALSE}
+orig_single_tree = read.tree(single_tree_file)
+
+tree_to_df_list = treeToDF(orig_single_tree, add_avg_bl=TRUE)
+single_info = tree_to_df_list[["info"]]
+single_tree = tree_to_df_list[["labeled.tree"]]
+# Parse the tree info, and replace the tip branch lengths
+# with the avg. internal branch lengths as "labeled.tree"
+
+single_info = merge(single_info, spec_abbrs, by="label", all=TRUE)
+single_info =single_info[order(single_info$node), ]
+# Merge the fulle species names and re-order the rows by the R node
+
+h = corecol(numcol=1, pal="wilke", offset=3)
+l = corecol(numcol=1, offset=3)
+# Colors
+
+famcol = corecol(pal="wilke", numcol=1, offset=2)
+famoffset = 4.5
+# Order labels
+
+single_tree_fig = ggtree(single_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
+  xlim(0, 17) +
+  geom_tiplab(aes(label=single_info$Species.name), fontface='italic', size=4) +
+  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
+  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
+  
+  geom_cladelabel(node=24, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=3, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
+  geom_cladelabel(node=20, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
+  geom_cladelabel(node=23, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset)
+  
+  #theme(legend.position=c(0.05,0.9))
+
+#multi_tree_fig = multi_tree_fig %>% rotate(17) %>% rotate(19) %>% rotate(21) %>% rotate(19) %>% rotate(21)
+
+print(single_tree_fig)
+
+```
+
+# Notes relating to Ballesteros et al. 2021
+
+https://www.biorxiv.org/content/10.1101/2021.08.16.456573v1
+
+This paper samples a wide range of Chelicerate genomes and transcriptomes (516 samples) to try and resolve the relationships withing Chelicerata (relevant groups: Araneae, Scorpiones, Acariformes, Parasitiformes) and between Chelicerata and horseshoe crabs (Xiphosura). 
+
+They find:
+
+1. Xiphosura consistently groups with Araneae and Scorpiones
+2. Acariformes and Parasitiformes are not monophyletic. Their full tree (Fig. 1, Matrix 3) puts Acariformes outside of all other Parasitiformes, Xiphosura, Scorpiones, and Araneae.
+3. Using their most stringent dataset (Matrix 4), Acariformes is sister to Xiphosura, but the lengths of the branches separating these groups from each other and from Araneae and Scorpiones are very short (Fig. 3).
+
+Our results also consistently show Xiphosura sister to Araneae and Scopriones, within Arachnida. We also find inconsistent placements of Acariformes, though never sister to Xiphosura.
+
+# Outline of algorithm to calculate gene concordance factors with paralogs
+
+Basically, match clades between the species and gene tree and check for paralogs. If paralogs are present, remove them and then check if the branch is concordant.
+
+```
+for every gene tree{
+  for every branch in the species tree{
+    get the list of all species descending from this branch in the species tree
+  
+    find the LCA of these species in the gene tree
+    
+    get the list of species descening from the LCA in the gene tree
+    
+    if the list of species from the species tree branch and the gene tree branch match exactly{
+      classify this branch as concordant for this gene tree
+    }
+    
+    if list from the gene tree include species NOT in the species tree list{
+      for each species not in the species tree list{
+        if this species has another gene-copy present in the gene tree{
+          consider as paralog and remove from gene tree list
+        }
+        else{
+          keep in gene tree list
+        }
+      }
+      
+      if the gene tree list no longer contains species NOT in the species tree list{
+        classify this branch as concordant for this gene tree
+      }
+      else{
+        classify this branch as disconcordant for this gene tree
+      }
+    }
+  }
+}
+
+```
