@@ -12,6 +12,7 @@ parser.add_argument("--annotations", dest="annotations", help="Without --all: bu
 parser.add_argument("--orthologs", dest="orthologs", help="Without --all: build orthologs.html. With --all: exlude orthologs.html", action="store_true", default=False);
 parser.add_argument("--alignments", dest="alignments", help="Without --all: build alignments.html. With --all: exlude alignments.html", action="store_true", default=False);
 parser.add_argument("--trees", dest="trees", help="Without --all: build trees.html. With --all: exlude trees.html", action="store_true", default=False);
+parser.add_argument("--grampa", dest="grampa", help="Without --all: build grampa.html. With --all: exlude grampa.html", action="store_true", default=False);
 # parser.add_argument("--people", dest="people", help="Without --all: build people.html. With --all: exlude people.html", action="store_true", default=False);
 # parser.add_argument("--links", dest="links", help="Without --all: build links.html. With --all: exlude links.html", action="store_true", default=False);
 args = parser.parse_args();
@@ -26,6 +27,7 @@ pages = {
     'orthologs' : args.orthologs,
     'alignments' : args.alignments,
     'trees' : args.trees,
+    'grampa' : args.grampa,
     # 'people' : args.people,
     # 'links' : args.links
 }
@@ -47,6 +49,9 @@ if pages['alignments']:
 
 if pages['trees']:
     os.system("Rscript trees_generator.r");
+
+if pages['grampa']:
+    os.system("Rscript grampa_generator.r");
 
 # if pages['people']:
 #     os.system("python people_generator.py");

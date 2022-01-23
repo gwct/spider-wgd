@@ -30,10 +30,12 @@ html_template = """
 		<div class="col-2-24" id="margin"></div>
 		<div class="col-20-24" id="main_col">
 			<ul>
+				<li><h3><a href="https://github.com/gwct/spider-wgd">github repo</a></h3></li>
 				<li><h3><a href="annotations.html">Annotation stats</a></h3></li>
 				<li><h3><a href="orthologs.html">Ortholog clustering summary</a></h3></li>
 				<li><h3><a href="alignments.html">Alignment summary stats</a></h3></li>
 				<li><h3><a href="trees.html">Species trees</a></h3></li>
+				<li><h3><a href="grampa.html">GRAMPA results</a></h3></li>
 			</ul>
 		</div>
         <div class="col-2-24" id="margin"></div>
