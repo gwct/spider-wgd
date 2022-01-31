@@ -443,7 +443,7 @@ cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
   
   ggtitle(paste("CDS A-pro H1 spider+HC search tree\n(", nrow(cur_data), " trees)", sep=""))
 
-print(cur_st_fig)
+#print(cur_st_fig)
 # Plot tree
 
 ####################
@@ -1448,8 +1448,8 @@ cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
   geom_cladelabel(node=22, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
   geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
   geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=29, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=30, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
   geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
   geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
   
@@ -1551,8 +1551,8 @@ cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
   geom_cladelabel(node=22, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
   geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
   geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=29, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=30, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
   geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
   geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
   
@@ -1649,13 +1649,12 @@ cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
   xlim(0, 20) +
   geom_tiplab(size=4) +
   #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  #geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
   
   geom_cladelabel(node=22, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
   geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
   geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=29, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=30, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
   geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
   geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
   
