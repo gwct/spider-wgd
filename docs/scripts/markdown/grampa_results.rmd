@@ -83,7 +83,9 @@ combined_scores = data.frame()
 
 ```
 
-All searches done on 5680 rooted gene trees.
+Here we run GRAMPA using multiple species tree hypotheses to find the scenario that best fits the gene tree topologies.
+
+All searches done on 5680 rooted gene trees after bootstrap rearrangement with a threshold of 90.
 
 # ASTRAL-pro species tree
 
@@ -156,7 +158,6 @@ cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
 # Combine tree and score figs
 
 ```
-
 
 
 ```{r cds-apro-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
@@ -762,7 +763,7 @@ cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
   geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
   geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
   geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=28, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
   geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
   geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
   
@@ -823,9 +824,25 @@ combined_scores = rbind(combined_scores, cur_data_lowest)
 
 ```
 
-# Comparing scores with different species trees
+# Testing three species tree hypotheses
 
-Among the three species trees (our CDS ASTRAL-pro tree, a monophyletic Arachnid tree, and the Ballesteros tree), our tree and the Ballesteros tree score roughly equally (green vs. orange lines). In all three cases, bootstrap rearrangement improves scores, and widens the gap between our tree and the Ballesteros tree (yellow vs light blue lines).
+To understand the full history of gene and genome duplications it is important that we use the most accurate species tree. Here we test three alternate species tree hypotheses: 
+
+1. The monophyletic Arachnid tree which places the horsehoe crabs outside of Arachnids
+2. A more recent inference by Ballesteros et al. which indicates that horseshoe crabs may actually group within Arachnids, between Scorpiones (order) and Parasitiformes and Acariformes (superorders). See more notes here: https://gwct.github.io/spider-wgd/trees.html#notes-relating-to-ballesteros-et-al--2021
+3. A species tree inferred from our data including paralogs with ASTRAL-pro, which also places horseshoe crabs within Arachnids, but swaps the positions of Acariformes and Parasitiformes.
+
+Interestingly, with horseshoe crabs within Arachnids, the multiple rounds of WGD in these groups inferred on a monophyletic Arachnid tree may be a single event if they exist at all.
+
+## Comparing GRAMPA scores among species trees 
+
+We find that our tree and the Ballesteros tree score roughly equally (orange vs. dark blue lines) in a full GRAMPA search with the raw gene trees.
+
+To increase confidence in our gene trees, we also performed bootstrap rearrangement with a threshold of 90 to minimize duplications and losses (see: https://www.cs.cmu.edu/~aiton/split/Manual-2.6.master008.html).
+
+In all three cases, bootstrap rearrangement improves scores, and this widens the gap between our tree and the Ballesteros tree (dark red vs dark green lines).
+
+Legend notes: 'full' indicates this was a full GRAMPA search with no H1 or H2 nodes. R90 runs with bootstrap rearrangment done on the gene trees. 
 
 ```{r combined_scores, out.width="75%", fig.align = "center", warning=FALSE}
 
