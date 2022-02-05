@@ -62,12 +62,12 @@ cds_apro_r70_hcs_file = here("data", "grampa", "cds-apro-r70-h1-5-7-grampa.txt")
 ball_r70_full_file = here("data", "grampa", "ballesteros-r70-full-grampa.txt")
 trad_r70_full_file = here("data", "grampa", "traditional-r70-full-grampa.txt")
 
-cds_apro_r90_full_file = here("data", "grampa", "cds-apro-r90-full-grampa.txt")
+cds_apro_r90_full_file = here("data", "grampa", "cds-apro-r90-full-c15-grampa.txt")
 cds_apro_r90_spider_file = here("data", "grampa", "cds-apro-r90-h1-5-grampa.txt")
 cds_apro_r90_hc_file = here("data", "grampa", "cds-apro-r90-h1-7-grampa.txt")
-cds_apro_r90_hcs_file = here("data", "grampa", "cds-apro-r90-h1-5-7-grampa.txt")
-ball_r90_full_file = here("data", "grampa", "ballesteros-r90-full-grampa.txt")
-trad_r90_full_file = here("data", "grampa", "traditional-r90-full-grampa.txt")
+cds_apro_r90_hcs_file = here("data", "grampa", "cds-apro-r90-h1-5-7-c15-grampa.txt")
+ball_r90_full_file = here("data", "grampa", "ballesteros-r90-full-c15-grampa.txt")
+trad_r90_full_file = here("data", "grampa", "traditional-r90-full-c15-grampa.txt")
 
 genome_file = here("data", "chelicerate_genomes-gwct.csv")
 
