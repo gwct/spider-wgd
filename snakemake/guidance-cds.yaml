@@ -1,12 +1,19 @@
+data_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/
+# Directory where all sub-directories for output from rules will be created, these
+# include 'aln', 'tree'
+
 input_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/cds/
 # Directory containing CDS with filenames: <orthogroup>.fa
 # FASTA headers should be in the format: <species ID>-<transcript ID>-<protein ID>
 
 locus_file: /n/home07/gthomas/projects/spider-wgd/data/multi-spec-orthogroups.txt
-# A file containing a list of loci/clusters, one per line, to run the pipeline on
+# # A file containing a list of loci/clusters, one per line, to run the pipeline on
 
-output_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/
-# The directory to write all output
+# aln_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/
+# # The directory to write alignment output
+
+# tree_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/
+# # The directory to write tree output
 
 conda_env_path: /n/home07/gthomas/anaconda3/envs/cds-aln-2/
 # The path to the conda environment with the Guidance package installed

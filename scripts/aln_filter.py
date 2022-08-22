@@ -279,6 +279,8 @@ spec_file = os.path.join(args.output, "spec-stats-spec" + str(args.num_spec_filt
 log_file = os.path.join(args.output, "aln-stats-spec" + str(args.num_spec_filter) + "-seq" + str(args.seq_filter) + "-site" + str(args.site_filter) + ".log");
 # Log file
 
+passed_loci_file = os.path.join(args.output, "aln-filter-passed-spec" + str(args.num_spec_filter) + "-seq" + str(args.seq_filter) + "-site" + str(args.site_filter) + ".txt");
+
 rm_too_few_file = os.path.join(args.output, "too-few-species-filtered-spec" + str(args.num_spec_filter) + "-seq" + str(args.seq_filter) + "-site" + str(args.site_filter) + ".tab");
 # A file that contains a list of alignments that are removed because they have too few species remaining after filtering
 
@@ -328,8 +330,12 @@ with open(log_file, "w") as logfile, open(spec_file, "w") as specfile:
     CORE.PWS("# " + CORE.getDateTime() + " Beginning filter.", logfile);
     # Status update
 
-    rm_too_few_spec, rm_too_short, rm_stop_codons, rm_gappy, rm_protein_gappy = [], [], [], [], [];
+    witten_loci, rm_too_few_spec, rm_too_short, rm_stop_codons, rm_gappy, rm_protein_gappy = [], [], [], [], [], [];
     # Lists of aligns/sequences removed by each filter
+
+    pre_single_copy_alns = [];
+    post_single_copy_alns = [];
+    num_spec = 16;
 
     pre_alns, pre_seqs, post_alns, post_seqs = 0, 0, 0, 0;
     # Counts of aligns and sequences before and after filtering
@@ -402,8 +408,8 @@ with open(log_file, "w") as logfile, open(spec_file, "w") as specfile:
         ##########################
 
         if not args.count_only:
-            cur_nt_outfile = os.path.join(nt_outdir, aln + "cds.guidance.filter.fa");
-            cur_aa_outfile = os.path.join(aa_outdir, aln + "pep.guidance.filter.fa");
+            cur_nt_outfile = os.path.join(nt_outdir, aln + "-cds.guidance.filter.fa");
+            cur_aa_outfile = os.path.join(aa_outdir, aln + "-pep.guidance.filter.fa");
         # Get the current in and output files
 
         ##########################
@@ -417,8 +423,10 @@ with open(log_file, "w") as logfile, open(spec_file, "w") as specfile:
         pre_seqs += pre_num_seq;
         # Counts the number of sequences in the alignment before filtering
 
-        cur_spec_names = [ s.split(args.header_delim)[-1] for s in cur_seq_names ];
+        cur_spec_names = set([ s.split(args.header_delim)[-1] for s in cur_seq_names ]);
         pre_num_spec = len(cur_spec_names);
+        if pre_num_spec == num_spec and pre_num_seq == num_spec:
+            pre_single_copy_alns.append(aln);
         # Counts the number of species represented in the alignment before filtering
 
         for spec in cur_spec_names:
@@ -500,8 +508,13 @@ with open(log_file, "w") as logfile, open(spec_file, "w") as specfile:
             final_seqs = { seq : f_seqs[seq] for seq in final_codons if seq not in gappy_seqs and seq not in post_stop_seqs };
             # Remove sequences from the alignment that are too gappy or have stop codons after codon filtering
 
-            cur_out["post num seqs"] = len(final_seqs);
-            cur_out["post num species"] =  len(set( [ header.split(args.header_delim)[-1] for header in final_seqs ] ));
+            post_num_seqs = len(final_seqs);
+            cur_out["post num seqs"] = post_num_seqs;
+            post_spec_names = set([ s.split(args.header_delim)[-1] for s in final_seqs ]);
+            post_num_spec = len(post_spec_names);
+            if post_num_spec == num_spec and post_num_seqs == num_spec:
+                post_single_copy_alns.append(aln);
+            cur_out["post num species"] = post_num_spec;
             # Count the number of sequences and species in the alignment after filtering
 
             write_aln = True;
@@ -526,6 +539,8 @@ with open(log_file, "w") as logfile, open(spec_file, "w") as specfile:
                 final_aas = { seq : SEQ.yabt(final_codons[seq]) for seq in final_codons };
                 writeAln(final_aas, cur_aa_outfile);
                 # AA
+
+                witten_loci.append(aln);
             # Write both the nt and aa sequences if the alignment isn't removed
         ## End filter/write block
 
@@ -545,6 +560,7 @@ with open(log_file, "w") as logfile, open(spec_file, "w") as specfile:
     CORE.PWS("# ----------------", logfile);
     CORE.PWS("# Pre-filter alignments: " + str(pre_alns), logfile);
     CORE.PWS("# Pre-filter sequences : " + str(pre_seqs), logfile);
+    CORE.PWS("# Pre-filter single-copy alignments: " + str(len(pre_single_copy_alns)), logfile);
     # Report the pre-filter counts
 
     ##########################
@@ -583,6 +599,16 @@ with open(log_file, "w") as logfile, open(spec_file, "w") as specfile:
 
     CORE.PWS("# Post-filter alignments: " + str(post_alns), logfile);
     CORE.PWS("# Post-filter sequences : " + str(post_seqs), logfile);
+    CORE.PWS("# Post-filter single-copy alignments: " + str(len(post_single_copy_alns)), logfile);
+
+    ##########################
+
+    with open(passed_loci_file, "w") as passedfile:
+        for aln in witten_loci:
+            passedfile.write(aln + "\n"); 
+    # Write the loci that passed all filters to a file
+
+    ##########################
 
 ## Close output and log files
 
