@@ -8,7 +8,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=48
 #SBATCH --mem=12g
-#SBATCH --time=24:00:00
+#SBATCH --time=72:00:00
 
 cd /n/holylfs05/LABS/informatics/Users/gthomas/spiders/blast/
 

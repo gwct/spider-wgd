@@ -9,8 +9,11 @@
     - makeblastdb -in ../isofilter/chelicerate-19spec-peptides.fa -dbtype prot -out chelicerate-19spec-blastdb
 5. BLAST: run_blash.sh
     - 95556641 hits
-6. Filter BLAST output by e-val: grep -v "#" spider-16spec-blast-output.txt | awk '{if($11 <= 1e-3){print}}' > spider-16spec-blast-output-1e-3.txt
+6. Filter BLAST output by e-val: 
+    - grep -v "#" spider-16spec-blast-output.txt | awk '{if($11 <= 1e-3){print}}' > spider-16spec-blast-output-1e-3.txt
     - 68559308 hits
+    - grep -v "#" chelicerate-19spec-blast-output.txt | awk '{if($11 <= 1e-3){print}}' > chelicerate-19spec-blast-output-1e-3.txt
+    - 91116793 hits
 7. FastOrtho: run_fastortho.sh
 8. summarize_fastortho.py
 9. Get the sequences for each cluster with get_orths.py

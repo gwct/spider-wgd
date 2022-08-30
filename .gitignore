@@ -1,4 +1,5 @@
 *.code-workspace
 scripts/old-logs/
+scripts/logs/
 snakemake/.snakemake/
 docs/scripts/lib/__pycache__/

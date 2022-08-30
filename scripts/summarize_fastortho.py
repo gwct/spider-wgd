@@ -48,7 +48,7 @@ def runTime(msg=False, writeout=False, printout=True):
 
 inflation_params = ["2", "3", "4", "5", "6"];
 fastortho_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/"
-outfilename = "fastortho-summary.csv";
+outfilename = "fastortho-summary-19spec.csv";
 # I/O options
 
 headers = ["inflation", "genes", "taxa"];
@@ -63,14 +63,14 @@ with open(outfilename, "w") as outfile:
     outfile.write(",".join(headers) + "\n");
 
     for inflation in inflation_params:
-        ortholog_file = os.path.join(fastortho_dir, "spider-fastortho-i" + inflation + ".out");
+        ortholog_file = os.path.join(fastortho_dir, "chelicerate-fastortho-i" + inflation + ".out");
         for line in open(ortholog_file):
             line = line.strip().split("\t");
             line = line[0].split(" (");
             counts = line[1];
             counts = counts.replace(" genes", "").replace(" taxa):", "");
             #counts = counts.split(",");
-            print(counts);
+            #print(counts);
 
             outline = [inflation, counts];
             outfile.write(",".join(outline) + "\n");

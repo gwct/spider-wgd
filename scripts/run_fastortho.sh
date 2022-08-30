@@ -3,7 +3,7 @@
 #SBATCH --output=%x-%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=gthomas@g.harvard.edu
-#SBATCH --partition=holy-info,holy-smokes,holy-cow
+#SBATCH --partition=holy-info,shared
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
