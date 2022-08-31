@@ -33,7 +33,7 @@ Sequences and annotations from each genome were downloaded from various database
 ```{r read-data}
 
 #infilename = here("..", "..", "data", "chelicerate_genomes-gwct.csv")
-infilename = here("data", "fastortho-summary.csv")
+infilename = here("data", "fastortho-summary-19spec.csv")
 in_data = read.csv(infilename, header=T, comment.char="#")
 
 ```

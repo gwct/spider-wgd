@@ -35,6 +35,7 @@ Sequences and annotations from each genome were downloaded from various database
 infilename = here("data", "chelicerate_genomes-gwct.csv")
 in_data = read.csv(infilename, header=T)
 
+in_data = subset(in_data, !is.na(Data.downloaded.from))
 
 ```
 
