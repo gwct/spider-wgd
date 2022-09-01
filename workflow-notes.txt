@@ -2,22 +2,25 @@
 2. Extract CDS for TGIGA with degenotate
 3. isofilter
 3. Combine sequences: 
-    - find . -type f -name *.fa -exec cat {} \; > spider-16spec-peptides.fa
-    - find . -type f -name *-isoforms.fa -exec cat {} \; > chelicerate-19spec-peptides.fa
+    - 16spec: find . -type f -name *.fa -exec cat {} \; > spider-16spec-peptides.fa
+    - 19spec: find . -type f -name *-isoforms.fa -exec cat {} \; > chelicerate-19spec-peptides.fa
 4. Make blast databse: 
-    - makeblastdb -in ../isofilter/spider-16spec-peptides.fa -dbtype prot -out spider-16spec-blastdb
-    - makeblastdb -in ../isofilter/chelicerate-19spec-peptides.fa -dbtype prot -out chelicerate-19spec-blastdb
+    - 16spec: makeblastdb -in ../isofilter/spider-16spec-peptides.fa -dbtype prot -out spider-16spec-blastdb
+    - 19spec: makeblastdb -in ../isofilter/chelicerate-19spec-peptides.fa -dbtype prot -out chelicerate-19spec-blastdb
 5. BLAST: run_blash.sh
-    - 95556641 hits
+    - 16spec: 95556641 hits
+    - 19spec: 125744991 hits
 6. Filter BLAST output by e-val: 
-    - grep -v "#" spider-16spec-blast-output.txt | awk '{if($11 <= 1e-3){print}}' > spider-16spec-blast-output-1e-3.txt
-    - 68559308 hits
-    - grep -v "#" chelicerate-19spec-blast-output.txt | awk '{if($11 <= 1e-3){print}}' > chelicerate-19spec-blast-output-1e-3.txt
-    - 91116793 hits
+    - 16spec: grep -v "#" spider-16spec-blast-output.txt | awk '{if($11 <= 1e-3){print}}' > spider-16spec-blast-output-1e-3.txt
+    - 16spec: 68559308 hits
+    - 19spec: grep -v "#" chelicerate-19spec-blast-output.txt | awk '{if($11 <= 1e-3){print}}' > chelicerate-19spec-blast-output-1e-3.txt
+    - 19spec: 91116793 hits
 7. FastOrtho: run_fastortho.sh
 8. summarize_fastortho.py
 9. Get the sequences for each cluster with get_orths.py
-    - This also saves the clusters with at least 4 taxa represented: 11983
+    - This also saves the clusters with at least 4 taxa represented: 
+        - 16spec: 11983
+        - 19spec: 14056
 10. Snakemake CDS alignment pipeline:
     i.      Guidance
     ii.     Trim/filter and translate alignments with aln_filter.py

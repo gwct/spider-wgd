@@ -14,8 +14,8 @@ from collections import defaultdict
 
 #############################################################################
 
-specs = ["bmori", "crotu", "cscul", "dmela", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "smimo", "sscab", "tanti", "turti", "vdest"];
-#specs = ["sscab"];
+specs = ["abrue", "bmori", "crotu", "cscul", "dmela", "hlong", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "smimo", "sscab", "tanti", "tgiga", "turti", "vdest"];
+#specs = ["tgiga"];
 # Species list
 
 seqs = { s : {'pep' : {}, 'cds' : {}, 'ids' : {}} for s in specs }
@@ -23,8 +23,8 @@ seqs = { s : {'pep' : {}, 'cds' : {}, 'ids' : {}} for s in specs }
 
 cds_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/genomes/";
 pep_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/isofilter/";
-ortholog_file = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/spider-fastortho-i3.out";
-outdir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq-tmp/";
+ortholog_file = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/chelicerate-fastortho-i3.out";
+outdir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/";
 
 outfilename = "/n/home07/gthomas/projects/spider-wgd/data/multi-spec-orthogroups.txt";
 # A file to track the orthogroups that have at least 4 taxa represented for Guidance
@@ -85,7 +85,7 @@ with open(logfilename, "w") as logfile:
                 pid_edit = pid.replace(".cds", "");
                 tid_edit = pid_to_tid[pid];
             
-            elif spec in ["cscul", "lpoly", "mocci", "nclav", "ptepi"]:
+            elif spec in ["abrue", "cscul", "hlong", "lpoly", "mocci", "nclav", "ptepi"]:
                 pid_edit = pid.replace("cds-", "");
                 tid_edit = pid_edit;
 
@@ -96,6 +96,14 @@ with open(logfilename, "w") as logfile:
             elif spec in ["tanti"]:
                 pid_edit = pid.replace(":cds", "");
                 tid_edit = pid_to_tid[pid];
+
+            elif spec in ["tgiga"]:
+                pid_edit = pid.replace(":cds", "").replace("-RA", "");
+                tid_edit = pid_to_tid[pid];
+                # print(pid);
+                # print(pid_edit);
+                # print(tid_edit);
+                # sys.exit();
 
             else:
                 pid_edit = pid;
@@ -120,7 +128,8 @@ with open(logfilename, "w") as logfile:
 ####################
 
     CORE.PWS("# " + CORE.getDateTime() + " Reading orthologs and writing sequences", logfile);
-    num_clusters = "41448";
+    #num_clusters = "41448"; # 16 spec
+    num_clusters = 49561;
     # The total number of clusters from the i3 file
 
     num_written = 0;
@@ -197,6 +206,8 @@ with open(logfilename, "w") as logfile:
                     pid = orth[orth.index("-")+1:];
                     # Split the ortholog id into the species label and protein id
 
+                    #print(spec, pid);
+
                     total_seqs_pre_d[spec] += 1;
 
                     if re.search("-PA.[\d]+", pid):
@@ -229,7 +240,7 @@ with open(logfilename, "w") as logfile:
                     cds_header = cds_header[0];
                     # Convert the header to a string
 
-                    if spec in ['bmori', 'crotu', 'cscul', 'dmela', 'iscap', 'lhesp', 'lpoly', 'lrecl', 'mocci', 'nclav', 'ptepi', 'smimo', 'sscab', 'turti', 'vdest']:
+                    if spec in ['abrue', 'bmori', 'crotu', 'cscul', 'dmela', 'hlong', 'iscap', 'lhesp', 'lpoly', 'lrecl', 'mocci', 'nclav', 'ptepi', 'smimo', 'sscab', 'turti', 'vdest']:
                         cds_output_header = cds_header.split(" ")[0];
                     elif spec in ['tanti']:
                         cds_output_header = cds_header.split("_")[2];

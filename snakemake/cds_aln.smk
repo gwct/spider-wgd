@@ -42,9 +42,9 @@ CONDAPATH = config["conda_env_path"]
 loci = [ line.strip() for line in open(INFILE) ];
 #print(len(loci));
 
-FILTERFILE = os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-filter-passed-spec4-seq20-site50.txt");
-filtered_loci = [ line.strip() for line in open(FILTERFILE, "r") if line.strip() != "" ];
-print(len(filtered_loci));
+#FILTERFILE = os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-filter-passed-spec4-seq20-site50.txt");
+#filtered_loci = [ line.strip() for line in open(FILTERFILE, "r") if line.strip() != "" ];
+#print(len(filtered_loci));
 # Though this file would only be available after filter_alns...
 
 
@@ -56,40 +56,40 @@ localrules: all
 
 rule all:
     input:
-        # expand(os.path.join(DATADIR, "aln", "01-Guidance", "{locus}", "{locus}.MAFFT.Without_low_SP_Col.With_Names"), locus=loci),
+        expand(os.path.join(DATADIR, "aln", "01-Guidance", "{locus}", "{locus}.MAFFT.Without_low_SP_Col.With_Names"), locus=loci),
         # Output files from run_guidance
 
         #os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-stats-spec4-seq20-site50.log"),
         #os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-filter-passed-spec4-seq20-site50.log")
         # Output files from filter_alns
 
-        expand(os.path.join(DATADIR, "tree", "cds", "loci", "{filtered_locus}", "{filtered_locus}.treefile"), filtered_locus=filtered_loci)
+        #expand(os.path.join(DATADIR, "tree", "cds", "loci", "{filtered_locus}", "{filtered_locus}.treefile"), filtered_locus=filtered_loci)
 # This rule just checks that some of the phyloacc output files are present for each batch
 
 #############################################################################
 # Pipeline rules
 
-# def get_mem(wildcards, attempt):
-#     mem = ["4g", "4g", "8g", "12g", "24g", "32g"];
-#     return mem[attempt];
-# # Sets the memory based on the number of times the job has been restarted
+def get_mem(wildcards, attempt):
+    mem = ["4g", "4g", "8g", "12g", "24g", "32g"];
+    return mem[attempt];
+# Sets the memory based on the number of times the job has been restarted
 
-# rule run_guidance:
-#     input:
-#         os.path.join(INDIR, "{locus}-cds.fa")
-#     output:
-#         aln_file = os.path.join(DATADIR, "aln", "01-Guidance", "{locus}", "{locus}.MAFFT.Without_low_SP_Col.With_Names"),
-#         output_directory = directory(os.path.join(DATADIR, "aln", "01-Guidance", "{locus}"))
-#     params:
-#         locus = "{locus}",
-#     log:
-#         os.path.join(DATADIR, "aln", "logs", "01-Guidance", "{locus}-cds.log")
-#     resources:
-#         cpus = 12
-#     shell:
-#         """
-#         perl -I {CONDAPATH}/lib/perl5/site_perl/5.22.0/ {CONDAPATH}/opt/guidance/www/Guidance/guidance.pl --seqFile {input} --msaProgram MAFFT --seqType codon --outDir {output.output_directory} --dataset {params.locus} --proc_num {resources.cpus} &> {log}
-#         """
+rule run_guidance:
+    input:
+        os.path.join(INDIR, "{locus}-cds.fa")
+    output:
+        aln_file = os.path.join(DATADIR, "aln", "01-Guidance", "{locus}", "{locus}.MAFFT.Without_low_SP_Col.With_Names"),
+        output_directory = directory(os.path.join(DATADIR, "aln", "01-Guidance", "{locus}"))
+    params:
+        locus = "{locus}",
+    log:
+        os.path.join(DATADIR, "aln", "logs", "01-Guidance", "{locus}-cds.log")
+    resources:
+        cpus = 4
+    shell:
+        """
+        perl -I {CONDAPATH}/lib/perl5/site_perl/5.22.0/ {CONDAPATH}/opt/guidance/www/Guidance/guidance.pl --seqFile {input} --msaProgram MAFFT --seqType codon --outDir {output.output_directory} --dataset {params.locus} --proc_num {resources.cpus} &> {log}
+        """
 
 #############################################################################
 
@@ -114,21 +114,21 @@ rule all:
 
 #############################################################################
 
-rule make_gene_trees:
-    input: 
-        os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "cds", "{filtered_locus}-cds.guidance.filter.fa")
-    output:
-        os.path.join(DATADIR, "tree", "cds", "loci", "{filtered_locus}", "{filtered_locus}.treefile")
-    params:
-        name = "{filtered_locus}"
-    log:
-        os.path.join(DATADIR, "tree", "logs", "iqtree-cds", "{filtered_locus}-cds-iqtree.log")
-    resources:
-        cpus=1
-    shell:
-     """
-        iqtree -s {input} --prefix {params.name} -B 1000 -T 1 &> {log}
-     """
+# rule make_gene_trees:
+#     input: 
+#         os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "cds", "{filtered_locus}-cds.guidance.filter.fa")
+#     output:
+#         os.path.join(DATADIR, "tree", "cds", "loci", "{filtered_locus}", "{filtered_locus}.treefile")
+#     params:
+#         name = "{filtered_locus}"
+#     log:
+#         os.path.join(DATADIR, "tree", "logs", "iqtree-cds", "{filtered_locus}-cds-iqtree.log")
+#     resources:
+#         cpus=1
+#     shell:
+#      """
+#         iqtree -s {input} --prefix {params.name} -B 1000 -T 1 &> {log}
+#      """
 
 
 #############################################################################

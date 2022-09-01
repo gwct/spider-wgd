@@ -1,6 +1,6 @@
-jobs: 64
+jobs: 32
 cluster:
-  mkdir -p {OUTDIR}/slurm-logs/{rule}/ &&
+  mkdir -p {DATADIR}/slurm-logs/{rule}/ &&
   sbatch
   --partition={resources.partition}
   --nodes={resources.nodes}
@@ -8,9 +8,9 @@ cluster:
   --job-name={rule}-{wildcards}
   --mem={resources.mem}
   --time={resources.time}
-  --output={OUTDIR}/slurm-logs/{rule}/{rule}-{wildcards}-%j.out
+  --output={DATADIR}/slurm-logs/{rule}/{rule}-{wildcards}-%j.out
 default-resources:
-  - partition='holy-info,holy-cow,holy-smokes'
+  - partition='holy-info,shared'
   - nodes='1'
   - mem_mb=4000
   - mem='4g'
