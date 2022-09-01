@@ -47,6 +47,7 @@ Sequence retrieval and alignment of spider orthogroups was done as follows:
 ```{r seq-summary-table, out.width="50%", fig.align = "center", warning=FALSE}
 
 get_orths_stats = read.csv(here("data", "get-orths-stats.csv"), header=T)
+get_orths_stats = select(get_orths_stats, -Match.code, -X16spec.count)
 
 get_orths_stats %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 

@@ -1,0 +1,18 @@
+Step,Match code,Status/action taken,16spec.count,Count
+Orthogroups with seqs from at least 4 species,NA,Initial,11983,14086
+Total sequences from orthogroups with at least 4 species,NA,Removed,235648,296818
+CDS sequences with multiple matching headers,NA,Removed,8,10
+CDS not divisible by 3,NA,Attempted to correct (see below),4160,4200
+CDS with premature stop codons,NA,Removed,652,653
+CDS with translations that exactly match annotated peptide sequence,orig-match,Retained,230002,291133
+CDS with translations that exactly match annotated peptide sequence AFTER removing X's from peptide sequence,orig.no.x-match,Corrected and retained,129,131
+"CDS not divisble by 3, but match peptide sequence after removing 1 or 2 NT from END of the CDS sequence",end-match,Corrected and retained,2926,2958
+"CDS not divisble by 3, but match peptide sequence after removing 1 or 2 NT from BEGINNING of the CDS sequence",front-match,Corrected and retained,728,734
+CDS whose translation is a subsequence of annotated peptide,orig-trans.substr.pep,Corrected and retained,129,574
+CDS whose translation is a subsequence of annotated peptide AFTER removing X's from peptide sequence,orig.no.x-trans.substr.pep,Corrected and retained,22,23
+"CDS not divisble by 3, but is a subsequence of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence",end-trans.substr.pep,Corrected and retained,238,241
+"CDS not divisble by 3, but is a subsequence of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence AND removing X's from annotated peptide",end.no.x-trans.substr.pep,Corrected and retained,2,2
+"CDS not divisble by 3, but is a match of the annotated peptide sequence after removing 1 or 2 NT from END of the CDS sequence AND removing X's from the annotated peptide",end.no.x-match,Corrected and retained,1,1
+CDS sequences with translations that do not match the annotated peptide sequence and cannot easily be corrected,NA,Removed,1022,1011
+Total sequences written,NA,Final,233966,295144
+Total orthogroups retained,NA,Final,11936,14056
