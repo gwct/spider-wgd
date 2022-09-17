@@ -1,0 +1,10 @@
+Step,Status/action taken,Count
+Alignments before filtering,Initial,14056
+Single copy alignments before filtering,Initial,288
+Sequences before filtering,Initial,178578
+Sequences above gappy threshold,Removed,44326
+Alignments wither fewer than 4 sequences after filtering,Removed,2741
+Alignments shorter than 33 codons after filtering,Removed,813
+Alignments after filtering,Final,11017
+Single copy alignments after filtering,Final,212
+Sequences after filtering,Final,123567
