@@ -62,6 +62,13 @@ for(i in 1:nrow(hox_data)){
   
   title = paste(row$Gene, row$Gene.id, row$Protein.chosen, row$Orthogroup, sep=" / ")
   
+  if(is.na(row$CDS.tree)){
+    print(title)
+    print(row$Notes)
+    print("-------------------------------")
+    next
+  }
+  
   cur_tree = read.tree(text=row$CDS.tree)
   
   cur_gt_fig = ggtree(cur_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
