@@ -42,11 +42,10 @@ CONDAPATH = config["conda_env_path"]
 loci = [ line.strip() for line in open(INFILE) ];
 #print(len(loci));
 
-#FILTERFILE = os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-filter-passed-spec4-seq20-site50.txt");
-#filtered_loci = [ line.strip() for line in open(FILTERFILE, "r") if line.strip() != "" ];
-#print(len(filtered_loci));
+FILTERFILE = os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-filter-passed-spec4-seq20-site50.txt");
+filtered_loci = [ line.strip() for line in open(FILTERFILE, "r") if line.strip() != "" ];
+print(len(filtered_loci));
 # Though this file would only be available after filter_alns...
-
 
 #############################################################################
 # Final rule - rule that depends on final expected output file and initiates all
@@ -56,14 +55,26 @@ localrules: all
 
 rule all:
     input:
-        expand(os.path.join(DATADIR, "aln", "01-Guidance", "{locus}", "{locus}.MAFFT.Without_low_SP_Col.With_Names"), locus=loci),
+        expand(os.path.join(DATADIR, "tree", "pep-iqtree", "loci", "{filtered_locus}", "{filtered_locus}.treefile"), filtered_locus=filtered_loci)
+        # Output from make_gene_trees_pep
+
+        #expand(os.path.join(DATADIR, "aln", "01-Guidance", "{locus}", "{locus}.MAFFT.Without_low_SP_Col.With_Names"), locus=loci),
         # Output files from run_guidance
 
         #os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-stats-spec4-seq20-site50.log"),
         #os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-filter-passed-spec4-seq20-site50.log")
         # Output files from filter_alns
 
-        #expand(os.path.join(DATADIR, "tree", "cds", "loci", "{filtered_locus}", "{filtered_locus}.treefile"), filtered_locus=filtered_loci)
+
+
+        #expand(os.path.join(DATADIR, "tree", "cds-iqtree", "loci", "{filtered_locus}", "{filtered_locus}.treefile"), filtered_locus=filtered_loci)
+        # Output from make_gene_trees
+
+
+
+
+
+        
 # This rule just checks that some of the phyloacc output files are present for each batch
 
 #############################################################################
@@ -94,42 +105,57 @@ rule run_guidance:
 #############################################################################
 
 # rule filter_alns:
+#     input:
+#         expand(os.path.join(DATADIR, "aln", "01-Guidance", "{locus}", "{locus}.MAFFT.Without_low_SP_Col.With_Names"), locus=loci)
 #     output:
 #         stats_file = os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-stats-spec4-seq20-site50.log"),
 #         locus_file = os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "aln-filter-passed-spec4-seq20-site50.txt")
+#     params:
+#         indir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/01-Guidance/"
+#         outdir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/02-Filter/"
 #     resources:
-#         cpus=1
+#         cpus = 1
 #     shell:
 #         """
-#         python /n/home07/gthomas/projects/spider-wgd/scripts/aln_filter.py -i /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/01-Guidance/ -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/02-Filter --overwrite
+#         python /n/home07/gthomas/projects/spider-wgd/scripts/aln_filter.py -i {params.indir} -o {params.outdir} --overwrite
 #         """
-
-## STRANGE ERROR WHEN INCLUDING THIS RULE:
-#RuleException in line 107 of /n/home07/gthomas/projects/spider-wgd/snakemake/cds_aln.smk:
-#NameError: The name 'OUTDIR' is unknown in this context. Please make sure that you defined that variable. Also note that braces not used for variable access have to be escaped by repeating them, i.e. {{print $1}}
-#
-# Tried many variations and get the same error.
-# The report of the error seems to suffer from this bug: https://github.com/snakemake/snakemake/issues/1256
-# since I deleted everything after this rule (making the entire file ~96 lines long) and it still reports the error on line 107.
 
 #############################################################################
 
-# rule make_gene_trees:
-#     input: 
-#         os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "cds", "{filtered_locus}-cds.guidance.filter.fa")
-#     output:
-#         os.path.join(DATADIR, "tree", "cds", "loci", "{filtered_locus}", "{filtered_locus}.treefile")
-#     params:
-#         name = "{filtered_locus}"
-#     log:
-#         os.path.join(DATADIR, "tree", "logs", "iqtree-cds", "{filtered_locus}-cds-iqtree.log")
-#     resources:
-#         cpus=1
-#     shell:
-#      """
-#         iqtree -s {input} --prefix {params.name} -B 1000 -T 1 &> {log}
-#      """
+rule make_gene_trees:
+    input: 
+        os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "cds", "{filtered_locus}-cds.guidance.filter.fa")
+    output:
+        os.path.join(DATADIR, "tree", "cds-iqtree", "loci", "{filtered_locus}", "{filtered_locus}.treefile")
+    params:
+        prefix = os.path.join(DATADIR, "tree", "cds-iqtree", "loci", "{filtered_locus}", "{filtered_locus}")
+    log:
+        os.path.join(DATADIR, "tree", "logs", "cds-iqtree", "{filtered_locus}-cds-iqtree.log")
+    resources:
+        cpus = 4
+    shell:
+     """
+        iqtree -s {input} --prefix {params.prefix} -B 1000 -T 4 &> {log}
+     """
 
+
+#############################################################################
+
+rule make_gene_trees_pep:
+    input: 
+        os.path.join(DATADIR, "aln", "02-Filter-spec4-seq20-site50", "pep", "{filtered_locus}-pep.guidance.filter.fa")
+    output:
+        os.path.join(DATADIR, "tree", "pep-iqtree", "loci", "{filtered_locus}", "{filtered_locus}.treefile")
+    params:
+        prefix = os.path.join(DATADIR, "tree", "pep-iqtree", "loci", "{filtered_locus}", "{filtered_locus}")
+    log:
+        os.path.join(DATADIR, "tree", "logs", "pep-iqtree", "{filtered_locus}-pep-iqtree.log")
+    resources:
+        cpus = 4
+    shell:
+     """
+        iqtree -s {input} --prefix {params.prefix} -B 1000 -T 4 &> {log}
+     """
 
 #############################################################################
 

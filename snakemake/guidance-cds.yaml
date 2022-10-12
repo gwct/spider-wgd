@@ -12,7 +12,7 @@ locus_file: /n/home07/gthomas/projects/spider-wgd/data/multi-spec-orthogroups.tx
 # aln_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/
 # # The directory to write alignment output
 
-# tree_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/
+tree_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/
 # # The directory to write tree output
 
 conda_env_path: /n/home07/gthomas/anaconda3/envs/cds-aln-2/

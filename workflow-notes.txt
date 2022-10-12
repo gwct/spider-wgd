@@ -32,7 +32,9 @@
 13. Root gene trees:
     - time -p python root_gene_trees.py
     - Also writes single-copy gene trees.
+    - find . -type f -name *.rooted.treefile -exec awk 1 {} \; > ../loci.rooted.treefile
 14. Infer species tree
+    - module load jdk
     A. Run ASTRAL-pro:
         - time -p astral-pro -a gene-to-spec-map.txt -o chelicerate-16spec-astral-pro.tre ../loci.treefile 2> astral-pro.log
     B. Run ASTRAL on single-copy groups:
@@ -43,7 +45,20 @@
         - time -p astral -i loci-relabeled.treefile -a gene-to-spec-remap.txt -o chelicerate-16spec-astral-multi.tre 2> astral.log
 15. Root the species trees: nw_reroot -l <species tree file> DMELA BMORI > <rooted species tree file>
 16. Bootstrap rearrange gene trees:
-    - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/cds-iqtree/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 70 --edgeweights name --treeoutput newick --nolosses --outputdir astral-pro-tree/loci-rearrange-70/ 2> astral-pro-tree/loci-rearrange-70.log
+    - find "$(pwd -P)" -name *.treefile > loci-filenames-st.txt
+    - Then add species tree filename to beginning of file
+    A. 16 spec:
+        - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/cds-iqtree/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 90 --edgeweights name --treeoutput newick --nolosses --outputdir astral-pro-tree/loci-rearrange-90/ 2> astral-pro-tree/loci-rearrange-90.log
+    B. ASTRAL-pro:
+        - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/cds-iqtree/astral-pro-tree/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 90 --edgeweights name --treeoutput newick --nolosses --outputdir astral-pro-tree/loci-rearrange-90/ 2> astral-pro-tree/loci-rearrange-90.log
+    C. ASTRAL-multi:
+        - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/cds-iqtree/astral-multi-tree/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 90 --edgeweights name --treeoutput newick --nolosses --outputdir astral-multi-tree/loci-rearrange-90/ 2> astral-multi-tree/loci-rearrange-90.log
+    D. ASTRAL single-copy:
+        - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/cds-iqtree/astral-single-copy-tree/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 90 --edgeweights name --treeoutput newick --nolosses --outputdir astral-single-copy/loci-rearrange-90/ 2> astral-single-copy/loci-rearrange-90.log
+    E. Ballesteros:
+        - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/ballesteros/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 90 --edgeweights name --treeoutput newick --nolosses --outputdir ballesteros/loci-rearrange-90/ 2> ballesteros/loci-rearrange-90.log
+    F. Traditional:
+        - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/traditional/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 90 --edgeweights name --treeoutput newick --nolosses --outputdir traditional/loci-rearrange-90/ 2> traditional/loci-rearrange-90.log
 17. GRAMPA
 
 

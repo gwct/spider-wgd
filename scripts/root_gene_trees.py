@@ -12,7 +12,7 @@ from collections import defaultdict
 
 ############################################################
 
-indir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/pep-iqtree/loci/";
+indir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/cds-iqtree/loci/";
 num_rooted, num_skipped = 0, 0;
 cant_root, no_outgroup = 0, 0;
 outgroup_counts = defaultdict(int);
@@ -71,7 +71,7 @@ for orthogroup in os.listdir(indir):
 
         if len(set(tip_spec)) == num_spec and len(tip_spec) == num_spec:
             single_copy.append(orthogroup);
-            scfilename = os.path.join("/n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/pep-iqtree/astral-single-copy-tree/loci-single-copy/", orthogroup + ".treefile");
+            scfilename = os.path.join("/n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/cds-iqtree/astral-single-copy-tree/loci-single-copy/", orthogroup + ".treefile");
             spec_tree = tree;
             for node in tinfo:
                 if tinfo[node][2] == 'tip':
@@ -80,8 +80,8 @@ for orthogroup in os.listdir(indir):
                 else:
                     spec_tree = spec_tree.replace(node, "");
 
-            with open(scfilename, "w") as sc:
-                sc.write(spec_tree +"\n");
+            #with open(scfilename, "w") as sc:
+            #    sc.write(spec_tree +"\n");
 
             # cp_cmd = "cp " + treefile + " " + scfilename;
             # print(cp_cmd);

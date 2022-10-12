@@ -12,8 +12,8 @@ from collections import defaultdict
 
 ############################################################
 
-treedir = "pep-iqtree"
-mode = "multi";
+treedir = "cds-iqtree"
+mode = "pro";
 # pro or multi
 
 
