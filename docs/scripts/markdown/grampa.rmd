@@ -493,7 +493,7 @@ print(tree_figs)
 # Combine and render figs
 
 cur_data_lowest$run = "CDS A-pro R90 full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
+#combined_scores = rbind(combined_scores, cur_data_lowest)
 
 ```
 
