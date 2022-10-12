@@ -39,6 +39,8 @@ source("../lib/get_tree_info.r")
 #source("C:/Users/grt814/bin/core/corelib/design.r")
 #source("C:/Users/grt814/bin/core/get_tree_info.r")
 
+#ggtree::rotate <- ggtree::rotate()
+
 #htmltools::includeHTML("../html-chunks/rmd_nav.html")
 ```
 
@@ -52,20 +54,22 @@ genome_file = here("data", "chelicerate_genomes-gwct.csv")
 
 summary_file = here("data", "gene-trees.csv")
 
-pro_tree_file = here("data", "trees", "chelicerate-16spec-astral-pro.rooted.tre")
-pro_pep_tree_file = here("data", "trees", "chelicerate-16spec-pep-astral-pro.rooted.tre")
-pro_info_out = here("data", "trees", "chelicerate-16spec-astral-pro-info.rooted.csv")
-pro_info_file = here("data", "trees", "chelicerate-16spec-astral-pro-info-labeled.rooted.csv")
+pro_tree_file = here("data", "trees", "chelicerate-19spec-astral-pro-rooted.tre")
+#pro_pep_tree_file = here("data", "trees", "chelicerate-19spec-pep-astral-pro-rooted.tre")
+pro_info_out = here("data", "trees", "chelicerate-19spec-astral-pro-info-rooted.csv")
+pro_info_file = here("data", "trees", "chelicerate-19spec-astral-pro-info-labeled-rooted.csv")
 
-multi_tree_file = here("data", "trees", "chelicerate-16spec-astral-multi.rooted.tre")
-multi_pep_tree_file = here("data", "trees", "chelicerate-16spec-pep-astral-multi.rooted.tre")
-multi_info_out = here("data", "trees", "chelicerate-16spec-astral-multi-info.rooted.csv")
-multi_info_file = here("data", "trees", "chelicerate-16spec-astral-multi-info-labeled.rooted.csv")
+pro_tree_file_16 = here("data", "16spec", "trees", "chelicerate-16spec-astral-pro.rooted.tre")
 
-single_tree_file = here("data", "trees", "chelicerate-16spec-astral-single-copy.rooted.tre")
-single_pep_tree_file = here("data", "trees", "chelicerate-16spec-pep-astral-single-copy.rooted.tre")
-single_info_out = here("data", "trees", "chelicerate-16spec-astral-single-copy-info.rooted.csv")
-single_info_file = here("data", "trees", "chelicerate-16spec-astral-single-copy-info-labeled.rooted.csv")
+multi_tree_file = here("data", "trees", "chelicerate-19spec-astral-multi-rooted.tre")
+#multi_pep_tree_file = here("data", "trees", "chelicerate-19spec-pep-astral-multi-rooted.tre")
+multi_info_out = here("data", "trees", "chelicerate-19spec-astral-multi-info.rooted-csv")
+multi_info_file = here("data", "trees", "chelicerate-19spec-astral-multi-info-labeled-rooted.csv")
+
+single_tree_file = here("data", "trees", "chelicerate-19spec-astral-single-copy-rooted.tre")
+#single_pep_tree_file = here("data", "trees", "chelicerate-19spec-pep-astral-single-copy.rooted.tre")
+single_info_out = here("data", "trees", "chelicerate-19spec-astral-single-copy-info-rooted.csv")
+single_info_file = here("data", "trees", "chelicerate-19spec-astral-single-copy-info-labeled-rooted.csv")
 
 ballesteros_topology_file = here("data", "trees", "ballesteros.tre")
 traditional_topology_file = here("data", "trees", "traditional.tre")
@@ -90,15 +94,15 @@ gt_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended"
 
 # ASTRAL-pro species tree
 
-Inferred from 9629 gene trees using the C++ implementation of ASTRAL-pro (https://github.com/chaoszhang/ASTER).
+Inferred from 11017 gene trees using the C++ implementation of ASTRAL-pro (https://github.com/chaoszhang/ASTER).
 
 All branches have full ASTRAL support (1.0).
 
 Note: Tip branch lengths arbitrarily set to average of internal branch lengths...
 
-#### [Newick tree file (CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-16spec-astral-pro.rooted.tre)
+#### [Newick tree file (CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-19spec-astral-pro-rooted.tre)
 
-```{r astral-pro-tree-cds, out.width="75%", fig.align = "center", warning=FALSE}
+```{r astral-pro-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
 orig_pro_tree = read.tree(pro_tree_file)
 
 tree_to_df_list = treeToDF(orig_pro_tree, add_avg_bl=TRUE)
@@ -116,32 +120,37 @@ l = corecol(numcol=1, offset=3)
 # Colors
 
 famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset =6
+famoffset = 2
 # Order labels
 
 pro_cds_tree_fig = ggtree(pro_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 19) +
+  xlim(0, 13) +
   geom_tiplab(aes(label=pro_info$S.name), fontface='italic', size=4) +
   #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
   #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
   
-  geom_cladelabel(node=22, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
+  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
   geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=28, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
   ggtitle("CDS tree")
   
   #theme(legend.position=c(0.05,0.9))
-#print(pro_cds_tree_fig)
+
+  pro_cds_tree_fig = pro_cds_tree_fig %>% ggtree::rotate(34) %>% ggtree::rotate(35) %>% ggtree::rotate(37)
+
+print(pro_cds_tree_fig)
 
 ```
 
+
+
+```{r astral-pro-tree-pep, out.width="75%", fig.align = "center", warning=FALSE, eval=F}
 #### [Newick tree file (peptides; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-16spec-pep-astral-pro.rooted.tre)
 
-```{r astral-pro-tree-pep, out.width="75%", fig.align = "center", warning=FALSE}
 orig_pro_pep_tree = read.tree(pro_pep_tree_file)
 
 tree_to_df_list = treeToDF(orig_pro_pep_tree, add_avg_bl=TRUE)
@@ -194,9 +203,9 @@ All branches have full ASTRAL support (1.0).
 
 Note: Tip branch lengths inferred by ASTRAL since this is treating the paralogs like multiple individuals in a species
 
-#### [Newick tree file (CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-16spec-astral-multi.rooted.tre)
+#### [Newick tree file (CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-19spec-astral-multi-rooted.tre)
 
-```{r astral-multi-tree-cds, out.width="75%", fig.align = "center", warning=FALSE}
+```{r astral-multi-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
 orig_multi_tree = read.tree(multi_tree_file)
 
 tree_to_df_list = treeToDF(orig_multi_tree)
@@ -214,35 +223,37 @@ l = corecol(numcol=1, offset=3)
 # Colors
 
 famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 5
+famoffset = 2
 # Order labels
 
 multi_cds_tree_fig = ggtree(multi_tree, size=0.8, ladderize=F) +#, aes(color=full_data$Family)) +
-  xlim(0, 15) +
+  xlim(0, 10) +
   geom_tiplab(aes(label=multi_info$S.name), fontface='italic', size=4) +
   #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
   #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
   
-  geom_cladelabel(node=27, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=31, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
   geom_cladelabel(node=10, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=23, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=25, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=20, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-    geom_cladelabel(node=5, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
+  geom_cladelabel(node=37, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
   geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
   geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
   ggtitle("CDS tree")
+  
   #theme(legend.position=c(0.05,0.9))
 
-#multi_tree_fig = multi_tree_fig %>% rotate(17) %>% rotate(19) %>% rotate(21) %>% rotate(19) %>% rotate(21)
+  multi_cds_tree_fig = multi_cds_tree_fig %>% ggtree::rotate(29) %>% ggtree::rotate(30) %>% ggtree::rotate(31) %>% ggtree::rotate(32) %>% ggtree::rotate(33) %>% ggtree::rotate(34) %>% ggtree::rotate(36) %>% ggtree::rotate(28) %>% ggtree::rotate(25) %>% ggtree::rotate(24)
 
-#print(multi_cds_tree_fig)
+print(multi_cds_tree_fig)
 
 ```
 
+
+
+```{r astral-multi-tree-pep, out.width="75%", fig.align = "center", warning=FALSE, eval=F}
 #### [Newick tree file (peptide; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-16spec-pep-astral-multi.rooted.tre)
 
-```{r astral-multi-tree-pep, out.width="75%", fig.align = "center", warning=FALSE}
 orig_multi_pep_tree = read.tree(multi_pep_tree_file)
 
 tree_to_df_list = treeToDF(orig_multi_pep_tree)
@@ -279,7 +290,7 @@ multi_pep_tree_fig = ggtree(multi_pep_tree, size=0.8, ladderize=F) +#, aes(color
   ggtitle("Peptide tree")
   #theme(legend.position=c(0.05,0.9))
 
-#multi_tree_fig = multi_tree_fig %>% rotate(17) %>% rotate(19) %>% rotate(21) %>% rotate(19) %>% rotate(21)
+#multi_tree_fig = multi_tree_fig %>% ggtree::rotate(17) %>% ggtree::rotate(19) %>% ggtree::rotate(21) %>% ggtree::rotate(19) %>% ggtree::rotate(21)
 
 #print(multi_pep_tree_fig)
 
@@ -287,17 +298,17 @@ multi_trees = plot_grid(multi_cds_tree_fig, multi_pep_tree_fig, ncol=2)
 print(multi_trees)
 ```
 
-# ASTRAL species tree from 19 single-copy orthologs
+# ASTRAL species tree from 208 single-copy orthologs
 
-Inferred from 19 single-copy orthologs using ASTRAL.
+Inferred from 208 single-copy orthologs using ASTRAL.
 
 All branches have full ASTRAL support (1.0).
 
 Note: Tip branch lengths arbitrarily set to average of internal branch lengths...
 
-#### [Newick tree file (CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-16spec-astral-single-copy.tre)
+#### [Newick tree file (CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-19spec-astral-single-copy.tre)
 
-```{r astral-single-tree-cds, out.width="75%", fig.align = "center", warning=FALSE}
+```{r astral-single-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
 orig_single_tree = read.tree(single_tree_file)
 
 tree_to_df_list = treeToDF(orig_single_tree, add_avg_bl=TRUE)
@@ -315,35 +326,37 @@ l = corecol(numcol=1, offset=3)
 # Colors
 
 famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 8
+famoffset = 3
 # Order labels
 
 single_cds_tree_fig = ggtree(single_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 25) +
+  xlim(0, 15) +
   geom_tiplab(aes(label=single_info$S.name), fontface='italic', size=4) +
   #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
   #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
   
-  geom_cladelabel(node=24, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=3, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=20, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=23, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
+  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
+  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
+  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
   ggtitle("CDS tree")
   
   #theme(legend.position=c(0.05,0.9))
 
-#multi_tree_fig = multi_tree_fig %>% rotate(17) %>% rotate(19) %>% rotate(21) %>% rotate(19) %>% rotate(21)
+single_cds_tree_fig = single_cds_tree_fig %>% ggtree::rotate(34) %>% ggtree::rotate(35) %>% ggtree::rotate(30) %>% ggtree::rotate(28) %>% ggtree::rotate(23) %>% ggtree::rotate(24) %>% ggtree::rotate(25)
 
-#print(single_cds_tree_fig)
+print(single_cds_tree_fig)
 
 ```
 
+
+
+```{r astral-single-tree-pep, out.width="75%", fig.align = "center", warning=FALSE, eval=F}
 #### [Newick tree file (peptide; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-16spec-pep-astral-single-copy.tre)
 
-```{r astral-single-tree-pep, out.width="75%", fig.align = "center", warning=FALSE}
 orig_single_pep_tree = read.tree(single_pep_tree_file)
 
 tree_to_df_list = treeToDF(orig_single_pep_tree, add_avg_bl=TRUE)
@@ -381,7 +394,7 @@ single_pep_tree_fig = ggtree(single_pep_tree, size=0.8, ladderize=T) +#, aes(col
   
   #theme(legend.position=c(0.05,0.9))
 
-#multi_tree_fig = multi_tree_fig %>% rotate(17) %>% rotate(19) %>% rotate(21) %>% rotate(19) %>% rotate(21)
+#multi_tree_fig = multi_tree_fig %>% ggtree::rotate(17) %>% ggtree::rotate(19) %>% ggtree::rotate(21) %>% ggtree::rotate(19) %>% ggtree::rotate(21)
 
 #print(single_pep_tree_fig)
 
@@ -389,9 +402,9 @@ single_trees = plot_grid(single_cds_tree_fig, single_pep_tree_fig, ncol=2)
 print(single_trees)
 ```
 
-# Notes relating to Ballesteros et al. 2021
+# Notes relating to Ballesteros et al. 2022
 
-https://www.biorxiv.org/content/10.1101/2021.08.16.456573v1
+https://academic.oup.com/mbe/article/39/2/msac021/6522129
 
 This paper samples a wide range of Chelicerate genomes and transcriptomes (516 samples) to try and resolve the relationships withing Chelicerata (relevant groups: Araneae, Scorpiones, Acariformes, Parasitiformes) and between Chelicerata and horseshoe crabs (Xiphosura). 
 
@@ -421,7 +434,7 @@ l = corecol(numcol=1, offset=3)
 # Colors
 
 famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 12
+famoffset = 16
 # Order labels
 
 trad_tree_fig = ggtree(trad_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
@@ -430,18 +443,18 @@ trad_tree_fig = ggtree(trad_tree, size=0.8, ladderize=T) +#, aes(color=full_data
   #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
   #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
   
-  geom_cladelabel(node=22, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=30, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=29, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=27, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
+  geom_cladelabel(node=25, label="Ar", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=8, label="S", align=T, color=corecol(numcol=1), offset=famoffset) +
+  geom_cladelabel(node=35, label="X", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
+  geom_cladelabel(node=31, label="P", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=34, label="Ac", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=18, label="D", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=19, label="L", align=T, color="#333333", offset=famoffset) + 
   ggtitle("Monophyletic Arachnids")
   
   #theme(legend.position=c(0.05,0.9))
 
-#multi_tree_fig = multi_tree_fig %>% rotate(17) %>% rotate(19) %>% rotate(21) %>% rotate(19) %>% rotate(21)
+trad_tree_fig = trad_tree_fig %>% ggtree::rotate(27) %>% ggtree::rotate(30) %>% ggtree::rotate(29) %>% ggtree::rotate(31) %>% ggtree::rotate(32) %>% ggtree::rotate(36)
 
 #print(trad_tree_fig)
 
@@ -465,7 +478,7 @@ l = corecol(numcol=1, offset=3)
 # Colors
 
 famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 12
+famoffset = 16
 # Order labels
 
 ball_tree_fig = ggtree(ball_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
@@ -474,31 +487,108 @@ ball_tree_fig = ggtree(ball_tree, size=0.8, ladderize=T) +#, aes(color=full_data
   #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
   #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
   
-  geom_cladelabel(node=22, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=28, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
+  geom_cladelabel(node=25, label="Ar", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=8, label="S", align=T, color=corecol(numcol=1), offset=famoffset) +
+  geom_cladelabel(node=31, label="X", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
+  geom_cladelabel(node=36, label="Ac", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=33, label="P", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=18, label="D", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=19, label="L", align=T, color="#333333", offset=famoffset) + 
   ggtitle("Ballesteros et al. 2021")
   
   #theme(legend.position=c(0.05,0.9))
 
-#multi_tree_fig = multi_tree_fig %>% rotate(17) %>% rotate(19) %>% rotate(21) %>% rotate(19) %>% rotate(21)
+ball_tree_fig = ball_tree_fig %>% ggtree::rotate(27) %>% ggtree::rotate(30) %>% ggtree::rotate(29) %>% ggtree::rotate(33) %>% ggtree::rotate(34)
 
 #print(ball_tree_fig)
 
-other_trees = plot_grid(trad_tree_fig, ball_tree_fig, ncol=2)
-print(other_trees)
+
+```
+
+```{r cds-pro-tree-nobl, out.width="75%", fig.align = "center", warning=FALSE}
+famcol = corecol(pal="wilke", numcol=1, offset=2)
+famoffset = 16
+# Order labels
+
+pro_cds_tree_nobl_fig = ggtree(pro_tree, size=0.8, ladderize=T, branch.length="none") +#, aes(color=full_data$Family)) +
+  xlim(0, 30) +
+  geom_tiplab(aes(label=pro_info$S.name), fontface='italic', size=4) +
+  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
+  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
+  
+  geom_cladelabel(node=32, label="Ar", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=12, label="S", align=T, color=corecol(numcol=1), offset=famoffset) +
+  geom_cladelabel(node=27, label="X", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
+  geom_cladelabel(node=30, label="Ac", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=23, label="P", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=1, label="D", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=2, label="L", align=T, color="#333333", offset=famoffset) +
+  ggtitle("CDS tree")
+  
+  #theme(legend.position=c(0.05,0.9))
+
+  pro_cds_tree_nobl_fig = pro_cds_tree_nobl_fig %>% ggtree::rotate(34) %>% ggtree::rotate(35) %>% ggtree::rotate(37)
+
+#print(pro_cds_tree_nobl_fig)
+```
+
+```{r astral-pro-tree-cds-16spec, out.width="50%", fig.align = "center", warning=FALSE}
+orig_pro_tree_16 = read.tree(pro_tree_file_16)
+
+tree_to_df_list = treeToDF(orig_pro_tree_16, add_avg_bl=TRUE)
+pro_info_16 = tree_to_df_list[["info"]]
+pro_tree_16 = tree_to_df_list[["labeled.tree"]]
+# Parse the tree info, and replace the tip branch lengths
+# with the avg. internal branch lengths as "labeled.tree"
+
+pro_info_16 = merge(pro_info_16, spec_abbrs, by="label", all=TRUE)
+pro_info_16 = subset(pro_info_16, label!="HLONG" & label!="ABRUE" & label!="TGIGA")
+pro_info_16 = pro_info_16[order(pro_info_16$node), ]
+# Merge the fulle species names and re-order the rows by the R node
+
+h = corecol(numcol=1, pal="wilke", offset=3)
+l = corecol(numcol=1, offset=3)
+# Colors
+
+famcol = corecol(pal="wilke", numcol=1, offset=2)
+famoffset = 16
+# Order labels
+
+pro_cds_tree_fig_16 = ggtree(pro_tree_16, size=0.8, ladderize=T, branch.length="none") +#, aes(color=full_data$Family)) +
+  xlim(0, 30) +
+  geom_tiplab(aes(label=pro_info_16$S.name), fontface='italic', size=4) +
+  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
+  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
+  
+  geom_cladelabel(node=22, label="Ar", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
+  geom_cladelabel(node=7, label="S", align=T, color=corecol(numcol=1), offset=famoffset) +
+  geom_cladelabel(node=27, label="X", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
+  geom_cladelabel(node=28, label="Ac", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
+  geom_cladelabel(node=29, label="P", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
+  geom_cladelabel(node=15, label="D", align=T, color="#333333", offset=famoffset) +
+  geom_cladelabel(node=16, label="L", align=T, color="#333333", offset=famoffset) +
+  ggtitle("CDS tree (16 species)")
+  
+  #theme(legend.position=c(0.05,0.9))
+
+  #pro_cds_tree_fig = pro_cds_tree_fig %>% ggtree::rotate(34) %>% ggtree::rotate(35) %>% ggtree::rotate(37)
+
+#print(pro_cds_tree_fig_16)
+
 ```
 
 
+```{r tree-comp, out.width="80%", fig.align = "center", warning=FALSE, fig.height=6}
+other_trees = plot_grid(trad_tree_fig, ball_tree_fig, pro_cds_tree_nobl_fig, pro_cds_tree_fig_16, ncol=2)
+print(other_trees)
+```
+
+```{r algo, out.width="75%", fig.align = "center", warning=FALSE, eval=F}
 # Outline of algorithm to calculate gene concordance factors with paralogs
 
 Basically, match clades between the species and gene tree and check for paralogs. If paralogs are present, remove them and then check if the branch is concordant.
 
-```
+
 for every gene tree{
   for every branch in the species tree{
     get the list of all species descending from this branch in the species tree
