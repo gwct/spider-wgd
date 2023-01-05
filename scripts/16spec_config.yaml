@@ -1,0 +1,15 @@
+input_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/16spec/cds/
+# Directory containing CDS with filenames: <orthogroup>.fa
+# FASTA headers should be in the format: <species ID>-<transcript ID>-<protein ID>
+
+locus_file: /n/home07/gthomas/projects/spider-wgd/data/16spec/multi-spec-orthogroups.txt
+# # A file containing a list of loci/clusters, one per line, to run the pipeline on
+
+aln_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/
+# # The directory to write alignment output
+
+aln_filter_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/02-Filter-spec7-seq50-site50/
+# The output directory from aln_filter.py
+
+tree_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/16spec/
+# # The directory to write tree output

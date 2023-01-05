@@ -10,9 +10,9 @@
 #SBATCH --mem=12g
 #SBATCH --time=24:00:00
 
-source ~/anaconda3/bin/activate
-conda activate main
+#source ~/anaconda3/bin/activate
+#conda activate main
 
 cd /n/home07/gthomas/projects/spiders/scripts/
 
-time -p /n/home07/gthomas/env/pkgs/FastOrtho/src/FastOrtho --option_file fastortho_opts.txt
+time -p /n/home07/gthomas/env/pkgs/FastOrtho/src/FastOrtho --option_file 01_fastortho_opts_16spec.txt

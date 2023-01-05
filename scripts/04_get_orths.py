@@ -14,7 +14,18 @@ from collections import defaultdict
 
 #############################################################################
 
-specs = ["abrue", "bmori", "crotu", "cscul", "dmela", "hlong", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "smimo", "sscab", "tanti", "tgiga", "turti", "vdest"];
+dataset = 19
+
+if dataset == 16:
+    specs = ["bmori", "crotu", "cscul", "dmela", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "smimo", "sscab", "tanti", "turti", "vdest"];
+    data_st = "16spec";
+# 16spec
+
+elif dataset = 19:
+    specs = ["abrue", "bmori", "crotu", "cscul", "dmela", "hlong", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "smimo", "sscab", "tanti", "tgiga", "turti", "vdest"];
+    data_st = "19spec";
+# 19spec
+
 #specs = ["tgiga"];
 # Species list
 
@@ -23,13 +34,13 @@ seqs = { s : {'pep' : {}, 'cds' : {}, 'ids' : {}} for s in specs }
 
 cds_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/genomes/";
 pep_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/isofilter/";
-ortholog_file = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/chelicerate-fastortho-i3.out";
-outdir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/";
+ortholog_file = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/" + data_str + "/chelicerate-fastortho-i3.out";
+outdir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/" + data_str + "/";
 
-outfilename = "/n/home07/gthomas/projects/spider-wgd/data/multi-spec-orthogroups.txt";
+outfilename = "/n/home07/gthomas/projects/spider-wgd/data/" + data_str + "/multi-spec-orthogroups"".txt";
 # A file to track the orthogroups that have at least 4 taxa represented for Guidance
 
-logfilename = "get-orths-" + CORE.getLogTime() + ".log";
+logfilename = "get-orths-" + data_str + "-" + CORE.getLogTime() + ".log";
 # I/O options
 
 ####################

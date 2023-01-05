@@ -47,7 +47,7 @@ def runTime(msg=False, writeout=False, printout=True):
 #############################################################################
 
 inflation_params = ["2", "3", "4", "5", "6"];
-fastortho_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/"
+fastortho_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/19spec/"
 outfilename = "fastortho-summary-19spec.csv";
 # I/O options
 

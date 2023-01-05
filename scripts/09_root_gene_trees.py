@@ -4,6 +4,10 @@
 # Roots gene trees
 ############################################################
 
+## NOTE: After this script, generate species trees before continuing with run_grampa.sh. See workflow-notes.txt steps 14+15
+
+############################################################
+
 import sys, os, argparse, subprocess
 import core as CORE
 import treeparse as TREE
@@ -17,7 +21,10 @@ num_rooted, num_skipped = 0, 0;
 cant_root, no_outgroup = 0, 0;
 outgroup_counts = defaultdict(int);
 
+#####
 num_spec = 16;
+#####
+
 single_copy = [];
 single_copy_rooted = [];
 missing_gt = [];

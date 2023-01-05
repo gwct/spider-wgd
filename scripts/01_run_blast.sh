@@ -10,6 +10,8 @@
 #SBATCH --mem=12g
 #SBATCH --time=72:00:00
 
+## Note that this is run AFTER initial processing of sequences (including makeblast db). See workflow-notes.txt steps 1-6.
+
 cd /n/holylfs05/LABS/informatics/Users/gthomas/spiders/blast/
 
 blastp -db chelicerate-19spec-blastdb -query ../isofilter/chelicerate-19spec-peptides.fa -outfmt 7 -seg yes -num_threads 48 > chelicerate-19spec-blast-output.txt
