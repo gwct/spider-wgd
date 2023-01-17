@@ -43,10 +43,11 @@ in_data = subset(in_data, !is.na(Data.downloaded.from))
 
 ```{r gene-fig, out.width="66%", fig.align="center"}
 
-gene_p = ggplot(in_data, aes(x=Species.name, y=Genes)) +
+gene_p = ggplot(in_data, aes(x=Species.name, y=Genes, color=Dataset)) +
   geom_segment(aes(x=Species.name, y=0, xend=Species.name, yend=Genes), linetype="dotted", color="#666666") +
-  geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=2)) +
+  geom_point(size=4) +
   scale_y_continuous(expand=c(0,0), limits=c(0,90000)) +
+  scale_color_manual(values=corecol(pal="wilke", numcol=3)) +
   ylab("# genes") +
   xlab(paste("")) +
   bartheme() +
@@ -61,10 +62,11 @@ print(gene_p)
 
 ```{r transcript-fig, out.width="66%", fig.align="center"}
 
-transcript_p = ggplot(in_data, aes(x=Species.name, y=Transcripts)) +
+transcript_p = ggplot(in_data, aes(x=Species.name, y=Transcripts, color=Dataset)) +
   geom_segment(aes(x=Species.name, y=0, xend=Species.name, yend=Transcripts), linetype="dotted", color="#666666") +
-  geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=1)) +
+  geom_point(size=4) +
   scale_y_continuous(expand=c(0,0), limits=c(0,90000)) +
+  scale_color_manual(values=corecol(pal="wilke", numcol=3)) +
   ylab("# transcripts") +
   xlab(paste("")) +
   bartheme() +
@@ -79,10 +81,11 @@ print(transcript_p)
 
 ```{r longest-fig, out.width="66%", fig.align="center"}
 
-longest_p = ggplot(in_data, aes(x=Species.name, y=Longest.isoforms)) +
+longest_p = ggplot(in_data, aes(x=Species.name, y=Longest.isoforms, color=Dataset)) +
   geom_segment(aes(x=Species.name, y=0, xend=Species.name, yend=Longest.isoforms), linetype="dotted", color="#666666") +
-  geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=1)) +
+  geom_point(size=4) +
   scale_y_continuous(expand=c(0,0), limits=c(0,90000)) +
+  scale_color_manual(values=corecol(pal="wilke", numcol=3)) +
   ylab("# longest isoform") +
   xlab(paste("")) +
   bartheme() +

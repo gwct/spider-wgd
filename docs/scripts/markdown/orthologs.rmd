@@ -33,8 +33,16 @@ Sequences and annotations from each genome were downloaded from various database
 ```{r read-data}
 
 #infilename = here("..", "..", "data", "chelicerate_genomes-gwct.csv")
-infilename = here("data", "fastortho-summary-19spec.csv")
-in_data = read.csv(infilename, header=T, comment.char="#")
+infile16 = here("data", "16spec", "fastortho-summary-16spec.csv")
+infile19 = here("data", "19spec", "fastortho-summary-19spec.csv")
+
+in_data16 = read.csv(infile16, header=T, comment.char="#")
+in_data16$label = "16 species"
+
+in_data19 = read.csv(infile19, header=T, comment.char="#")
+in_data19$label = "19 species"
+
+in_data = rbind(in_data16, in_data19)
 
 ```
 
@@ -42,15 +50,17 @@ in_data = read.csv(infilename, header=T, comment.char="#")
 
 ```{r num-clusters, out.width="50%", fig.align="center"}
 
-num_clusters = in_data %>% group_by(inflation) %>% summarize("num.clusters"=n())
+num_clusters = in_data %>% group_by(label, inflation) %>% summarize("num.clusters"=n())
 
-num_clusters_p = ggplot(num_clusters, aes(x=inflation, y=num.clusters)) +
-  geom_line(color=corecol(pal="wilke", numcol=1, offset=2)) +
-  geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=2)) +
+num_clusters_p = ggplot(num_clusters, aes(x=inflation, y=num.clusters, color=label)) +
+  geom_line() +
+  geom_point(size=4) +
   scale_y_continuous(expand=c(0,0), limits=c(0,max(num_clusters$num.clusters)+1000)) +
+  scale_color_manual(values=corecol(pal="wilke", numcol=2)) +
   ylab("# clusters") +
   xlab("Inflation value") +
-  bartheme()
+  bartheme() +
+  theme(legend.position="bottom")
 print(num_clusters_p)
 
 ```
@@ -59,15 +69,17 @@ print(num_clusters_p)
 
 ```{r max-size, out.width="50%", fig.align="center"}
 
-max_size = in_data %>% group_by(inflation) %>% summarize("max.size"=max(genes))
+max_size = in_data %>% group_by(label, inflation) %>% summarize("max.size"=max(genes))
 
-max_size_p = ggplot(max_size, aes(x=inflation, y=max.size)) +
-  geom_line(color=corecol(pal="wilke", numcol=1, offset=2)) +
-  geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=2)) +
+max_size_p = ggplot(max_size, aes(x=inflation, y=max.size, color=label)) +
+  geom_line() +
+  geom_point(size=4) +
   scale_y_continuous(expand=c(0,0), limits=c(0,max(max_size$max.size)+100)) +
+  scale_color_manual(values=corecol(pal="wilke", numcol=2)) +
   ylab("Max cluster size") +
   xlab("Inflation value") +
-  bartheme()
+  bartheme() +
+  theme(legend.position="bottom")
 print(max_size_p)
 
 ```
@@ -76,15 +88,17 @@ print(max_size_p)
 
 ```{r mean-size, out.width="50%", fig.align="center"}
 
-mean_size = in_data %>% group_by(inflation) %>% summarize("mean.size"=mean(genes))
+mean_size = in_data %>% group_by(inflation, label) %>% summarize("mean.size"=mean(genes))
 
-mean_size_p = ggplot(mean_size, aes(x=inflation, y=mean.size)) +
-  geom_line(color=corecol(pal="wilke", numcol=1, offset=2)) +
-  geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=2)) +
-  scale_y_continuous(expand=c(0,0), limits=c(0,max(mean_size$mean.size)+10)) +
+mean_size_p = ggplot(mean_size, aes(x=inflation, y=mean.size, color=label)) +
+  geom_line() +
+  geom_point(size=4) +
+  scale_y_continuous(expand=c(0,0), limits=c(0,max(mean_size$mean.size)+4)) +
+  scale_color_manual(values=corecol(pal="wilke", numcol=2)) +
   ylab("Mean cluster size") +
   xlab("Inflation value") +
-  bartheme()
+  bartheme() +
+  theme(legend.position="bottom")
 print(mean_size_p)
 
 ```
@@ -94,16 +108,18 @@ print(mean_size_p)
 ```{r single-gene, out.width="50%", fig.align="center"}
 
 single_genes = subset(in_data, genes==1)
-single_genes = single_genes %>% group_by(inflation) %>% summarize("single.genes"=n())
+single_genes = single_genes %>% group_by(label, inflation) %>% summarize("single.genes"=n())
 
 
-single_gene_p = ggplot(single_genes, aes(x=inflation, y=single.genes)) +
-  geom_line(color=corecol(pal="wilke", numcol=1, offset=2)) +
-  geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=2)) +
+single_gene_p = ggplot(single_genes, aes(x=inflation, y=single.genes, color=label)) +
+  geom_line() +
+  geom_point(size=4) +
   scale_y_continuous(expand=c(0,0), limits=c(0,max(single_genes$single.genes)+100)) +
+  scale_color_manual(values=corecol(pal="wilke", numcol=2)) +
   ylab("# single gene clusters") +
   xlab("Inflation value") +
-  bartheme()
+  bartheme() +
+  theme(legend.position="bottom")
 print(single_gene_p)
 
 ```
@@ -115,16 +131,18 @@ print(single_gene_p)
 #single_genes = subset(in_data, genes==1)
 #single_genes = single_genes %>% group_by(inflation) %>% summarize("single.genes"=n())
 
-perc_single_genes = merge(num_clusters, single_genes, by="inflation")
+perc_single_genes = merge(num_clusters, single_genes, by=c("label", "inflation"))
 perc_single_genes$perc.single.genes = perc_single_genes$single.genes / perc_single_genes$num.clusters * 100
 
-perc_single_gene_p = ggplot(perc_single_genes, aes(x=inflation, y=perc.single.genes)) +
-  geom_line(color=corecol(pal="wilke", numcol=1, offset=2)) +
-  geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=2)) +
+perc_single_gene_p = ggplot(perc_single_genes, aes(x=inflation, y=perc.single.genes, color=label)) +
+  geom_line() +
+  geom_point(size=4) +
   scale_y_continuous(expand=c(0,0), limits=c(0,max(perc_single_genes$perc.single.genes)+100)) +
+  scale_color_manual(values=corecol(pal="wilke", numcol=2)) +
   ylab("% single gene clusters") +
   xlab("Inflation value") +
-  bartheme()
+  bartheme() +
+  theme(legend.position="bottom")
 print(perc_single_gene_p)
 
 ```
@@ -135,16 +153,18 @@ The number of clusters with 1 gene present in each of the 16 species
 
 ```{r single-copy, out.width="50%", fig.align="center"}
 
-single_copy = subset(in_data, genes==16 & taxa==16)
-single_copy = single_copy %>% group_by(inflation) %>% summarize("single.copy"=n())
+single_copy = subset(in_data, label=="16 species" & genes==16 & taxa==16 | label=="19 species" & genes==19 & taxa==19)
+single_copy = single_copy %>% group_by(label, inflation) %>% summarize("single.copy"=n())
 
-single_copy_p = ggplot(single_copy, aes(x=inflation, y=single.copy)) +
-  geom_line(color=corecol(pal="wilke", numcol=1, offset=2)) +
-  geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=2)) +
+single_copy_p = ggplot(single_copy, aes(x=inflation, y=single.copy, color=label)) +
+  geom_line() +
+  geom_point(size=4) +
   scale_y_continuous(expand=c(0,0), limits=c(0,max(single_copy$single.copy)+100)) +
+  scale_color_manual(values=corecol(pal="wilke", numcol=2)) +
   ylab("# single copy clusters") +
   xlab("Inflation value") +
-  bartheme()
+  bartheme() +
+  theme(legend.position="bottom")
 print(single_copy_p)
 
 ```
@@ -156,15 +176,17 @@ print(single_copy_p)
 
 dist_data = subset(in_data, genes <= 30)
 
-dist_p = ggplot(dist_data, aes(x=genes)) +
-  geom_histogram(bins=30, fill=corecol(pal="wilke", numcol=1, offset=1), color="#ececec") +
+dist_p = ggplot(dist_data, aes(x=genes, fill=label)) +
+  geom_histogram(bins=30, color="#ececec", alpha=0.7) +
   facet_wrap(~inflation) +
   #geom_line(color=corecol(pal="wilke", numcol=1, offset=2)) +
   #geom_point(size=4, color=corecol(pal="wilke", numcol=1, offset=2)) +
   #scale_y_continuous(expand=c(0,0), limits=c(0,max(single_copy$single.copy)+100)) +
+  scale_fill_manual(values=corecol(pal="wilke", numcol=2)) +
   ylab("# of clusters") +
   xlab("Cluster size") +
-  bartheme()
+  bartheme() +
+  theme(legend.position="bottom")
 print(dist_p)
 
 ```
