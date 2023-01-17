@@ -14,16 +14,18 @@ from collections import defaultdict
 
 #############################################################################
 
-dataset = 19
+data_str = "16spec"
+# Which dataset to get seqs from
 
-if dataset == 16:
+inflation_param = "3";
+# The inflation param for the fastortho run to get orthogroups from
+
+if data_str == "16spec":
     specs = ["bmori", "crotu", "cscul", "dmela", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "smimo", "sscab", "tanti", "turti", "vdest"];
     data_st = "16spec";
-# 16spec
 
-elif dataset = 19:
+elif data_str == "19spec":
     specs = ["abrue", "bmori", "crotu", "cscul", "dmela", "hlong", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "smimo", "sscab", "tanti", "tgiga", "turti", "vdest"];
-    data_st = "19spec";
 # 19spec
 
 #specs = ["tgiga"];
@@ -33,27 +35,39 @@ seqs = { s : {'pep' : {}, 'cds' : {}, 'ids' : {}} for s in specs }
 # A dict to store the sequences and ids for each species in memory
 
 cds_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/genomes/";
+# Directory with genomes in sub-folders listed in spec
+# Each genome should have a file with CDS sequences and a gff file
+
 pep_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/isofilter/";
-ortholog_file = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/" + data_str + "/chelicerate-fastortho-i3.out";
+# Directory with protein sequences from the longest transcript for each gene in the genomes listed in spec
+# From isofilter
+
+ortholog_file = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/" + data_str + "/chelicerate-fastortho-i" + inflation_param + ".out";
+# The predicted orthogroups from fastortho
+
 outdir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/" + data_str + "/";
+# The output directory for the run
 
 outfilename = "/n/home07/gthomas/projects/spider-wgd/data/" + data_str + "/multi-spec-orthogroups"".txt";
 # A file to track the orthogroups that have at least 4 taxa represented for Guidance
 
-logfilename = "get-orths-" + data_str + "-" + CORE.getLogTime() + ".log";
-# I/O options
+logfilename = "/n/home07/gthomas/projects/spider-wgd/data/" + data_str + "/get-orths-i" + inflation_param + "-" + CORE.getLogTime() + ".log";
+# A log file for the run
 
+## I/O options
 ####################
 
 pad = 20;
 with open(logfilename, "w") as logfile:
     CORE.runTime("# Get sequences", logfile);
+    CORE.PWS(CORE.spacedOut("# Dataset:", pad) + data_str, logfile);
     CORE.PWS(CORE.spacedOut("# Ortholog file:", pad) + ortholog_file, logfile);
     CORE.PWS(CORE.spacedOut("# Peptide dir:", pad) + pep_dir, logfile);
     CORE.PWS(CORE.spacedOut("# CDS dir:", pad) + cds_dir, logfile);
     CORE.PWS(CORE.spacedOut("# Output dir:", pad) + outdir, logfile);
     CORE.PWS(CORE.spacedOut("# Log file:", pad) + logfilename, logfile);
     CORE.PWS("# ----------------", logfile);
+    # Log info
 
     CORE.PWS("# " + CORE.getDateTime() + " Reading sequences", logfile);
 
@@ -61,11 +75,17 @@ with open(logfilename, "w") as logfile:
         CORE.PWS("# " + CORE.getDateTime() + " " + spec, logfile);
 
         pep_file = os.path.join(pep_dir, spec, spec + "-longest-isoforms.fa");
+        # Peptide file
+
         cds_file = [ f for f in os.listdir(os.path.join(cds_dir, spec)) if any(s in f for s in ["cds", "CDS"]) ][0];
         cds_file = os.path.join(cds_dir, spec, cds_file);
+        # Lookup CDS file
+
         gff_file = [ f for f in os.listdir(os.path.join(cds_dir, spec)) if any(f.endswith(ext) for ext in [".gff.gz", ".gff3.gz", ".gff3", ".gff"]) ][0];
         gff_file = os.path.join(cds_dir, spec, gff_file);
-        # Get files for the current species
+        # Lookup gff file
+        ## Get files for the current species
+        ##########
 
         CORE.PWS("# " + CORE.getDateTime() + "    Reading peptides   : " + pep_file, logfile);
         seqs[spec]['pep'] = SEQ.fastaReadSeqs(pep_file, header_sep=" ");
@@ -73,17 +93,17 @@ with open(logfilename, "w") as logfile:
         CORE.PWS("# " + CORE.getDateTime() + "    Reading CDS        : " + cds_file, logfile);
         seqs[spec]['cds'] = SEQ.fastaReadSeqs(cds_file);
         CORE.PWS("# " + CORE.getDateTime() + "    Success            : " + str(len(seqs[spec]['cds'])) + " seqs read", logfile);
-        # Read sequences for the current species
-
-        #print(seqs[spec]['pep'].keys());
+        ## Read sequences for the current species
+        ##########
 
         CORE.PWS("# " + CORE.getDateTime() + "    Reading annotations: " + gff_file, logfile);
         cur_exons, comp, tid_to_gid, pid_to_tid = GXF.getExons(gff_file, coding_only=True);
-        # Read annotations for the current species
+        ## Read annotations for the current species
+        ##########
 
-        #print(pid_to_tid);
-        #sys.exit();
         pid_to_tid_edit = {};
+        # A dictionary that relates protein ids to transcript ids to lookup later
+
         for pid in pid_to_tid:
         # The species come from a variety of databases, each with their own quirks re ids. This
         # block tries to fix them so we can easily link the protein and CDS ids
@@ -111,15 +131,10 @@ with open(logfilename, "w") as logfile:
             elif spec in ["tgiga"]:
                 pid_edit = pid.replace(":cds", "").replace("-RA", "");
                 tid_edit = pid_to_tid[pid];
-                # print(pid);
-                # print(pid_edit);
-                # print(tid_edit);
-                # sys.exit();
 
             else:
                 pid_edit = pid;
                 tid_edit = pid_to_tid[pid];
-
 
             if re.search("-PA.[\d]+", pid_edit):
                 pid_edit = pid_edit[:-2];
@@ -130,42 +145,69 @@ with open(logfilename, "w") as logfile:
             # we remove here
             
             pid_to_tid_edit[pid_edit] = tid_edit
+            # Save the protein and transcript ids to the lookup dict
         ## End id edit block
 
         seqs[spec]['ids'] = pid_to_tid_edit;
         CORE.PWS("# " + CORE.getDateTime() + "    Success            : " + str(len(seqs[spec]['ids'])) + " protein IDs read", logfile);
-        # Save the ids
+        # Save the ids for the current species
+    ## End spec loop
 
-####################
+    ## End sequence read block
+    ####################
 
     CORE.PWS("# " + CORE.getDateTime() + " Reading orthologs and writing sequences", logfile);
     #num_clusters = "41448"; # 16 spec
-    num_clusters = 49561;
-    # The total number of clusters from the i3 file
+    #num_clusters = 49561;
+    # The total number of clusters from the i3 file (if we want to track progress)
 
     num_written = 0;
     num_written_d = defaultdict(int);
+    # Number of orthogroups written to file
+
     incorrect_num_seqs = [];
+    # Orthogroups with the incorrect number of sequences recovered
+
     seqs_w_stop = 0;
     seqs_w_stop_d = defaultdict(int);
-    # Some trackers
+    # Number of CDS sequences with premature stop codons
+    ## Some trackers
+    ##########
+   
 
     match_code_counts = defaultdict(int);
     # Counts of each match code case
+    # Match codes are for different scenarios of CDS to protein sequence matches or mis-matches (e.g. missing one or more codons)
 
     with open(outfilename, "w") as outfile:
     # Open the file to track orthogroups with at least 4 taxa
 
-        i = 1;
+        #i = 1;
+
         og_4taxa = 0;
+        # Orthogroups with at least 4 species
+
         lt_4taxa_after = 0;
+        # Orthogroups with less than 4 species after filtering
+
         non_div3 = 0;
         non_div3_d = defaultdict(int);
+        # CDS Sequences that aren't divisible by 3
+
         multi_cds = 0;
+        # Preteins with multiple CDS recovered
+
         wrong_translation = 0;
         wrong_translation_d = defaultdict(int);
+        # CDS sequences whose translation does not match the peptide sequence
+
         total_seqs_pre = 0;
         total_seqs_pre_d = defaultdict(int);
+        # The total number of sequences before any filtering
+
+        ## Some more trackers
+        ##########
+
         for line in open(ortholog_file):
         # Go through every ortholog cluster in the file
 
@@ -193,7 +235,7 @@ with open(logfilename, "w") as logfile:
             cur_taxa_written = [];
 
             #print(str(i) + " / " + num_clusters + " " + cluster_id);
-            i += 1;
+            #i += 1;
             # Print a status update
 
             protein_ids = re.sub("\(([^)]+)\)", "", line[1]).split(" ");
@@ -234,6 +276,7 @@ with open(logfilename, "w") as logfile:
                     cds_header = [key for key, val in seqs[spec]['cds'].items() if tid in key];
                     # Lookup the CDS header by looking for headers that contain the current transcript id
 
+                    ####################
                     if len(cds_header) != 1:
                     # Ideally, there would be only one header per transcript, but that isn't the case for some (8)
                     # sequences... Skip these for now
@@ -247,6 +290,7 @@ with open(logfilename, "w") as logfile:
                         multi_cds += 1;
                         continue;
                     ## End multi-header check
+                    ####################
 
                     cds_header = cds_header[0];
                     # Convert the header to a string
@@ -269,7 +313,6 @@ with open(logfilename, "w") as logfile:
                     final_cds, final_pep = "", "";
 
                     ####################
-
                     cds_seq_front = "";
                     cds_seq_end = "";
                     # In the case that cds_seq is not divisible by 3, we check the frame in both the front and end of the sequence
@@ -292,7 +335,6 @@ with open(logfilename, "w") as logfile:
                         cds_seq = "";
                         # Save the original CDS but remove it from the cds_seq var for later
                     ## End CDS div 3 check
-
                     ####################
 
                     codon_seq = SEQ.ntToCodon(cds_seq);
@@ -302,6 +344,8 @@ with open(logfilename, "w") as logfile:
                         translated_seq = translated_seq[:-1];
                     # Translate the original CDS sequence if it was divisible by 3
                     # If not, these vars will be empty strings
+
+                    ####################
 
                     translated_seq_no_x = translated_seq.replace("X", "");
                     codon_seq_no_x = [ codon_seq[i] for i in range(len(codon_seq)) if translated_seq[i] != "X" ];
@@ -314,8 +358,11 @@ with open(logfilename, "w") as logfile:
                     # Translate the CDS sequence with bases removed from the FRONT in the case that it was not divisible by 3
                     # Otherwise, these vars will be empty strings
 
+                    ####################
+
                     translated_seq_front_no_x = translated_seq_front.replace("X", "");
                     codon_seq_front_no_x = [ codon_seq_front[i] for i in range(len(codon_seq_front)) if translated_seq_front[i] != "X" ];
+                    # Remove Xs from the front of the CDS sequence
 
                     codon_seq_end = SEQ.ntToCodon(cds_seq_end);
                     translated_seq_end = SEQ.yabt(codon_seq_end);
@@ -327,8 +374,12 @@ with open(logfilename, "w") as logfile:
 
                     translated_seq_end_no_x = translated_seq_end.replace("X", "");
                     codon_seq_end_no_x = [ codon_seq_end[i] for i in range(len(codon_seq_end)) if translated_seq_end[i] != "X" ];
+                    # Remove Xs from the end of the CDS sequence
 
                     pep_seq_no_x = pep_seq.replace("X", "");
+                    # Remove Xs from the peptide sequence since they may not be reflected in the CDS sequence
+
+                    ####################
 
                     cur_seqs = {    
                                     'front' : {'codons' : codon_seq_front, 'translated' : translated_seq_front, "pep" : pep_seq },
@@ -338,7 +389,7 @@ with open(logfilename, "w") as logfile:
                                     'end' : {'codons' : codon_seq_end, 'translated' : translated_seq_end, "pep" : pep_seq },
                                     'end.no.x' : {'codons' : codon_seq_end_no_x, 'translated' : translated_seq_end_no_x, "pep" : pep_seq_no_x },
                                 }
-                    # Save the 3 possible sequences in this dict to loop over and check for other errors below
+                    # Save the possible sequences in this dict to loop over and check for other errors below
 
                     ####################
 
@@ -435,6 +486,8 @@ with open(logfilename, "w") as logfile:
 
                     elif not final_cds or not final_pep:
                         sys.exit("something went wrong");
+                    # If the code thinks a match was found but doesn't have the sequences, exit
+                    # This should never happen...
 
                     else:
 
@@ -511,6 +564,7 @@ with open(logfilename, "w") as logfile:
                         # Update trackers
                 ## End ortho cluster loop
             ## Close output files
+            ####################
 
             if cur_num_written != expected_seqs:
                 incorrect_num_seqs.append(cluster_id + ": " + str(cur_num_written) + "/" + str(expected_seqs));
@@ -530,6 +584,8 @@ with open(logfilename, "w") as logfile:
             # Check if sequences from at least 4 taxa have been written to the output file
         ## End ortholog loop
     ## Close main output file
+
+    ####################
 
     CORE.PWS("# " + CORE.getDateTime() + " Done!", logfile);
     CORE.PWS("# " + CORE.getDateTime() + " Clusters with at least 4 taxa: " + str(og_4taxa), logfile);

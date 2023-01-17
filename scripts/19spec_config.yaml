@@ -1,11 +1,16 @@
-input_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/19spec/cds/
+dataset: 19spec
+
+conda_env_path: /n/home07/gthomas/miniconda3/envs/cds-aln/
+# The path to the conda environment with the Guidance package installed
+
+cds_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/seq/19spec/cds/
 # Directory containing CDS with filenames: <orthogroup>.fa
 # FASTA headers should be in the format: <species ID>-<transcript ID>-<protein ID>
 
 locus_file: /n/home07/gthomas/projects/spider-wgd/data/19spec/multi-spec-orthogroups.txt
 # # A file containing a list of loci/clusters, one per line, to run the pipeline on
 
-aln_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/19spec/
+aln_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/19spec/01-Guidance/
 # # The directory to write alignment output
 
 aln_filter_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/19spec/02-Filter-spec7-seq50-site50/
