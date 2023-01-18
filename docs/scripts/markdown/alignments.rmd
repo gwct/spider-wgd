@@ -47,45 +47,74 @@ Sequence retrieval and alignment of spider orthogroups was done as follows:
 ```{r seq-summary-table, out.width="50%", fig.align = "center", warning=FALSE}
 
 get_orths_stats = read.csv(here("data", "get-orths-stats.csv"), header=T)
-get_orths_stats = select(get_orths_stats, -Match.code, -X16spec.count)
+get_orths_stats = select(get_orths_stats, -Match.code)
 
 get_orths_stats %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
 ```
 
-
 ## Sequences by species
 
-```{r seq-summary-spec, out.width="50%", fig.align = "center", warning=FALSE}
+```{r seq-summary-spec, out.width="75%", fig.align = "center", warning=FALSE}
 
-spec_seq_data_orig = read.csv(here("data", "get-orths-spec-stats.csv"), header=T)
+spec_seq_data_orig_16= read.csv(here("data", "16spec", "get-orths-spec-stats.csv"), header=T)
+spec_seq_data_16 = select(spec_seq_data_orig_16, -sequences.total, -abbr)
+spec_seq_data_long_16 = melt(spec_seq_data_16, id.vars=c("species"))
 
-spec_seq_data = select(spec_seq_data_orig, -sequences.total, -abbr)
-
-spec_seq_data_long = melt(spec_seq_data, id.vars=c("species"))
-
-spec_p = ggplot(spec_seq_data_long, aes(x=species, y=value, fill=variable)) +
+spec_p_16 = ggplot(spec_seq_data_long_16, aes(x=species, y=value, fill=variable)) +
   geom_bar(position="stack", stat="identity") +
   scale_y_continuous(expand=c(0,0)) +
   xlab("Species") +
   ylab("# of sequences") +
   bartheme() +
-  theme(legend.position="bottom") +
+  theme(legend.position="bottom", 
+        axis.text.x=element_text(angle=35, hjust=1),
+        axis.text.y=element_text(size=8)) +
   coord_flip()
+#print(spec_p_16)
+
+####################
+
+spec_seq_data_orig_19= read.csv(here("data", "19spec", "get-orths-spec-stats.csv"), header=T)
+spec_seq_data_19 = select(spec_seq_data_orig_19, -sequences.total, -abbr)
+spec_seq_data_long_19 = melt(spec_seq_data_19, id.vars=c("species"))
+
+spec_p_19 = ggplot(spec_seq_data_long_19, aes(x=species, y=value, fill=variable)) +
+  geom_bar(position="stack", stat="identity") +
+  scale_y_continuous(expand=c(0,0)) +
+  xlab("Species") +
+  ylab("# of sequences") +
+  bartheme() +
+  theme(legend.position="bottom", 
+        axis.text.x=element_text(angle=35, hjust=1),
+        axis.text.y=element_text(size=8)) +
+  coord_flip()
+#print(spec_p_19)
+
+####################
+
+leg = get_legend(spec_p_16)
+
+spec_p_top = plot_grid(spec_p_16 + theme(legend.position="none"), spec_p_19 + theme(legend.position="none"), ncol=2, labels=c("16 species", "19 species"))
+spec_p = plot_grid(spec_p_top, leg, nrow=2, rel_heights=c(1,0.1))
 print(spec_p)
 
-
-spec_seq_data_orig %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+spec_seq_data_orig_16 %>% kable(caption="16 species") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+spec_seq_data_orig_19 %>% kable(caption="19 species") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 ```
 
 # Alignment summary table
 
 ```{r aln-summary-table, out.width="50%", fig.align = "center", warning=FALSE}
 
-aln_data = read.csv(here("data", "aln-stats-spec4-seq20-site50.log"), sep="\t", header=T, comment.char="#")
+aln_data_16 = read.csv(here("data", "16spec", "aln-stats-spec4-seq20-site50.log"), sep="\t", header=T, comment.char="#")
+aln_data_16$dataset = "16 species"
+aln_data_19 = read.csv(here("data", "19spec", "aln-stats-spec4-seq20-site50.log"), sep="\t", header=T, comment.char="#")
+aln_data_19$dataset = "19 species"
+
+aln_data = rbind(aln_data_16, aln_data_19)
 
 aln_summary_data = read.csv(here("data", "aln-stats-summary.csv"), header=T)
-
 aln_summary_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
 ```
@@ -100,41 +129,45 @@ Distributions visualized from subset of alignments with length less than 1000 co
 
 ```{r aln-lens, out.width="50%", fig.align = "center", warning=FALSE}
 
-pre_guid_len = select(aln_data, align, pre.guidance.codon.length)
+pre_guid_len = select(aln_data, align, pre.guidance.codon.length, dataset)
 names(pre_guid_len)[2] = "length"
 pre_guid_len$label = "Pre Guidance filtering"
 
-pre_filt_len = select(aln_data, align, pre.codon.aln.length)
+pre_filt_len = select(aln_data, align, pre.codon.aln.length, dataset)
 names(pre_filt_len)[2] = "length"
 pre_filt_len$label = "Pre codon window filtering"
 
-post_filt_len = select(aln_data, align, post.codon.aln.length)
+post_filt_len = select(aln_data, align, post.codon.aln.length, dataset)
 names(post_filt_len)[2] = "length"
 post_filt_len$label = "Post filtering"
 
 aln_lens = rbind(pre_guid_len, pre_filt_len, post_filt_len)
 
-aln_means = aln_lens %>% group_by(label) %>% summarize(avg.length=mean(length, na.rm=T), median.length=median(length, na.rm=T), max.length=max(length, na.rm=T))
+aln_means = aln_lens %>% group_by(dataset, label) %>% summarize(avg.length=mean(length, na.rm=T), median.length=median(length, na.rm=T), max.length=max(length, na.rm=T))
 
 aln_lens$label = factor(aln_lens$label, levels=c("Pre Guidance filtering", "Pre codon window filtering", "Post filtering"), ordered=T)
+aln_lens$dataset = factor(aln_lens$dataset, levels=c("16 species", "19 species"), ordered=T)
 aln_lens = subset(aln_lens, length < 1000)
 
 aln_means$label = factor(aln_means$label, levels=c("Pre Guidance filtering", "Pre codon window filtering", "Post filtering"), ordered=T)
 
-aln_lens_p = ggplot(aln_lens, aes(x=label, y=length, group=label)) +
-  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
-  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
-  geom_point(data=aln_means, aes(x=label, y=avg.length), size=2, color="red") +
-  geom_point(data=aln_means, aes(x=label, y=median.length), size=2, color="blue") +
+dodge = position_dodge(width = 0.9)
+
+aln_lens_p = ggplot(aln_lens, aes(x=label, y=length, fill=dataset)) +
+  #geom_quasirandom(aes(color=dataset), size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_violin(alpha=0.5, position=dodge) +
+  geom_boxplot(outlier.shape=NA, alpha=0, width=0.1, position=dodge, color="#000000") +
+  geom_point(data=aln_means, aes(x=label, y=avg.length, group=dataset), size=2, color="red", position=dodge, show.legend=FALSE) +
+  geom_point(data=aln_means, aes(x=label, y=median.length, group=dataset), size=2, color="blue", position=dodge, show.legend=FALSE) +
   geom_hline(yintercept=33) +
   ylab("Alignment length (codons)") +
   xlab("") +
-  scale_fill_manual(labels=c("Pre Guidance filtering", "Pre codon window filtering", "Post filtering"), values=corecol()) +
+  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
   bartheme() +
-  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+  theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_lens_p)
 
-aln_means[c(3,2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+aln_means %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
 ```
 
@@ -150,36 +183,40 @@ Pre = before codon window trimming and gappy sequence removal
 
 ```{r ungap-aln-lens, out.width="50%", fig.align = "center", warning=FALSE}
 
-pre_filt_len = select(aln_data, align, pre.avg.nongap.length)
+pre_filt_len = select(aln_data, align, pre.avg.nongap.length, dataset)
 names(pre_filt_len)[2] = "length"
 pre_filt_len$label = "Pre filtering"
 
-post_filt_len = select(aln_data, align, post.avg.nongap.length)
+post_filt_len = select(aln_data, align, post.avg.nongap.length, dataset)
 names(post_filt_len)[2] = "length"
 post_filt_len$label = "Post filtering"
 
 aln_lens = rbind(pre_filt_len, post_filt_len)
 
-aln_means = aln_lens %>% group_by(label) %>% summarize(avg.length=mean(length, na.rm=T), median.length=median(length, na.rm=T), max.length=max(length, na.rm=T))
+aln_means = aln_lens %>% group_by(dataset, label) %>% summarize(avg.length=mean(length, na.rm=T), median.length=median(length, na.rm=T), max.length=max(length, na.rm=T))
 
 aln_lens$label = factor(aln_lens$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+aln_lens$dataset = factor(aln_lens$dataset, levels=c("16 species", "19 species"), ordered=T)
 aln_lens = subset(aln_lens, length < 1000)
 
 aln_means$label = factor(aln_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
 
-aln_lens_p = ggplot(aln_lens, aes(x=label, y=length, group=label)) +
-  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
-  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
-  geom_point(data=aln_means, aes(x=label, y=avg.length), size=2, color="red") +
-  geom_point(data=aln_means, aes(x=label, y=median.length), size=2, color="blue") +
+dodge = position_dodge(width = 0.9)
+
+aln_lens_p = ggplot(aln_lens, aes(x=label, y=length, fill=dataset)) +
+  #geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_violin(alpha=0.5, position=dodge) +
+  geom_boxplot(outlier.shape=NA, alpha=0, width=0.1, position=dodge, color="#000000") +
+  geom_point(data=aln_means, aes(x=label, y=avg.length, group=dataset), size=2, color="red", position=dodge, show.legend=FALSE) +
+  geom_point(data=aln_means, aes(x=label, y=median.length, group=dataset), size=2, color="blue", position=dodge, show.legend=FALSE) +
   ylab("Avg. ungapped sequence length (codons)") +
   xlab("") +
-  scale_fill_manual(labels=c("Pre filtering", "Post filtering"), values=corecol(pal="wilke")) +
+  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
   bartheme() +
-  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+  theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_lens_p)
 
-aln_means[c(2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+aln_means %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
 ```
 
@@ -199,36 +236,40 @@ Pre = before codon window trimming and gappy sequence removal
 
 ```{r gappy-sites, out.width="50%", fig.align = "center", warning=FALSE}
 
-pre_filt_sites = select(aln_data, align, pre.gappy.sites)
+pre_filt_sites = select(aln_data, align, pre.gappy.sites, dataset)
 names(pre_filt_sites)[2] = "gappy.sites"
 pre_filt_sites$label = "Pre filtering"
 
-post_filt_sites = select(aln_data, align, post.gappy.sites)
+post_filt_sites = select(aln_data, align, post.gappy.sites, dataset)
 names(post_filt_sites)[2] = "gappy.sites"
 post_filt_sites$label = "Post filtering"
 
 aln_gappy_sites = rbind(pre_filt_sites, post_filt_sites)
 
-aln_gappy_means = aln_gappy_sites %>% group_by(label) %>% summarize(avg.gappy.sites=mean(gappy.sites, na.rm=T), median.gappy.sites=median(gappy.sites, na.rm=T), max.gappy.sites=max(gappy.sites, na.rm=T))
+aln_gappy_means = aln_gappy_sites %>% group_by(dataset, label) %>% summarize(avg.gappy.sites=mean(gappy.sites, na.rm=T), median.gappy.sites=median(gappy.sites, na.rm=T), max.gappy.sites=max(gappy.sites, na.rm=T))
 
 aln_gappy_sites$label = factor(aln_gappy_sites$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+aln_gappy_sites$dataset = factor(aln_gappy_sites$dataset, levels=c("16 species", "19 species"), ordered=T)
 aln_gappy_sites = subset(aln_gappy_sites, gappy.sites < 1000)
 
 aln_gappy_means$label = factor(aln_gappy_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
 
-aln_gappy_p = ggplot(aln_gappy_sites, aes(x=label, y=gappy.sites, group=label)) +
-  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
-  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
-  geom_point(data=aln_gappy_means, aes(x=label, y=avg.gappy.sites), size=2, color="red") +
-  geom_point(data=aln_gappy_means, aes(x=label, y=median.gappy.sites), size=2, color="blue") +
+dodge = position_dodge(width = 0.9)
+
+aln_gappy_p = ggplot(aln_gappy_sites, aes(x=label, y=gappy.sites, fill=dataset)) +
+  #geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_violin(alpha=0.5, position=dodge) +
+  geom_boxplot(outlier.shape=NA, alpha=0, width=0.1, position=dodge, color="#000000") +
+  geom_point(data=aln_gappy_means, aes(x=label, y=avg.gappy.sites, group=dataset), size=2, color="red", position=dodge, show.legend=FALSE) +
+  geom_point(data=aln_gappy_means, aes(x=label, y=median.gappy.sites, group=dataset), size=2, color="blue", position=dodge, show.legend=FALSE) +
   ylab("# of gappy sites (codons)") +
   xlab("") +
-  scale_fill_manual(labels=c("Pre filtering", "Post filtering"), values=corecol()) +
+  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
   bartheme() +
-  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+  theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_gappy_p)
 
-aln_gappy_means[c(2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+aln_gappy_means %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
 ```
 
@@ -246,53 +287,74 @@ Pre = before codon window trimming and gappy sequence removal
 
 ```{r informative-sites-nt, out.width="50%", fig.align = "center", warning=FALSE}
 
-pre_filt_sites = select(aln_data, align, pre.informative.nt.sites)
+pre_filt_sites = select(aln_data, align, pre.informative.nt.sites, dataset)
 names(pre_filt_sites)[2] = "informative.sites"
 pre_filt_sites$label = "Pre filtering"
 
-post_filt_sites = select(aln_data, align, post.informative.nt.sites)
+post_filt_sites = select(aln_data, align, post.informative.nt.sites, dataset)
 names(post_filt_sites)[2] = "informative.sites"
 post_filt_sites$label = "Post filtering"
 
 aln_informative_sites = rbind(pre_filt_sites, post_filt_sites)
 
-aln_informative_means = aln_informative_sites %>% group_by(label) %>% summarize(avg.informative.sites=mean(informative.sites, na.rm=T), median.informative.sites=median(informative.sites, na.rm=T), max.informative.sites=max(informative.sites, na.rm=T))
+aln_informative_means = aln_informative_sites %>% group_by(dataset, label) %>% summarize(avg.informative.sites=mean(informative.sites, na.rm=T), median.informative.sites=median(informative.sites, na.rm=T), max.informative.sites=max(informative.sites, na.rm=T))
 
 aln_informative_sites$label = factor(aln_informative_sites$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+aln_informative_sites$dataset = factor(aln_informative_sites$dataset, levels=c("16 species", "19 species"), ordered=T)
 aln_informative_sites = subset(aln_informative_sites, informative.sites < 1000)
 
 aln_informative_means$label = factor(aln_informative_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
 
-aln_informative_p = ggplot(aln_informative_sites, aes(x=label, y=informative.sites, group=label)) +
-  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
-  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
-  geom_point(data=aln_informative_means, aes(x=label, y=avg.informative.sites), size=2, color="red") +
-  geom_point(data=aln_informative_means, aes(x=label, y=median.informative.sites), size=2, color="blue") +
+dodge = position_dodge(width = 0.9)
+
+aln_informative_p = ggplot(aln_informative_sites, aes(x=label, y=informative.sites, fill=dataset)) +
+  #geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_violin(alpha=0.5, position=dodge) +
+  geom_boxplot(outlier.shape=NA, alpha=0, width=0.1, position=dodge, color="#000000") +
+  geom_point(data=aln_informative_means, aes(x=label, y=avg.informative.sites, group=dataset), size=2, color="red", position=dodge, show.legend=FALSE) +
+  geom_point(data=aln_informative_means, aes(x=label, y=median.informative.sites, group=dataset), size=2, color="blue", position=dodge, show.legend=FALSE) +
   ylab("# of informative sites (nucleotides)") +
   xlab("") +
-  scale_fill_manual(labels=c("Pre filtering", "Post filtering"), values=corecol()) +
+  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
   bartheme() +
-  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+  theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_informative_p)
 
-aln_informative_means[c(2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+aln_informative_means %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 ```
 
 Binning loci by # of informative sites. The largest bin both pre- and post-filter is informative sites = 0.
 
 ```{r informative-sites-nt-tables, out.width="50%", fig.align = "center", warning=FALSE}
-bins = seq(-1, max(aln_data$pre.informative.nt.sites, na.rm=T), by=1)
-bin_labels = seq(0, max(aln_data$pre.informative.nt.sites, na.rm=T), by=1)
-pre_counts = hist(aln_data$pre.informative.nt.sites, breaks=bins, include.lowest=T, plot=F)$counts
-pre_binned = data.frame("informative.sites"=bin_labels, "loci"=pre_counts)
+bins_16 = seq(-1, max(aln_data_16$pre.informative.nt.sites, na.rm=T), by=1)
+bin_labels_16 = seq(0, max(aln_data_16$pre.informative.nt.sites, na.rm=T), by=1)
+pre_counts_16 = hist(aln_data_16$pre.informative.nt.sites, breaks=bins_16, include.lowest=T, plot=F)$counts
+pre_binned_16 = data.frame("informative.sites"=bin_labels_16, "loci"=pre_counts_16)
+pre_binned_16$dataset = "16 species"
+
+bins_19 = seq(-1, max(aln_data_19$pre.informative.nt.sites, na.rm=T), by=1)
+bin_labels_19 = seq(0, max(aln_data_19$pre.informative.nt.sites, na.rm=T), by=1)
+pre_counts_19 = hist(aln_data_19$pre.informative.nt.sites, breaks=bins_19, include.lowest=T, plot=F)$counts
+pre_binned_19 = data.frame("informative.sites"=bin_labels_19, "loci"=pre_counts_19)
+pre_binned_19$dataset = "19 species"
+
+pre_binned = merge(pre_binned_16, pre_binned_19, by="informative.sites")
 
 head(pre_binned) %>% kable(caption="Pre-filter informative sites (NT)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
+bins_16 = seq(-1, max(aln_data_16$post.informative.nt.sites, na.rm=T), by=1)
+bin_labels_16 = seq(0, max(aln_data_16$post.informative.nt.sites, na.rm=T), by=1)
+post_counts_16 = hist(aln_data_16$post.informative.nt.sites, breaks=bins_16, include.lowest=T, plot=F)$counts
+post_binned_16 = data.frame("informative.sites"=bin_labels_16, "loci"=post_counts_16)
+post_binned_16$dataset = "16 species"
 
-bins = seq(-1, max(aln_data$post.informative.nt.sites, na.rm=T), by=1)
-bin_labels = seq(0, max(aln_data$post.informative.nt.sites, na.rm=T), by=1)
-post_counts = hist(aln_data$post.informative.nt.sites, breaks=bins, include.lowest=T, plot=F)$counts
-post_binned = data.frame("informative.sites"=bin_labels, "loci"=post_counts)
+bins_19 = seq(-1, max(aln_data_19$post.informative.nt.sites, na.rm=T), by=1)
+bin_labels_19 = seq(0, max(aln_data_19$post.informative.nt.sites, na.rm=T), by=1)
+post_counts_19 = hist(aln_data_19$post.informative.nt.sites, breaks=bins_19, include.lowest=T, plot=F)$counts
+post_binned_19 = data.frame("informative.sites"=bin_labels_19, "loci"=post_counts_19)
+post_binned_19$dataset = "19 species"
+
+post_binned = merge(post_binned_16, post_binned_19, by="informative.sites")
 
 head(post_binned) %>% kable(caption="Post-filter informative sites (NT)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
@@ -312,54 +374,74 @@ Pre = before codon window trimming and gappy sequence removal
 
 ```{r informative-sites-codon, out.width="50%", fig.align = "center", warning=FALSE}
 
-pre_filt_sites = select(aln_data, align, pre.informative.codon.sites)
+pre_filt_sites = select(aln_data, align, pre.informative.codon.sites, dataset)
 names(pre_filt_sites)[2] = "informative.sites"
 pre_filt_sites$label = "Pre filtering"
 
-post_filt_sites = select(aln_data, align, post.informative.codon.sites)
+post_filt_sites = select(aln_data, align, post.informative.codon.sites, dataset)
 names(post_filt_sites)[2] = "informative.sites"
 post_filt_sites$label = "Post filtering"
 
 aln_informative_sites = rbind(pre_filt_sites, post_filt_sites)
 
-aln_informative_means = aln_informative_sites %>% group_by(label) %>% summarize(avg.informative.sites=mean(informative.sites, na.rm=T), median.informative.sites=median(informative.sites, na.rm=T), max.informative.sites=max(informative.sites, na.rm=T))
+aln_informative_means = aln_informative_sites %>% group_by(dataset, label) %>% summarize(avg.informative.sites=mean(informative.sites, na.rm=T), median.informative.sites=median(informative.sites, na.rm=T), max.informative.sites=max(informative.sites, na.rm=T))
 
 aln_informative_sites$label = factor(aln_informative_sites$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
+aln_informative_sites$dataset = factor(aln_informative_sites$dataset, levels=c("16 species", "19 species"), ordered=T)
 aln_informative_sites = subset(aln_informative_sites, informative.sites < 1000)
 
 aln_informative_means$label = factor(aln_informative_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
 
-aln_informative_p = ggplot(aln_informative_sites, aes(x=label, y=informative.sites, group=label)) +
-  geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
-  geom_boxplot(aes(fill=label), outlier.shape=NA, alpha=0.75, width=0.5, color="#666666") +
-  geom_point(data=aln_informative_means, aes(x=label, y=avg.informative.sites), size=2, color="red") +
-  geom_point(data=aln_informative_means, aes(x=label, y=median.informative.sites), size=2, color="blue") +
+dodge = position_dodge(width = 0.9)
+
+aln_informative_p = ggplot(aln_informative_sites, aes(x=label, y=informative.sites, fill=dataset)) +
+  #geom_quasirandom(size=2, width=0.25, alpha=0.1, color="#666666") +
+  geom_violin(alpha=0.5, position=dodge) +
+  geom_boxplot(outlier.shape=NA, alpha=0, width=0.1, position=dodge, color="#000000") +
+  geom_point(data=aln_informative_means, aes(x=label, y=avg.informative.sites, group=dataset), size=2, color="red", position=dodge, show.legend=FALSE) +
+  geom_point(data=aln_informative_means, aes(x=label, y=median.informative.sites, group=dataset), size=2, color="blue", position=dodge, show.legend=FALSE) +
   ylab("# of informative sites (codons)") +
   xlab("") +
-  scale_fill_manual(labels=c("Pre filtering", "Post filtering"), values=corecol()) +
+  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
   bartheme() +
-  theme(legend.position="none", axis.text.x = element_text(angle=15, hjust=1))
+  theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_informative_p)
 
-aln_informative_means[c(2,1),] %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+aln_informative_means %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
 ```
 
 Binning loci by # of informative sites. The largest bin both pre- and post-filter is informative sites = 0.
 
 ```{r informative-sites-codon-tables, out.width="50%", fig.align = "center", warning=FALSE}
-bins = seq(-1, max(aln_data$pre.informative.codon.sites, na.rm=T), by=1)
-bin_labels = seq(0, max(aln_data$pre.informative.codon.sites, na.rm=T), by=1)
-pre_counts = hist(aln_data$pre.informative.codon.sites, breaks=bins, include.lowest=T, plot=F)$counts
-pre_binned = data.frame("informative.sites"=bin_labels, "loci"=pre_counts)
+bins_16 = seq(-1, max(aln_data_16$pre.informative.codon.sites, na.rm=T), by=1)
+bin_labels_16 = seq(0, max(aln_data_16$pre.informative.codon.sites, na.rm=T), by=1)
+pre_counts_16 = hist(aln_data_16$pre.informative.codon.sites, breaks=bins_16, include.lowest=T, plot=F)$counts
+pre_binned_16 = data.frame("informative.sites"=bin_labels_16, "loci"=pre_counts_16)
+pre_binned_16$dataset = "16 species"
+
+bins_19 = seq(-1, max(aln_data_19$pre.informative.codon.sites, na.rm=T), by=1)
+bin_labels_19 = seq(0, max(aln_data_19$pre.informative.codon.sites, na.rm=T), by=1)
+pre_counts_19 = hist(aln_data_19$pre.informative.codon.sites, breaks=bins_19, include.lowest=T, plot=F)$counts
+pre_binned_19 = data.frame("informative.sites"=bin_labels_19, "loci"=pre_counts_19)
+pre_binned_19$dataset = "19 species"
+
+pre_binned = merge(pre_binned_16, pre_binned_19, by="informative.sites")
 
 head(pre_binned) %>% kable(caption="Pre-filter informative sites (codons)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
 
-bins = seq(-1, max(aln_data$post.informative.codon.sites, na.rm=T), by=1)
-bin_labels = seq(0, max(aln_data$post.informative.codon.sites, na.rm=T), by=1)
-post_counts = hist(aln_data$post.informative.codon.sites, breaks=bins, include.lowest=T, plot=F)$counts
-post_binned = data.frame("informative.sites"=bin_labels, "loci"=post_counts)
+bins_16 = seq(-1, max(aln_data_16$post.informative.codon.sites, na.rm=T), by=1)
+bin_labels_16 = seq(0, max(aln_data_16$post.informative.codon.sites, na.rm=T), by=1)
+post_counts_16 = hist(aln_data_16$post.informative.codon.sites, breaks=bins_16, include.lowest=T, plot=F)$counts
+post_binned_16 = data.frame("informative.sites"=bin_labels_16, "loci"=post_counts_16)
+post_binned_16$dataset = "16 species"
+
+bins_19 = seq(-1, max(aln_data_19$post.informative.codon.sites, na.rm=T), by=1)
+bin_labels_19 = seq(0, max(aln_data_19$post.informative.codon.sites, na.rm=T), by=1)
+post_counts_19 = hist(aln_data_19$post.informative.codon.sites, breaks=bins_19, include.lowest=T, plot=F)$counts
+post_binned_19 = data.frame("informative.sites"=bin_labels_19, "loci"=post_counts_19)
+post_binned_19$dataset = "19 species"
 
 head(post_binned) %>% kable(caption="Post-filter informative sites (codons)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 

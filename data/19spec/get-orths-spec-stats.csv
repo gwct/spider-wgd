@@ -1,0 +1,20 @@
+species,abbr,sequences total,wrong translation,stop codons,sequences retained
+Argiope bruennichi,abrue,17947,0,0,17947
+Parasteatoda tepidariorum,ptepi,17359,315,24,17018
+Stegodyphus mimosarum,smimo,19286,18,0,19268
+Trichonephila antipodiana,tanti,17419,1,0,17418
+Carcinoscorpius rotundicauda,crotu,24218,140,0,24078
+Centruroides sculpturatus,cscul,21356,113,231,21012
+Drosophila melanogaster,dmela,10738,83,94,10561
+Haemaphysalis longicornis,hlong,20736,0,0,20736
+Ixodes scapularis,iscap,13700,7,0,13693
+Latrodectus hesperus,lhesp,12562,0,0,12562
+Limulus polyphemus,lpoly,19692,114,98,19474
+Loxosceles reclusa,lrecl,14526,0,0,14526
+Metaseiulus occidentalis,mocci,10419,126,196,10097
+Nephila clavipes,nclav,17945,8,0,17937
+Sarcoptes scabiei,sscab,7047,36,0,7011
+Tachypleus gigas,tgiga,20076,0,0,20074
+Tetranychus urticae,turti,12763,2,0,12761
+Varroa destructor,vdest,8614,17,10,8587
+Bombyx mori,bmori,10415,31,0,10384
