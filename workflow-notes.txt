@@ -24,7 +24,7 @@
 10. Snakemake CDS alignment pipeline:
     i.      Guidance
     ii.     Trim/filter and translate alignments with aln_filter.py
-            time -p python aln_filter.py -i /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/01-Guidance/ -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/02-Filter/ --overwrite
+            time -p python 06_aln_filter.py -i /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/01-Guidance/ -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/02-Filter/
 11. Gene trees with iqtree_gt_gen.py
 12. Make gene to species map with gene_to_species_map.py for ASTRAL-Pro and ASTRAL
     - python gene_to_species_map.py

@@ -363,7 +363,7 @@ with open(log_file, "w") as logfile, open(spec_file, "w") as specfile:
 
     ##########################
     
-    aln_dirs = [ d for d in os.listdir(args.input) if os.path.isdir(os.path.join(args.input, d)) ];
+    aln_dirs = [ d for d in os.listdir(args.input) if os.path.isdir(os.path.join(args.input, d)) and d != "logs" ];
     num_alns = len(aln_dirs);
     num_alns_str = str(num_alns);
     num_alns_len = len(num_alns_str);
