@@ -13,7 +13,7 @@ locus_file: /n/home07/gthomas/projects/spider-wgd/data/16spec/multi-spec-orthogr
 aln_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/01-Guidance/
 # The directory to write alignment output
 
-aln_filter_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/02-Filter-spec7-seq50-site50/
+aln_filter_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/02-Filter-spec4-seq20-site50/
 # The output directory from aln_filter.py
 
 tree_directory: /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/16spec/

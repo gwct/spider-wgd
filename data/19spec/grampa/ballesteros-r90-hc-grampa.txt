@@ -1,0 +1,68 @@
+# =========================================================================
+# Welcome to GRAMPA -- Gene tree reconciliations with MUL-trees.
+# Version 1.3.1 released on April 30, 2021
+# GRAMPA was developed by Gregg Thomas, S. Hussain Ather, and Matthew Hahn
+# Citation:      https://doi.org/10.1093/sysbio/syx044
+# Website:       https://gwct.github.io/grampa/
+# Report issues: https://github.com/gwct/grampa
+#
+# The date and time at the start is: 01.26.2023 | 14:16:31
+# The program was called as: grampa.py -s /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//ballesteros.tre -g /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//loci-rearrange-90.rooted.treefile -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs90-h1-hc/ -h1 CROTU,TGIGA,LPOLY -c 15 -p 30
+#
+# 01.26.2023 | 14:16:32 INFO: Number of processes:...................................30
+# 01.26.2023 | 14:16:32 INFO: The input species tree with internal nodes labeled.....((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY,(CROTU,TGIGA)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(TURTI,SSCAB)<15>)<16>,(DMELA,BMORI)<17>)<18>
+# 01.26.2023 | 14:16:32 INFO: Input species tree is..................................Singly-labeled
+# 01.26.2023 | 14:16:32 INFO: H1 node(s) identified as...............................<9>
+# 01.26.2023 | 14:16:32 INFO: No H2 node defined.....................................Searching all possible H2 nodes.
+# 01.26.2023 | 14:16:32 INFO: Using gene trees in file.............................../n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//loci-rearrange-90.rooted.treefile
+# 01.26.2023 | 14:16:32 INFO: Total gene trees.......................................6368
+# 01.26.2023 | 14:16:32 INFO: Main results and logs will be written to file........../n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa/19spec/ballesteros-bs90-h1-hc/grampa_out.txt
+# 01.26.2023 | 14:16:32 INFO: The number of groups for each tree will be calculated../n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa/19spec/ballesteros-bs90-h1-hc/grampa_checknums.txt
+# 01.26.2023 | 14:16:32 INFO: Filtered trees will be saved (if necessary)............/n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa/19spec/ballesteros-bs90-h1-hc/grampa_trees_filtered.txt
+# 01.26.2023 | 14:16:32 INFO: Filtering gene trees with # of polyploid groups over...15
+# 01.26.2023 | 14:16:32 INFO: Detailed results will be written to file.............../n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa/19spec/ballesteros-bs90-h1-hc/grampa_det.txt
+# 01.26.2023 | 14:16:32 INFO: Detailed output will contain...........................Reconciliation scores only
+# 01.26.2023 | 14:16:52 INFO: Filtered gene trees:...................................2
+# 01.26.2023 | 14:16:52 INFO: Final gene tree count for reconciliations:.............6366
+# ----------------------------------------
+Tree	H1 node	H2 node	Tree string	Total score
+ST		((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY,(CROTU,TGIGA)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(TURTI,SSCAB)<15>)<16>,(DMELA,BMORI)<17>)<18>	65364
+MT-1	<9>	NCLAV	(((((((((((NCLAV,(LPOLY*,(CROTU*,TGIGA*)<1>)<2>)<3>,TANTI)<4>,ABRUE)<5>,(PTEPI,LHESP)<6>)<7>,SMIMO)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	67858
+MT-2	<9>	TANTI	((((((((((NCLAV,(TANTI,(LPOLY*,(CROTU*,TGIGA*)<1>)<2>)<3>)<4>,ABRUE)<5>,(PTEPI,LHESP)<6>)<7>,SMIMO)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	71324
+MT-3	<9>	ABRUE	((((((((((NCLAV,TANTI)<1>,(ABRUE,(LPOLY*,(CROTU*,TGIGA*)<2>)<3>)<4>)<5>,(PTEPI,LHESP)<6>)<7>,SMIMO)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	70730
+MT-4	<9>	PTEPI	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,((PTEPI,(LPOLY*,(CROTU*,TGIGA*)<3>)<4>)<5>,LHESP)<6>)<7>,SMIMO)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	71250
+MT-5	<9>	LHESP	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,(LHESP,(LPOLY*,(CROTU*,TGIGA*)<3>)<4>)<5>)<6>)<7>,SMIMO)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	66930
+MT-6	<9>	SMIMO	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,(SMIMO,(LPOLY*,(CROTU*,TGIGA*)<5>)<6>)<7>)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	69231
+MT-7	<9>	LRECL	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,(LRECL,(LPOLY*,(CROTU*,TGIGA*)<6>)<7>)<8>)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	65861
+MT-8	<9>	CSCUL	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,(CSCUL,(LPOLY*,(CROTU*,TGIGA*)<7>)<8>)<9>)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	70500
+MT-9	<9>	MOCCI	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,(((MOCCI,(LPOLY*,(CROTU*,TGIGA*)<11>)<12>)<13>,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	70099
+MT-10	<9>	VDEST	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,(VDEST,(LPOLY*,(CROTU*,TGIGA*)<11>)<12>)<13>)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	70047
+MT-11	<9>	ISCAP	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,((ISCAP,(LPOLY*,(CROTU*,TGIGA*)<12>)<13>)<14>,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	69270
+MT-12	<9>	HLONG	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,(HLONG,(LPOLY*,(CROTU*,TGIGA*)<12>)<13>)<14>)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	68014
+MT-13	<9>	TURTI	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,((TURTI,(LPOLY*,(CROTU*,TGIGA*)<15>)<16>)<17>,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	69502
+MT-14	<9>	SSCAB	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(TURTI,(SSCAB,(LPOLY*,(CROTU*,TGIGA*)<15>)<16>)<17>)<18>)<19>,(DMELA,BMORI)<20>)<21>	68709
+MT-15	<9>	DMELA	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(TURTI,SSCAB)<15>)<16>,((DMELA,(LPOLY*,(CROTU*,TGIGA*)<17>)<18>)<19>,BMORI)<20>)<21>	71033
+MT-16	<9>	BMORI	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(TURTI,SSCAB)<15>)<16>,(DMELA,(BMORI,(LPOLY*,(CROTU*,TGIGA*)<17>)<18>)<19>)<20>)<21>	69926
+MT-17	<9>	<1>	(((((((((((NCLAV,TANTI)<1>,(LPOLY*,(CROTU*,TGIGA*)<2>)<3>)<4>,ABRUE)<5>,(PTEPI,LHESP)<6>)<7>,SMIMO)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	71573
+MT-18	<9>	<2>	(((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(LPOLY*,(CROTU*,TGIGA*)<3>)<4>)<5>,(PTEPI,LHESP)<6>)<7>,SMIMO)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	71943
+MT-19	<9>	<3>	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,((PTEPI,LHESP)<3>,(LPOLY*,(CROTU*,TGIGA*)<4>)<5>)<6>)<7>,SMIMO)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	71519
+MT-20	<9>	<4>	(((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,(LPOLY*,(CROTU*,TGIGA*)<5>)<6>)<7>,SMIMO)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	72324
+MT-21	<9>	<5>	(((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,(LPOLY*,(CROTU*,TGIGA*)<6>)<7>)<8>,LRECL)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	71025
+MT-22	<9>	<6>	(((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,(LPOLY*,(CROTU*,TGIGA*)<7>)<8>)<9>,CSCUL)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	70989
+MT-23	<9>	<7>	(((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY*,(CROTU*,TGIGA*)<8>)<9>)<10>,(LPOLY+,(CROTU+,TGIGA+)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	72348
+MT-24	<9>	<9>	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,((LPOLY+,(CROTU+,TGIGA+)<8>)<9>,(LPOLY*,(CROTU*,TGIGA*)<10>)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	68453
+MT-25	<9>	<10>	(((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,(LPOLY*,(CROTU*,TGIGA*)<11>)<12>)<13>,((MOCCI,VDEST)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	72348
+MT-26	<9>	<11>	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,(((MOCCI,VDEST)<11>,(LPOLY*,(CROTU*,TGIGA*)<12>)<13>)<14>,(ISCAP,HLONG)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	70241
+MT-27	<9>	<12>	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,((ISCAP,HLONG)<12>,(LPOLY*,(CROTU*,TGIGA*)<13>)<14>)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	69937
+MT-28	<9>	<13>	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,(((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>,(LPOLY*,(CROTU*,TGIGA*)<14>)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	71390
+MT-29	<9>	<14>	(((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(LPOLY*,(CROTU*,TGIGA*)<15>)<16>)<17>,(TURTI,SSCAB)<18>)<19>,(DMELA,BMORI)<20>)<21>	73260
+MT-30	<9>	<15>	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,((TURTI,SSCAB)<15>,(LPOLY*,(CROTU*,TGIGA*)<16>)<17>)<18>)<19>,(DMELA,BMORI)<20>)<21>	70129
+MT-31	<9>	<16>	(((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(TURTI,SSCAB)<15>)<16>,(LPOLY*,(CROTU*,TGIGA*)<17>)<18>)<19>,(DMELA,BMORI)<20>)<21>	71515
+MT-32	<9>	<17>	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(TURTI,SSCAB)<15>)<16>,((DMELA,BMORI)<17>,(LPOLY*,(CROTU*,TGIGA*)<18>)<19>)<20>)<21>	71720
+MT-33	<9>	<18>	(((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY+,(CROTU+,TGIGA+)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(TURTI,SSCAB)<15>)<16>,(DMELA,BMORI)<17>)<18>,(LPOLY*,(CROTU*,TGIGA*)<19>)<20>)<21>	71508
+# ----------------------------------------
+# The tree with the minimum parsimony score is the singly-labled tree (ST):	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,LRECL)<6>,CSCUL)<7>,(LPOLY,(CROTU,TGIGA)<8>)<9>)<10>,((MOCCI,VDEST)<11>,(ISCAP,HLONG)<12>)<13>)<14>,(TURTI,SSCAB)<15>)<16>,(DMELA,BMORI)<17>)<18>
+# Score = 65364
+# ----------------------------------------
+# 01.26.2023 | 14:38:04 INFO: Total execution time: 1293.058 seconds.
+# =========================================================================

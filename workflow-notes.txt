@@ -26,19 +26,22 @@
     ii.     Trim/filter and translate alignments with aln_filter.py
             time -p python 06_aln_filter.py -i /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/01-Guidance/ -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/02-Filter/
 11. Gene trees with iqtree_gt_gen.py
+    - Cat all loci tree files to loci.treefile
+         find . -type f -name *.treefile -exec awk '{print}' {} \; > ../loci.treefile
 12. Make gene to species map with gene_to_species_map.py for ASTRAL-Pro and ASTRAL
     - python gene_to_species_map.py
     - One line per gene for ASTRAL-pro, one line per species for ASTRAL
 13. Root gene trees:
     - time -p python root_gene_trees.py
     - Also writes single-copy gene trees.
-    - find . -type f -name *.rooted.treefile -exec awk 1 {} \; > ../loci.rooted.treefile
+    - find . -type f -name *.rooted.treefile -exec awk '{print}' {} \; > ../loci.rooted.treefile
 14. Infer species tree
     - module load jdk
     A. Run ASTRAL-pro:
         - time -p astral-pro -a gene-to-spec-map.txt -o chelicerate-16spec-astral-pro.tre ../loci.treefile 2> astral-pro.log
     B. Run ASTRAL on single-copy groups:
         - cat single copy trees from step 13 into a single file
+            find . -type f -name *.rooted.treefile -exec awk '{print}' {} \; > ../loci-single-copy.rooted.treefile
         - time -p astral -i loci-single-copy.treefile -o chelicerate-16spec-astral-single-copy.tre 2> astral.log
     C. Run ASTRAL-multi:
         - First, re-label/map the gene trees so they don't take up too much memory: time -p astral -i ../loci.treefile -a gene-to-spec-map-single-line.txt -o loci-relabeled.treefile -R > gene-to-spec-remap.txt
@@ -63,7 +66,7 @@
 
 
 
-
+#################################################################
 
 
 

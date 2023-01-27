@@ -11,10 +11,12 @@ import os
 
 #############################################################################
 
-ALNDIR = config["aln_filter_directory"]
-TREEDIR = config["tree_directory"]
+DATASET = config["dataset"];
+ALNDIR = config["aln_filter_directory"];
+ALNDIR = os.path.join(ALNDIR, "cds");
+TREEDIR = config["tree_directory"];
 
-loci = [ cds_file.split("-cds.guidance.filter.fa")[0] for cds_file in os.listdir(CDSDIR) ];
+loci = [ aln_file.split("-cds.guidance.filter.fa")[0] for aln_file in os.listdir(ALNDIR) ];
 print("# making gene trees for ", len(loci), " loci");
 
 #############################################################################
@@ -33,7 +35,7 @@ rule all:
 
 rule make_gene_trees:
     input: 
-        os.path.join(ALNDIR, "02-Filter-spec7-seq50-site50", "cds", "{locus}-cds.guidance.filter.fa")
+        os.path.join(ALNDIR, "{locus}-cds.guidance.filter.fa")
     output:
         os.path.join(TREEDIR, "cds-iqtree", "loci", "{locus}", "{locus}.treefile")
     params:

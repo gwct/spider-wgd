@@ -10,7 +10,7 @@ cluster:
   --time={resources.time}
   --output=slurm_logs/{rule}/{DATASET}/{rule}-{wildcards}-%j.out
 default-resources:
-  - partition='holy-smokes,holy-info'
+  - partition='holy-smokes,holy-info,shared'
   - nodes='1'
   - mem_mb=4000
   - mem='4g'
