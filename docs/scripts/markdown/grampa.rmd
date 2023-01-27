@@ -28,7 +28,7 @@ library(ggtree)
 #library(phangorn)
 #library(reshape2)
 library(ggExtra)
-#library(ggrepel)
+library(ggrepel)
 #library(vroom)
 #library(ggdist)
 #library(stringr)
@@ -48,35 +48,44 @@ source("../lib/get_tree_info.r")
 save_tree_fig = F
 # Meta options. Comment tree_type when running form generator
 
-cds_apro_full_file = here("data", "grampa", "cds-apro-full-grampa.txt")
-cds_apro_spider_file = here("data", "grampa", "cds-apro-h1-6-grampa.txt")
-cds_apro_hc_file = here("data", "grampa", "cds-apro-h1-13-grampa.txt")
-cds_apro_hcs_file = here("data", "grampa", "cds-apro-h1-6-13-grampa.txt")
-ball_full_file = here("data", "grampa", "ballesteros-full-grampa.txt")
-trad_full_file = here("data", "grampa", "traditional-full-grampa.txt")
+pro_full_file_16 = here("data", "16spec", "grampa", "astral-pro-r90-full-grampa.txt")
+pro_hc_file_16 = here("data", "16spec", "grampa", "astral-pro-r90-hc-grampa.txt")
+pro_sp_file_16 = here("data", "16spec", "grampa", "astral-pro-r90-sp-grampa.txt")
+pro_hcsp_file_16 = here("data", "16spec", "grampa", "astral-pro-r90-hcsp-grampa.txt")
 
-cds_apro_r70_full_file = here("data", "grampa", "cds-apro-r70-full-grampa.txt")
-cds_apro_r70_spider_file = here("data", "grampa", "cds-apro-r70-h1-6-grampa.txt")
-cds_apro_r70_hc_file = here("data", "grampa", "cds-apro-r70-h1-13-grampa.txt")
-cds_apro_r70_hcs_file = here("data", "grampa", "cds-apro-r70-h1-6-13-grampa.txt")
-ball_r70_full_file = here("data", "grampa", "ballesteros-r70-full-grampa.txt")
-trad_r70_full_file = here("data", "grampa", "traditional-r70-full-grampa.txt")
+bal_full_file_16 = here("data", "16spec", "grampa", "ballesteros-r90-full-grampa.txt")
+bal_hc_file_16 = here("data", "16spec", "grampa", "ballesteros-r90-hc-grampa.txt")
+bal_sp_file_16 = here("data", "16spec", "grampa", "ballesteros-r90-sp-grampa.txt")
+bal_hcsp_file_16 = here("data", "16spec", "grampa", "ballesteros-r90-hcsp-grampa.txt")
 
-cds_apro_r90_full_file = here("data", "grampa", "cds-apro-r90-full-grampa.txt")
-cds_apro_r90_spider_file = here("data", "grampa", "cds-apro-r90-h1-6-grampa.txt")
-cds_apro_r90_hc_file = here("data", "grampa", "cds-apro-r90-h1-13-grampa.txt")
-cds_apro_r90_hcs_file = here("data", "grampa", "cds-apro-r90-h1-6-13-grampa.txt")
-ball_r90_full_file = here("data", "grampa", "ballesteros-r90-full-grampa.txt")
-trad_r90_full_file = here("data", "grampa", "traditional-r90-full-grampa.txt")
+trad_full_file_16 = here("data", "16spec", "grampa", "traditional-r90-full-grampa.txt")
+trad_hc_file_16 = here("data", "16spec", "grampa", "traditional-r90-hc-grampa.txt")
+trad_sp_file_16 = here("data", "16spec", "grampa", "traditional-r90-sp-grampa.txt")
+trad_hcsp_file_16 = here("data", "16spec", "grampa", "traditional-r90-hcsp-grampa.txt")
 
-cds_apro_16_r90_full_file = here("data", "16spec", "grampa", "cds-apro-r90-full-grampa.txt")
+##########
+
+pro_full_file_19 = here("data", "19spec", "grampa", "astral-pro-r90-full-grampa.txt")
+pro_hc_file_19 = here("data", "19spec", "grampa", "astral-pro-r90-hc-grampa.txt")
+pro_sp_file_19 = here("data", "19spec", "grampa", "astral-pro-r90-sp-grampa.txt")
+pro_hcsp_file_19 = here("data", "19spec", "grampa", "astral-pro-r90-hcsp-grampa.txt")
+
+bal_full_file_19 = here("data", "19spec", "grampa", "ballesteros-r90-full-grampa.txt")
+bal_hc_file_19 = here("data", "19spec", "grampa", "ballesteros-r90-hc-grampa.txt")
+bal_sp_file_19 = here("data", "19spec", "grampa", "ballesteros-r90-sp-grampa.txt")
+bal_hcsp_file_19 = here("data", "19spec", "grampa", "ballesteros-r90-hcsp-grampa.txt")
+
+trad_full_file_19 = here("data", "19spec", "grampa", "traditional-r90-full-grampa.txt")
+trad_hc_file_19 = here("data", "19spec", "grampa", "traditional-r90-hc-grampa.txt")
+trad_sp_file_19 = here("data", "19spec", "grampa", "traditional-r90-sp-grampa.txt")
+trad_hcsp_file_19 = here("data", "19spec", "grampa", "traditional-r90-hcsp-grampa.txt")
+
+##########
 
 genome_file = here("data", "chelicerate_genomes-gwct.csv")
 
-summary_file = here("data", "gene-trees.csv")
-
 genome_data = read.csv(genome_file, header=T)
-genome_data = subset(genome_data, Include=="Y")
+genome_data = subset(genome_data, Dataset!="Exclude")
 
 spec_abbrs = select(genome_data, S.name, Abbr)
 names(spec_abbrs)[2] = "label"
@@ -85,1753 +94,299 @@ combined_scores = data.frame()
 
 ```
 
-All searches done on 6359 rooted gene trees.
 
-# ASTRAL-pro species tree
+# Full GRAMPA search
 
-## Full search
+## Score distributions
 
-### Input species tree and score distribution
+Black dots are the singly-labeled species tree.
 
-```{r cds-apro-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(cds_apro_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
+Large dots are autopolyploid events.
 
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
+```{r full-scores, out.width="50%", fig.align = "center", warning=FALSE, fig.height=4}
 
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
+readGrampa <- function(file, label) {
+   cur_data = read.csv(file, comment.char="#", header=T, sep="\t")
+  # Read the GRAMPA results
+   
+  cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
+  # Add the semi-colons to the trees so they can be read by R
   
-  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  ggtitle(paste("CDS A-pro full search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
+  cur_data = cur_data[order(cur_data$Total.score), ]
+  # Re-order the rows by score
+  
+  cur_data$rank = seq_along(cur_data[,1])
+  # Add a column for rank (just row number in re-ordered rows)
+  
+  cur_data$label = label
+  
+  return(cur_data)
+}
 
 ####################
 
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
+pro_full_16 = readGrampa(pro_full_file_16, "ASTRAL-Pro")
+bal_full_16 = readGrampa(bal_full_file_16, "Ballesteros")
+trad_full_16 = readGrampa(trad_full_file_16, "Horseshoe crabs sister")
+
+grampa_data_16 = rbind(pro_full_16, bal_full_16, trad_full_16)
+grampa_data_st_16 = subset(grampa_data_16, Tree=="ST")
+grampa_data_auto_16 = subset(grampa_data_16, H1.node==H2.node & Tree != "ST")
+
+####################
+
+scores_fig_16 = ggplot(grampa_data_16, aes(x=rank, y=Total.score, color=label)) +
+  geom_point(size=2, alpha=0.33, show.legend=F) +
+  geom_point(data=grampa_data_st_16, aes(x=rank, y=Total.score), size=3, alpha=0.75, color="#333333", fill="#999999") +
+  geom_point(data=grampa_data_auto_16, aes(x=rank, y=Total.score, color=label), size=5, alpha=0.5) +
+  scale_x_continuous(limits=c(-10,max(grampa_data_16$rank)+10)) +
   xlab("Rank") +
   ylab("GRAMPA score") +
-  bartheme()
+  bartheme() +
+  theme(legend.position="bottom")
+#print(cur_scores_fig)
 #print(cds_apro_r70_full_scores_fig)
 # Plot scores
 
 ####################
 
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
+####################
 
-```
+pro_full_19 = readGrampa(pro_full_file_19, "ASTRAL-Pro")
+bal_full_19 = readGrampa(bal_full_file_19, "Ballesteros")
+trad_full_19 = readGrampa(trad_full_file_19, "Horseshoe crabs sister")
 
-### Lowest scoring trees
-
-```{r cds-apro-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "CDS A-pro full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-## Full search, bootstrap rearrange 70
-
-### Input species tree and score distribution
-
-```{r cds-apro-r70-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(cds_apro_r70_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
+grampa_data_19 = rbind(pro_full_19, bal_full_19, trad_full_19)
+grampa_data_st_19 = subset(grampa_data_19, Tree=="ST")
+grampa_data_auto_19 = subset(grampa_data_19, H1.node==H2.node & Tree != "ST")
 
 ####################
 
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  ggtitle(paste("CDS A-pro R70 full search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
+scores_fig_19 = ggplot(grampa_data_19, aes(x=rank, y=Total.score, color=label)) +
+  geom_point(size=2, alpha=0.33, show.legend=F) +
+  geom_point(data=grampa_data_st_19, aes(x=rank, y=Total.score), size=3, alpha=0.75, color="#333333", fill="#999999") +
+  geom_point(data=grampa_data_auto_19, aes(x=rank, y=Total.score, color=label), size=5, alpha=0.5) +
+  scale_x_continuous(limits=c(-10,max(grampa_data_16$rank)+10)) +
   xlab("Rank") +
   ylab("GRAMPA score") +
-  bartheme()
+  bartheme() +
+  theme(legend.position="bottom")
+#print(cur_scores_fig)
 #print(cds_apro_r70_full_scores_fig)
 # Plot scores
 
 ####################
 
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
+leg = get_legend(scores_fig_19)
 
-```
-
-### Lowest scoring trees
-
-```{r cds-apro-r70-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "CDS A-pro R70 full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-## Full search, bootstrap rearrange 90
-
-### Input species tree and score distribution
-
-```{r cds-apro-r90-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(cds_apro_r90_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  ggtitle(paste("CDS A-pro R90 full search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-### Lowest scoring trees
-
-```{r cds-apro-r90-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "CDS A-pro R90 full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-## Full search, bootstrap rearrange 90, 16 species
-
-### Input species tree and score distribution
-
-```{r cds-apro-16-r90-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(cds_apro_16_r90_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=22, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=28, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  ggtitle(paste("CDS A-pro 16 species R90 full search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-### Lowest scoring trees
-
-```{r cds-apro-16-r90-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "CDS A-pro R90 full"
-#combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-## H1 spider (5) and horseshoe crab (7) search
-
-### Input species tree and score distribution
-
-```{r cds-apro-spider-hc-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(cds_apro_hcs_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-
-  geom_point2(aes(subset=node==32), color=corecol(numcol=1, offset=2), size=5) +
-  geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  
-  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  
-  ggtitle(paste("CDS A-pro H1 spider+HC search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-1,max(cur_data$rank)+1)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-### Lowest scoring trees
-
-```{r cds-apro-spider-hc-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-# cur_data_lowest$run = "CDS A-pro spider"
-# combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-## H1 spider (5) and horseshoe crab (7) search, bootstrap rearrange 70
-
-### Input species tree and score distribution
-
-```{r cds-apro-r70-spider-hc-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(cds_apro_r70_hcs_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_point2(aes(subset=node==32), color=corecol(numcol=1, offset=2), size=5) +
-  geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  
-  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  
-  ggtitle(paste("CDS A-pro R70 H1 spider+HC search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-### Lowest scoring trees
-
-```{r cds-apro-r70-spider-hc-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-# cur_data_lowest$run = "CDS A-pro R70 full"
-# combined_scores = rbind(combined_scores, cur_data_lowest)
-
-#############################################################
-```
-
-## H1 spider (5) and horseshoe crab (7) search, bootstrap rearrange 90
-
-### Input species tree and score distribution
-
-```{r cds-apro-r90-spider-hc-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(cds_apro_r90_hcs_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_point2(aes(subset=node==32), color=corecol(numcol=1, offset=2), size=5) +
-  geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  
-  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  
-  ggtitle(paste("CDS A-pro R90 H1 spider+HC search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-### Lowest scoring trees
-
-```{r cds-apro-r90-spider-hc-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-# cur_data_lowest$run = "CDS A-pro R70 full"
-# combined_scores = rbind(combined_scores, cur_data_lowest)
-
-#############################################################
-```
-
-```{r cds-apro-spider-scores, out.width="75%", fig.align = "center", warning=FALSE, eval=FALSE}
-#############################################################
-
-## H1 spider (5) search
-
-### Input species tree and score distribution
-
-cur_data = read.csv(cds_apro_spider_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset =6
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 14) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  geom_point2(aes(subset=node==22), color=corecol(numcol=1, offset=2), size=5) +
-  ggtitle(paste("CDS A-pro H1 spider search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-1,max(cur_data$rank)+1)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-```{r cds-apro-spider-trees, out.width="85%", fig.align = "center", warning=FALSE, eval=FALSE}
-
-### Lowest scoring trees
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-# cur_data_lowest$run = "CDS A-pro spider"
-# combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-```{r cds-apro-r70-spider-scores, out.width="75%", fig.align = "center", warning=FALSE, eval=FALSE}
-
-## H1 spider (5) search, bootstrap rearrange 70
-
-### Input species tree and score distribution
-
-cur_data = read.csv(cds_apro_r70_spider_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset =6
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 14) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  geom_point2(aes(subset=node==22), color=corecol(numcol=1, offset=2), size=5) +
-  ggtitle(paste("CDS A-pro R70 H1 spider search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-```{r cds-apro-r70-spider-trees, out.width="85%", fig.align = "center", warning=FALSE, eval=FALSE}
-
-### Lowest scoring trees
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-# cur_data_lowest$run = "CDS A-pro R70 full"
-# combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-```{r cds-apro-hc-scores, out.width="75%", fig.align = "center", warning=FALSE, eval=FALSE}
-
-## H1 horseshoe crab (7) search
-
-### Input species tree and score distribution
-
-cur_data = read.csv(cds_apro_hc_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset =6
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 14) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  ggtitle(paste("CDS A-pro H1 horseshoe crab search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-1,max(cur_data$rank)+1)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-```{r cds-apro-hc-trees, out.width="85%", fig.align = "center", warning=FALSE, eval=FALSE}
-
-### Lowest scoring trees
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-# cur_data_lowest$run = "CDS A-pro spider"
-# combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-```{r cds-apro-r70-hc-scores, out.width="75%", fig.align = "center", warning=FALSE, eval=FALSE}
-
-## H1 horseshoe crab (7) search, bootstrap rearrange 70
-
-### Input species tree and score distribution
-
-cur_data = read.csv(cds_apro_r70_hc_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset =6
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 14) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  ggtitle(paste("CDS A-pro R70 H1 horseshoe crab\nsearch tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-```{r cds-apro-r70-hc-trees, out.width="85%", fig.align = "center", warning=FALSE, eval=FALSE}
-
-### Lowest scoring trees
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-# cur_data_lowest$run = "CDS A-pro R70 full"
-# combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-# Monophyletic Arachnid species tree
-
-## Full search
-
-### Input species tree and score distribution
-
-```{r trad-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(trad_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  #geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  
-  geom_cladelabel(node=25, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=8, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=35, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=31, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=34, label="Acariformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=18, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=19, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
-  
-  ggtitle(paste("Monophyletic Arachnid search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-1,max(cur_data$rank)+1)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-## Lowest scoring trees
-
-```{r trad-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "Monophyletic Arachnid full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-## Full search, bootstrap rearrange 70
-
-### Input species tree and score distribution
-
-```{r trad-r70-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(trad_r70_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  #geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  
-  geom_cladelabel(node=25, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=8, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=35, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=31, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=34, label="Acariformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=18, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=19, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +  
-  
-  ggtitle(paste("Monophyletic Arachnid R70 search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-### Lowest scoring trees
-
-```{r trad-r70-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "Monophyletic Arachnid R70 full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-## Full search, bootstrap rearrange 90
-
-### Input species tree and score distribution
-
-```{r trad-r90-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(trad_r90_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  #geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  
-  geom_cladelabel(node=25, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=8, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=35, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=31, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=34, label="Acariformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=18, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=19, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
-  
-  ggtitle(paste("Monophyletic Arachnid R90 search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-## Lowest scoring trees
-
-```{r trad-r90-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "Monophyletic Arachnid R90 full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-# Ballesteros species tree
-
-## Full search
-
-### Input species tree and score distribution
-
-```{r ball-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(ball_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  #geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  
-  geom_cladelabel(node=25, label="Aranea", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=8, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=31, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=36, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=33, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=18, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=19, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
-  
-  ggtitle(paste("Ballesteros full search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-1,max(cur_data$rank)+1)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-### Lowest scoring trees
-
-```{r ball-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "Ballesteros full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-## Full search, bootstrap rearrange 70
-
-### Input species tree and score distribution
-
-```{r ball-r70-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(ball_r70_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  #geom_point2(aes(subset=node==27), color=corecol(numcol=1, offset=2), size=5) +
-  
-  geom_cladelabel(node=25, label="Aranea", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=8, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=31, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=36, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=33, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=18, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=19, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
-  
-  ggtitle(paste("Ballesteros R70 search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-### Lowest scoring trees
-
-```{r ball-r70-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "Ballesteros R70 full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-## Full search, bootstrap rearrange 90
-
-### Input species tree and score distribution
-
-```{r ball-r90-full-scores, out.width="75%", fig.align = "center", warning=FALSE}
-cur_data = read.csv(ball_r90_full_file, comment.char="#", header=T, sep="\t")
-# Read the GRAMPA results
-
-cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
-# Add the semi-colons to the trees so they can be read by R
-
-cur_data = cur_data[order(cur_data$Total.score), ]
-# Re-order the rows by score
-
-cur_data$rank = seq_along(cur_data[,1])
-# Add a column for rank (just row number in re-ordered rows)
-
-#cds_apro_r70_full$rank = as.numeric(as.character(cds_apro_r70_full$rank))
-# Convert ranks to numeric
-
-####################
-
-st_string = cur_data$Tree.string[cur_data$Tree=="ST"]
-# Extract the species tree string
-
-st = read.tree(text=st_string)
-# Read the species tree
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 4
-# Order labels
-
-cur_st_fig = ggtree(st, size=0.8, ladderize=T) +
-  xlim(0, 20) +
-  geom_tiplab(size=4) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=25, label="Aranea", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=8, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=31, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=36, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=33, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=18, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=19, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
-  
-  ggtitle(paste("Ballesteros R90 search tree\n(", nrow(cur_data), " trees)", sep=""))
-
-#print(cur_st_fig)
-# Plot tree
-
-####################
-
-cur_scores_fig = ggplot(cur_data, aes(x=rank, y=Total.score)) +
-  geom_point(size=2, color=corecol(pal="wilke", numcol=1), alpha=0.33) +
-  scale_x_continuous(limits=c(-10,max(cur_data$rank)+10)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()
-#print(cds_apro_r70_full_scores_fig)
-# Plot scores
-
-####################
-
-cur_figs = plot_grid(cur_st_fig, cur_scores_fig, rel_widths=c(0.8,1))
-print(cur_figs)
-# Combine tree and score figs
-
-```
-
-### Lowest scoring trees
-
-```{r ball-r90-full-trees, out.width="85%", fig.align = "center", warning=FALSE}
-
-cur_data_lowest = head(cur_data, 6)
-# Get the lowest scoring trees
-
-tree_fig_list = list()
-# A list to store tree figures
-
-for(i in 1:nrow(cur_data_lowest)){
-  tree = read.tree(text=cur_data_lowest[i,]$Tree.string)
-  # Read the current tree
-  
-  tree_fig = ggtree(tree, size=0.5, ladderize=T) +
-  xlim(0, 14) +
-    geom_tiplab(size=2.5) +
-  ggtitle(paste(cur_data_lowest[i,]$Tree, " (", cur_data_lowest[i,]$Total.score, ")", sep=""))
-  # Plot the current tree
-  
-  tree_fig_list[[i]] = tree_fig
-  # Add the tree to the tree list
-}
-
-tree_figs = plot_grid(plotlist=tree_fig_list, ncol=3)
-print(tree_figs)
-# Combine and render figs
-
-cur_data_lowest$run = "Ballesteros R90 full"
-combined_scores = rbind(combined_scores, cur_data_lowest)
-
-```
-
-# Comparing scores with different species trees
-
-Among the three species trees (our CDS ASTRAL-pro tree, a monophyletic Arachnid tree, and the Ballesteros tree), our tree and the Ballesteros tree score roughly equally (green vs. orange lines). In all three cases, bootstrap rearrangement improves scores, and widens the gap between our tree and the Ballesteros tree (yellow vs light blue lines).
-
-```{r combined_scores, out.width="75%", fig.align = "center", warning=FALSE}
-
-scores_fig = ggplot(combined_scores, aes(x=rank, y=Total.score, color=run)) +
-  geom_point(size=3) +
-  geom_line() +
-  scale_color_manual(values=corecol(numcol=9)) +
-  xlab("Rank") +
-  ylab("GRAMPA score") +
-  bartheme()# +
-  #theme(legend.position="bottom")
+scores_fig_top = plot_grid(scores_fig_16 + theme(legend.position="none"), scores_fig_19 + theme(legend.position="none"), ncol=2, labels=c("16 species", "19species"))
+scores_fig = plot_grid(scores_fig_top, leg, nrow=2, rel_heights=c(1,0.1))
 print(scores_fig)
+
+```
+
+## Lowest scoring trees - ASTRAL-Pro
+
+```{r cds-apro-full-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
+
+plotGrampaTrees <- function(data, num_trees, title) {
+  
+  data_lowest = head(data, num_trees)
+  # Get the lowest scoring trees
+  
+  tree_fig_list = list()
+  # A list to store tree figures
+  
+  for(i in 1:nrow(data_lowest)){
+    tree = read.tree(text=data_lowest[i,]$Tree.string)
+    # Read the current tree
+    
+    tree_fig = ggtree(tree, size=0.5, ladderize=T) +
+    xlim(0, 14) +
+      geom_tiplab(size=2.5) +
+    ggtitle(paste(data_lowest[i,]$Tree, " (", data_lowest[i,]$Total.score, ")", sep=""))
+    # Plot the current tree
+    
+    tree_fig_list[[i]] = tree_fig
+    # Add the tree to the tree list
+  }
+  
+  title = plot_grid(NULL, labels=c(title))
+  tree_figs_b = plot_grid(plotlist=tree_fig_list, ncol=3)
+  tree_figs = plot_grid(title, tree_figs_b, nrow=2, rel_heights=c(0.1,1))
+  
+  return(tree_figs)
+}
+
+apro_trees_16 = plotGrampaTrees(subset(grampa_data_16, label=="ASTRAL-Pro"), 6, "16 species")
+apro_trees_19 = plotGrampaTrees(subset(grampa_data_19, label=="ASTRAL-Pro"), 6, "19 species")
+
+#apro_trees_b = plot_grid(apro_trees_16, apro_trees_19, ncol=2)
+#apro_labels = plot_grid(NULL, NULL, ncol=2, labels=c("16 species", "19 species"), rel_widths=c(0.5,0.5))
+
+#apro_trees = plot_grid(apro_labels,apro_trees_b, nrow=2, rel_heights=c(0.1,1))
+
+print(apro_trees_16)
+print(apro_trees_19)
+# Combine and render figs
+
+#cur_data_lowest_16$run = "CDS A-pro full"
+#combined_scores = rbind(combined_scores, cur_data_lowest_16)
+
+```
+
+## Lowest scoring trees - Ballesteros
+
+```{r ballesteros-full-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
+
+bal_trees_16 = plotGrampaTrees(subset(grampa_data_16, label=="Ballesteros"), 6, "16 species")
+bal_trees_19 = plotGrampaTrees(subset(grampa_data_19, label=="Ballesteros"), 6, "19 species")
+
+print(bal_trees_16)
+print(bal_trees_19)
+# Combine and render figs
+
+```
+
+## Lowest scoring trees - Horseshoe crabs sister
+
+```{r traditional-full-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
+
+trad_trees_16 = plotGrampaTrees(subset(grampa_data_16, label=="Horseshoe crabs sister"), 6, "16 species")
+trad_trees_19 = plotGrampaTrees(subset(grampa_data_19, label=="Horseshoe crabs sister"), 6, "19 species")
+
+print(trad_trees_16)
+print(trad_trees_19)
+# Combine and render figs
+
+```
+
+
+# GRAMPA search limited to horseshoe crab and spider/scorpion clades
+
+## Score distributions
+
+Black dots are the singly-labeled species tree.
+
+Large dots are autopolyploid events.
+
+```{r hcsp-scores, out.width="50%", fig.align = "center", warning=FALSE, fig.height=4}
+
+readGrampa <- function(file, label) {
+   cur_data = read.csv(file, comment.char="#", header=T, sep="\t")
+  # Read the GRAMPA results
+   
+  cur_data$Tree.string = paste(cur_data$Tree.string, ";", sep="")
+  # Add the semi-colons to the trees so they can be read by R
+  
+  cur_data = cur_data[order(cur_data$Total.score), ]
+  # Re-order the rows by score
+  
+  cur_data$rank = seq_along(cur_data[,1])
+  # Add a column for rank (just row number in re-ordered rows)
+  
+  cur_data$label = label
+  
+  return(cur_data)
+}
+
+####################
+
+pro_hcsp_16 = readGrampa(pro_hcsp_file_16, "ASTRAL-Pro")
+bal_hcsp_16 = readGrampa(bal_hcsp_file_16, "Ballesteros")
+trad_hcsp_16 = readGrampa(trad_hcsp_file_16, "Horseshoe crabs sister")
+
+grampa_data_16 = rbind(pro_hcsp_16, bal_hcsp_16, trad_hcsp_16)
+grampa_data_st_16 = subset(grampa_data_16, Tree=="ST")
+grampa_data_auto_16 = subset(grampa_data_16, H1.node==H2.node & Tree != "ST")
+
+####################
+
+scores_fig_16 = ggplot(grampa_data_16, aes(x=rank, y=Total.score, color=label)) +
+  geom_point(size=2, alpha=0.33, show.legend=F) +
+  geom_point(data=grampa_data_st_16, aes(x=rank, y=Total.score), size=3, alpha=0.75, color="#333333", fill="#999999") +
+  geom_point(data=grampa_data_auto_16, aes(x=rank, y=Total.score, color=label), size=5, alpha=0.5) +
+  scale_x_continuous(limits=c(-10,max(grampa_data_16$rank)+10)) +
+  xlab("Rank") +
+  ylab("GRAMPA score") +
+  bartheme() +
+  theme(legend.position="bottom")
+#print(cur_scores_fig)
+#print(cds_apro_r70_full_scores_fig)
+# Plot scores
+
+####################
+
+####################
+
+pro_hcsp_19 = readGrampa(pro_hcsp_file_19, "ASTRAL-Pro")
+bal_hcsp_19 = readGrampa(bal_hcsp_file_19, "Ballesteros")
+trad_hcsp_19 = readGrampa(trad_hcsp_file_19, "Horseshoe crabs sister")
+
+grampa_data_19 = rbind(pro_hcsp_19, bal_hcsp_19, trad_hcsp_19)
+grampa_data_st_19 = subset(grampa_data_19, Tree=="ST")
+grampa_data_auto_19 = subset(grampa_data_19, H1.node==H2.node & Tree != "ST")
+
+####################
+
+scores_fig_19 = ggplot(grampa_data_19, aes(x=rank, y=Total.score, color=label)) +
+  geom_point(size=2, alpha=0.33, show.legend=F) +
+  geom_point(data=grampa_data_st_19, aes(x=rank, y=Total.score), size=3, alpha=0.75, color="#333333", fill="#999999") +
+  geom_point(data=grampa_data_auto_19, aes(x=rank, y=Total.score, color=label), size=5, alpha=0.5) +
+  scale_x_continuous(limits=c(-10,max(grampa_data_16$rank)+10)) +
+  xlab("Rank") +
+  ylab("GRAMPA score") +
+  bartheme() +
+  theme(legend.position="bottom")
+#print(cur_scores_fig)
+#print(cds_apro_r70_full_scores_fig)
+# Plot scores
+
+####################
+
+leg = get_legend(scores_fig_19)
+
+scores_fig_top = plot_grid(scores_fig_16 + theme(legend.position="none"), scores_fig_19 + theme(legend.position="none"), ncol=2, labels=c("16 species", "19species"))
+scores_fig = plot_grid(scores_fig_top, leg, nrow=2, rel_heights=c(1,0.1))
+print(scores_fig)
+
+```
+
+## Lowest scoring trees - ASTRAL-Pro
+
+```{r cds-apro-hcsp-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
+
+apro_trees_16 = plotGrampaTrees(subset(grampa_data_16, label=="ASTRAL-Pro"), 6, "16 species")
+apro_trees_19 = plotGrampaTrees(subset(grampa_data_19, label=="ASTRAL-Pro"), 6, "19 species")
+
+print(apro_trees_16)
+print(apro_trees_19)
+# Combine and render figs
+
+```
+
+## Lowest scoring trees - Ballesteros
+
+```{r ballesteros-hcsp-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
+
+bal_trees_16 = plotGrampaTrees(subset(grampa_data_16, label=="Ballesteros"), 6, "16 species")
+bal_trees_19 = plotGrampaTrees(subset(grampa_data_19, label=="Ballesteros"), 6, "19 species")
+
+print(bal_trees_16)
+print(bal_trees_19)
+# Combine and render figs
+
+```
+
+## Lowest scoring trees - Horseshoe crabs sister
+
+```{r traditional-hcsp-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
+
+trad_trees_16 = plotGrampaTrees(subset(grampa_data_16, label=="Horseshoe crabs sister"), 6, "16 species")
+trad_trees_19 = plotGrampaTrees(subset(grampa_data_19, label=="Horseshoe crabs sister"), 6, "19 species")
+
+print(trad_trees_16)
+print(trad_trees_19)
+# Combine and render figs
 
 ```

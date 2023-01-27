@@ -52,354 +52,257 @@ save_tree_fig = F
 
 genome_file = here("data", "chelicerate_genomes-gwct.csv")
 
-summary_file = here("data", "gene-trees.csv")
-
-pro_tree_file = here("data", "trees", "chelicerate-19spec-astral-pro-rooted.tre")
-#pro_pep_tree_file = here("data", "trees", "chelicerate-19spec-pep-astral-pro-rooted.tre")
-pro_info_out = here("data", "trees", "chelicerate-19spec-astral-pro-info-rooted.csv")
-pro_info_file = here("data", "trees", "chelicerate-19spec-astral-pro-info-labeled-rooted.csv")
-
-pro_tree_file_16 = here("data", "16spec", "trees", "chelicerate-16spec-astral-pro.rooted.tre")
-
-multi_tree_file = here("data", "trees", "chelicerate-19spec-astral-multi-rooted.tre")
-#multi_pep_tree_file = here("data", "trees", "chelicerate-19spec-pep-astral-multi-rooted.tre")
-multi_info_out = here("data", "trees", "chelicerate-19spec-astral-multi-info.rooted-csv")
-multi_info_file = here("data", "trees", "chelicerate-19spec-astral-multi-info-labeled-rooted.csv")
-
-single_tree_file = here("data", "trees", "chelicerate-19spec-astral-single-copy-rooted.tre")
-#single_pep_tree_file = here("data", "trees", "chelicerate-19spec-pep-astral-single-copy.rooted.tre")
-single_info_out = here("data", "trees", "chelicerate-19spec-astral-single-copy-info-rooted.csv")
-single_info_file = here("data", "trees", "chelicerate-19spec-astral-single-copy-info-labeled-rooted.csv")
-
-ballesteros_topology_file = here("data", "trees", "ballesteros.tre")
-traditional_topology_file = here("data", "trees", "traditional.tre")
-
 genome_data = read.csv(genome_file, header=T)
-genome_data = subset(genome_data, Include=="Y")
+genome_data = subset(genome_data, Dataset!="Exclude")
 
-spec_abbrs = select(genome_data, S.name, Abbr)
+spec_abbrs = select(genome_data, S.name, Abbr, Superorder, Order)
 names(spec_abbrs)[2] = "label"
 
+# Genome info
+####################
+
+summary_file_16 = here("data", "16spec", "gene-trees.csv")
+summary_file_19 = here("data", "19spec", "gene-trees.csv")
+
+# Gene tree summaries
+####################
+
+pro_file_16 = here("data", "16spec", "trees", "chelicerate-16spec-astral-pro.rooted.tre")
+pro_file_19 = here("data", "19spec", "trees", "chelicerate-19spec-astral-pro.rooted.tre")
+
+multi_file_16 = here("data", "16spec", "trees", "chelicerate-16spec-astral-multi.rooted.tre")
+multi_file_19 = here("data", "19spec", "trees", "chelicerate-19spec-astral-multi.rooted.tre")
+
+sc_file_16 = here("data", "16spec", "trees", "chelicerate-16spec-astral-single-copy.rooted.tre")
+sc_file_19 = here("data", "19spec", "trees", "chelicerate-19spec-astral-single-copy.rooted.tre")
+
+bal_file_16 = here("data", "16spec", "trees", "ballesteros.tre")
+bal_file_19 = here("data", "19spec", "trees", "ballesteros.tre")
+
+trad_file_16 = here("data", "16spec", "trees", "traditional.tre")
+trad_file_19 = here("data", "19spec", "trees", "traditional.tre")
+
+# Species trees
+####################
+
 ```
+
+# Species and taxonomy lookup
+
+```{r spec-summary, out.width="75%", fig.align = "center", warning=FALSE}
+
+spec_abbrs %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+```
+
 
 # Gene tree summary
 
 Note that status refers only to the rooting process. All 9629 gene trees were used for ASTRAL-pro and ASTRAL-multi.
 
 ```{r gt-summary, out.width="75%", fig.align = "center", warning=FALSE}
-gt_data = read.csv(summary_file, header=T)
+gt_data = read.csv(summary_file_16, header=T)
+#gt_data_16$dataset = "16 species"
+gt_data_19 = read.csv(summary_file_19, header=T)
+#gt_data_19$dataset = "19 species"
+names(gt_data)[3] = "Count.16.spec"
+gt_data$Count.19.spec = gt_data_19$Count
 
 gt_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 ```
 
 # ASTRAL-pro species tree
 
-Inferred from 11017 gene trees using the C++ implementation of ASTRAL-pro (https://github.com/chaoszhang/ASTER).
+Inferred from gene trees using the C++ implementation of ASTRAL-pro (https://github.com/chaoszhang/ASTER).
 
 All branches have full ASTRAL support (1.0).
 
 Note: Tip branch lengths arbitrarily set to average of internal branch lengths...
 
-#### [Newick tree file (CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-19spec-astral-pro-rooted.tre)
+## 16 species tree vs. 19 species tree
+
+**[Newick tree file (16 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/chelicerate-16spec-astral-pro.rooted.tre) (LEFT)**
+
+**[Newick tree file (19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-pro.rooted.tre) (RIGHT)**
 
 ```{r astral-pro-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
-orig_pro_tree = read.tree(pro_tree_file)
 
-tree_to_df_list = treeToDF(orig_pro_tree, add_avg_bl=TRUE)
-pro_info = tree_to_df_list[["info"]]
-pro_tree = tree_to_df_list[["labeled.tree"]]
-# Parse the tree info, and replace the tip branch lengths
-# with the avg. internal branch lengths as "labeled.tree"
+orig_pro_tree_16 = read.tree(file=pro_file_16)
+tree_to_df_list = treeToDF(orig_pro_tree_16, add_avg_bl=TRUE)
+pro_info_16 = tree_to_df_list[["info"]]
+pro_tree_16 = tree_to_df_list[["labeled.tree"]]
+# # Parse the tree info, and replace the tip branch lengths
+# # with the avg. internal branch lengths as "labeled.tree"
 
-pro_info = merge(pro_info, spec_abbrs, by="label", all=TRUE)
-pro_info = pro_info[order(pro_info$node), ]
-# Merge the fulle species names and re-order the rows by the R node
+orig_pro_tree_19 = read.tree(file=pro_file_19)
+tree_to_df_list = treeToDF(orig_pro_tree_19, add_avg_bl=TRUE)
+pro_info_19 = tree_to_df_list[["info"]]
+pro_tree_19 = tree_to_df_list[["labeled.tree"]]
+# # Parse the tree info, and replace the tip branch lengths
+# # with the avg. internal branch lengths as "labeled.tree"
 
-h = corecol(numcol=1, pal="wilke", offset=3)
-l = corecol(numcol=1, offset=3)
-# Colors
+comp = cophylo(pro_tree_16, pro_tree_19)
+# Generate the cophylo object
 
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 2
-# Order labels
+plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
 
-pro_cds_tree_fig = ggtree(pro_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 13) +
-  geom_tiplab(aes(label=pro_info$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  ggtitle("CDS tree")
-  
-  #theme(legend.position=c(0.05,0.9))
+```
 
-  pro_cds_tree_fig = pro_cds_tree_fig %>% ggtree::rotate(34) %>% ggtree::rotate(35) %>% ggtree::rotate(37)
+**Notably, Acariformes (SSCAB, TURTI) switch places with the horseshoe crabs in the 19 species tree, putting them sister to spiders and scorpions**
 
-print(pro_cds_tree_fig)
+## 16 species tree vs. Ballesteros species tree
+
+**[Newick tree file (16 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/chelicerate-16spec-astral-pro.rooted.tre) (LEFT)**
+
+**[Newick tree file (Ballesteros topology; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/ballesteros.tre) (RIGHT; arbitrary branch lengths)**
+
+```{r astral-pro-tree-cds-16-bal, out.width="50%", fig.align = "center", warning=FALSE}
+
+orig_bal_tree_16 = read.tree(file=bal_file_16)
+tree_to_df_list = treeToDF(orig_bal_tree_16, add_avg_bl=TRUE)
+bal_info_16 = tree_to_df_list[["info"]]
+bal_tree_16 = tree_to_df_list[["labeled.tree"]]
+# # Parse the tree info, and replace the tip branch lengths
+# # with the avg. internal branch lengths as "labeled.tree"
+
+comp = cophylo(pro_tree_16, bal_tree_16)
+# Generate the cophylo object
+
+plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
 
 ```
 
 
+## 19 species tree vs. Ballesteros species tree
 
-```{r astral-pro-tree-pep, out.width="75%", fig.align = "center", warning=FALSE, eval=F}
-#### [Newick tree file (peptides; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-16spec-pep-astral-pro.rooted.tre)
+**[Newick tree file (19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-pro.rooted.tre) (LEFT)**
 
-orig_pro_pep_tree = read.tree(pro_pep_tree_file)
+**[Newick tree file (Ballesteros topology; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/ballesteros.tre) (RIGHT; arbitrary branch lengths)**
 
-tree_to_df_list = treeToDF(orig_pro_pep_tree, add_avg_bl=TRUE)
-pro_pep_info = tree_to_df_list[["info"]]
-pro_pep_tree = tree_to_df_list[["labeled.tree"]]
-# Parse the tree info, and replace the tip branch lengths
-# with the avg. internal branch lengths as "labeled.tree"
+```{r astral-pro-tree-cds-19-bal, out.width="50%", fig.align = "center", warning=FALSE}
 
-pro_pep_info = merge(pro_pep_info, spec_abbrs, by="label", all=TRUE)
-pro_pep_info = pro_pep_info[order(pro_pep_info$node), ]
-# Merge the fulle species names and re-order the rows by the R node
+orig_bal_tree_19 = read.tree(file=bal_file_19)
+tree_to_df_list = treeToDF(orig_bal_tree_19, add_avg_bl=TRUE)
+bal_info_19 = tree_to_df_list[["info"]]
+bal_tree_19 = tree_to_df_list[["labeled.tree"]]
+# # Parse the tree info, and replace the tip branch lengths
+# # with the avg. internal branch lengths as "labeled.tree"
 
-h = corecol(numcol=1, pal="wilke", offset=3)
-l = corecol(numcol=1, offset=3)
-# Colors
+comp = cophylo(pro_tree_19, bal_tree_19)
+# Generate the cophylo object
 
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 6
-# Order labels
+plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
 
-pro_pep_tree_fig = ggtree(pro_pep_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 19) +
-  geom_tiplab(aes(label=pro_pep_info$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1)))
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6")
-  
-  geom_cladelabel(node=22, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=7, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=28, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  ggtitle("Peptide tree")
-  
-  #theme(legend.position=c(0.05,0.9))
-#print(pro_pep_tree_fig)
-
-pro_trees = plot_grid(pro_cds_tree_fig, pro_pep_tree_fig, ncol=2)
-print(pro_trees)
 ```
 
+## 16 species tree vs. Traditional species tree (horseshoe crabs not with arachnids)
 
+**[Newick tree file (16 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/chelicerate-16spec-astral-pro.rooted.tre) (LEFT)**
+
+**[Newick tree file (HC non-arachnid; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/traditional.tre) (RIGHT; arbitrary branch lengths)**
+
+```{r astral-pro-tree-cds-16-trad, out.width="50%", fig.align = "center", warning=FALSE}
+
+orig_trad_tree_16 = read.tree(file=trad_file_16)
+tree_to_df_list = treeToDF(orig_trad_tree_16, add_avg_bl=TRUE)
+trad_info_16 = tree_to_df_list[["info"]]
+trad_tree_16 = tree_to_df_list[["labeled.tree"]]
+# # Parse the tree info, and replace the tip branch lengths
+# # with the avg. internal branch lengths as "labeled.tree"
+
+comp = cophylo(pro_tree_16, trad_tree_16)
+# Generate the cophylo object
+
+plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=2), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
+
+```
+
+## 19 species tree vs. Traditional species tree (horseshoe crabs not with arachnids)
+
+**[Newick tree file (19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-pro.rooted.tre) (LEFT)**
+
+**[Newick tree file (HC non-arachnid; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/traditional.tre) (RIGHT; arbitrary branch lengths)**
+
+```{r astral-pro-tree-cds-19-trad, out.width="50%", fig.align = "center", warning=FALSE}
+
+orig_trad_tree_19 = read.tree(file=trad_file_19)
+tree_to_df_list = treeToDF(orig_trad_tree_19, add_avg_bl=TRUE)
+trad_info_19 = tree_to_df_list[["info"]]
+trad_tree_19 = tree_to_df_list[["labeled.tree"]]
+# # Parse the tree info, and replace the tip branch lengths
+# # with the avg. internal branch lengths as "labeled.tree"
+
+comp = cophylo(pro_tree_19, trad_tree_19)
+# Generate the cophylo object
+
+plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=2), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
+
+```
 
 # ASTRAL-multi species tree
 
-Inferred from 9629 gene trees using the ASTRAL, and the gene-to-species mapping method outlined here: https://github.com/smirarab/ASTRAL/blob/master/astral-tutorial.md#memory-issues-due-to-taxon-names.
+Inferred from gene trees using ASTRAL, and the gene-to-species mapping method outlined here: https://github.com/smirarab/ASTRAL/blob/master/astral-tutorial.md#memory-issues-due-to-taxon-names.
 
 All branches have full ASTRAL support (1.0).
 
 Note: Tip branch lengths inferred by ASTRAL since this is treating the paralogs like multiple individuals in a species
 
-#### [Newick tree file (CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-19spec-astral-multi-rooted.tre)
+**[Newick tree file (16 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/chelicerate-16spec-astral-multi.rooted.tre)**
+
+**[Newick tree file (19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-multi.rooted.tre)**
 
 ```{r astral-multi-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
-orig_multi_tree = read.tree(multi_tree_file)
 
-tree_to_df_list = treeToDF(orig_multi_tree)
-multi_info = tree_to_df_list[["info"]]
-multi_tree = tree_to_df_list[["labeled.tree"]]
-# Parse the tree info, and replace the tip branch lengths
-# with the avg. internal branch lengths as "labeled.tree"
+orig_multi_tree_16 = read.tree(file=multi_file_16)
+orig_multi_tree_19 = read.tree(file=multi_file_19)
+# Read the trees
 
-multi_info = merge(multi_info, spec_abbrs, by="label", all=TRUE)
-multi_info =multi_info[order(multi_info$node), ]
-# Merge the fulle species names and re-order the rows by the R node
+comp = cophylo(orig_multi_tree_16, orig_multi_tree_19)
+# Generate the cophylo object
 
-h = corecol(numcol=1, pal="wilke", offset=3)
-l = corecol(numcol=1, offset=3)
-# Colors
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 2
-# Order labels
-
-multi_cds_tree_fig = ggtree(multi_tree, size=0.8, ladderize=F) +#, aes(color=full_data$Family)) +
-  xlim(0, 10) +
-  geom_tiplab(aes(label=multi_info$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=31, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=10, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=37, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  ggtitle("CDS tree")
-  
-  #theme(legend.position=c(0.05,0.9))
-
-  multi_cds_tree_fig = multi_cds_tree_fig %>% ggtree::rotate(29) %>% ggtree::rotate(30) %>% ggtree::rotate(31) %>% ggtree::rotate(32) %>% ggtree::rotate(33) %>% ggtree::rotate(34) %>% ggtree::rotate(36) %>% ggtree::rotate(28) %>% ggtree::rotate(25) %>% ggtree::rotate(24)
-
-print(multi_cds_tree_fig)
+plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
 
 ```
 
+# ASTRAL species tree from single-copy orthologs
 
-
-```{r astral-multi-tree-pep, out.width="75%", fig.align = "center", warning=FALSE, eval=F}
-#### [Newick tree file (peptide; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-16spec-pep-astral-multi.rooted.tre)
-
-orig_multi_pep_tree = read.tree(multi_pep_tree_file)
-
-tree_to_df_list = treeToDF(orig_multi_pep_tree)
-multi_pep_info = tree_to_df_list[["info"]]
-multi_pep_tree = tree_to_df_list[["labeled.tree"]]
-# Parse the tree info, and replace the tip branch lengths
-# with the avg. internal branch lengths as "labeled.tree"
-
-multi_pep_info = merge(multi_pep_info, spec_abbrs, by="label", all=TRUE)
-multi_pep_info =multi_pep_info[order(multi_pep_info$node), ]
-# Merge the fulle species names and re-order the rows by the R node
-
-h = corecol(numcol=1, pal="wilke", offset=3)
-l = corecol(numcol=1, offset=3)
-# Colors
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 5
-# Order labels
-
-multi_pep_tree_fig = ggtree(multi_pep_tree, size=0.8, ladderize=F) +#, aes(color=full_data$Family)) +
-  xlim(0, 15) +
-  geom_tiplab(aes(label=multi_pep_info$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=27, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=8, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=26, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=20, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=22, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) +
-  ggtitle("Peptide tree")
-  #theme(legend.position=c(0.05,0.9))
-
-#multi_tree_fig = multi_tree_fig %>% ggtree::rotate(17) %>% ggtree::rotate(19) %>% ggtree::rotate(21) %>% ggtree::rotate(19) %>% ggtree::rotate(21)
-
-#print(multi_pep_tree_fig)
-
-multi_trees = plot_grid(multi_cds_tree_fig, multi_pep_tree_fig, ncol=2)
-print(multi_trees)
-```
-
-# ASTRAL species tree from 208 single-copy orthologs
-
-Inferred from 208 single-copy orthologs using ASTRAL.
+Inferred from single-copy orthologs using ASTRAL.
 
 All branches have full ASTRAL support (1.0).
 
 Note: Tip branch lengths arbitrarily set to average of internal branch lengths...
 
-#### [Newick tree file (CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-19spec-astral-single-copy.tre)
+**[Newick tree file (19 species; CDS; 21 genes; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-single-copy.rooted.tre)**
 
-```{r astral-single-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
-orig_single_tree = read.tree(single_tree_file)
+**[Newick tree file (19 species; CDS; 8 genes; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-single-copy.rooted.tre)**
 
-tree_to_df_list = treeToDF(orig_single_tree, add_avg_bl=TRUE)
-single_info = tree_to_df_list[["info"]]
-single_tree = tree_to_df_list[["labeled.tree"]]
-# Parse the tree info, and replace the tip branch lengths
-# with the avg. internal branch lengths as "labeled.tree"
+```{r astral-sc-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
 
-single_info = merge(single_info, spec_abbrs, by="label", all=TRUE)
-single_info =single_info[order(single_info$node), ]
-# Merge the fulle species names and re-order the rows by the R node
+orig_sc_tree_16 = read.tree(file=sc_file_16)
+tree_to_df_list = treeToDF(orig_sc_tree_16, add_avg_bl=TRUE)
+sc_info_16 = tree_to_df_list[["info"]]
+sc_tree_16 = tree_to_df_list[["labeled.tree"]]
+# # Parse the tree info, and replace the tip branch lengths
+# # with the avg. internal branch lengths as "labeled.tree"
 
-h = corecol(numcol=1, pal="wilke", offset=3)
-l = corecol(numcol=1, offset=3)
-# Colors
+orig_sc_tree_19 = read.tree(file=sc_file_19)
+tree_to_df_list = treeToDF(orig_sc_tree_19, add_avg_bl=TRUE)
+sc_info_19 = tree_to_df_list[["info"]]
+sc_tree_19 = tree_to_df_list[["labeled.tree"]]
+# # Parse the tree info, and replace the tip branch lengths
+# # with the avg. internal branch lengths as "labeled.tree"
 
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 3
-# Order labels
+comp = cophylo(sc_tree_16, sc_tree_19)
+# Generate the cophylo object
 
-single_cds_tree_fig = ggtree(single_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 15) +
-  geom_tiplab(aes(label=single_info$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=32, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=12, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
-  ggtitle("CDS tree")
-  
-  #theme(legend.position=c(0.05,0.9))
+plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
 
-single_cds_tree_fig = single_cds_tree_fig %>% ggtree::rotate(34) %>% ggtree::rotate(35) %>% ggtree::rotate(30) %>% ggtree::rotate(28) %>% ggtree::rotate(23) %>% ggtree::rotate(24) %>% ggtree::rotate(25)
-
-print(single_cds_tree_fig)
-
-```
-
-
-
-```{r astral-single-tree-pep, out.width="75%", fig.align = "center", warning=FALSE, eval=F}
-#### [Newick tree file (peptide; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/trees/chelicerate-16spec-pep-astral-single-copy.tre)
-
-orig_single_pep_tree = read.tree(single_pep_tree_file)
-
-tree_to_df_list = treeToDF(orig_single_pep_tree, add_avg_bl=TRUE)
-single_pep_info = tree_to_df_list[["info"]]
-single_pep_tree = tree_to_df_list[["labeled.tree"]]
-# Parse the tree info, and replace the tip branch lengths
-# with the avg. internal branch lengths as "labeled.tree"
-
-single_pep_info = merge(single_pep_info, spec_abbrs, by="label", all=TRUE)
-single_pep_info =single_pep_info[order(single_pep_info$node), ]
-# Merge the fulle species names and re-order the rows by the R node
-
-h = corecol(numcol=1, pal="wilke", offset=3)
-l = corecol(numcol=1, offset=3)
-# Colors
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 8
-# Order labels
-
-single_pep_tree_fig = ggtree(single_pep_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 25) +
-  geom_tiplab(aes(label=single_pep_info$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=24, label="Araneae", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=3, label="Scorpiones", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=23, label="Xiphosura", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=19, label="Acariformes", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=29, label="Parasitiformes", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=15, label="Diptera", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=16, label="Lepidoptera", align=T, color="#333333", offset=famoffset) + 
-  ggtitle("Peptide tree")
-  
-  #theme(legend.position=c(0.05,0.9))
-
-#multi_tree_fig = multi_tree_fig %>% ggtree::rotate(17) %>% ggtree::rotate(19) %>% ggtree::rotate(21) %>% ggtree::rotate(19) %>% ggtree::rotate(21)
-
-#print(single_pep_tree_fig)
-
-single_trees = plot_grid(single_cds_tree_fig, single_pep_tree_fig, ncol=2)
-print(single_trees)
 ```
 
 # Notes relating to Ballesteros et al. 2022
@@ -411,216 +314,24 @@ This paper samples a wide range of Chelicerate genomes and transcriptomes (516 s
 They find:
 
 1. Xiphosura consistently groups with Araneae and Scorpiones
-2. Acariformes and Parasitiformes are not monophyletic. Their full tree (Fig. 1, Matrix 3) puts Acariformes outside of all other Parasitiformes, Xiphosura, Scorpiones, and Araneae.
+2. Acariformes (TURTI, SSCAB) and Parasitiformes (MOCCI, VDEST, HLONG, ISCAP) are not monophyletic with each other. Their full tree (Fig. 1, Matrix 3) puts Acariformes outside of all other Parasitiformes, Xiphosura, Scorpiones, and Araneae.
 3. Using their most stringent dataset (Matrix 4), Acariformes is sister to Xiphosura, but the lengths of the branches separating these groups from each other and from Araneae and Scorpiones are very short (Fig. 3).
+
+**[Newick tree file (HC non-arachnid; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/traditional.tre) (LEFT; arbitrary branch lengths)
+**[Newick tree file (Ballesteros topology; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/ballesteros.tre) (RIGHT; arbitrary branch lengths)
 
 Our results also consistently show Xiphosura sister to Araneae and Scopriones, within Arachnida. We also find inconsistent placements of Acariformes, though never sister to Xiphosura.
 
-```{r trad-tree, out.width="75%", fig.align = "center", warning=FALSE}
-orig_trad_tree = read.tree(traditional_topology_file)
+```{r trad-bal-comp, out.width="50%", fig.align = "center", warning=FALSE}
 
-tree_to_df_list = treeToDF(orig_trad_tree, add_avg_bl=TRUE)
-trad_info = tree_to_df_list[["info"]]
-trad_tree = tree_to_df_list[["labeled.tree"]]
-# Parse the tree info, and replace the tip branch lengths
-# with the avg. internal branch lengths as "labeled.tree"
+comp = cophylo(trad_tree_19, bal_tree_19)
+# Generate the cophylo object
 
-trad_info = merge(trad_info, spec_abbrs, by="label", all=TRUE)
-trad_info =trad_info[order(trad_info$node), ]
-# Merge the full species names and re-order the rows by the R node
-
-h = corecol(numcol=1, pal="wilke", offset=3)
-l = corecol(numcol=1, offset=3)
-# Colors
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 16
-# Order labels
-
-trad_tree_fig = ggtree(trad_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 30) +
-  geom_tiplab(aes(label=trad_info$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=25, label="Ar", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=8, label="S", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=35, label="X", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=31, label="P", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=34, label="Ac", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=18, label="D", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=19, label="L", align=T, color="#333333", offset=famoffset) + 
-  ggtitle("Monophyletic Arachnids")
-  
-  #theme(legend.position=c(0.05,0.9))
-
-trad_tree_fig = trad_tree_fig %>% ggtree::rotate(27) %>% ggtree::rotate(30) %>% ggtree::rotate(29) %>% ggtree::rotate(31) %>% ggtree::rotate(32) %>% ggtree::rotate(36)
-
-#print(trad_tree_fig)
-
-```
-
-```{r ballesteros-tree, out.width="75%", fig.align = "center", warning=FALSE}
-orig_ball_tree = read.tree(ballesteros_topology_file)
-
-tree_to_df_list = treeToDF(orig_ball_tree, add_avg_bl=TRUE)
-ball_info = tree_to_df_list[["info"]]
-ball_tree = tree_to_df_list[["labeled.tree"]]
-# Parse the tree info, and replace the tip branch lengths
-# with the avg. internal branch lengths as "labeled.tree"
-
-ball_info = merge(ball_info, spec_abbrs, by="label", all=TRUE)
-ball_info =ball_info[order(ball_info$node), ]
-# Merge the full species names and re-order the rows by the R node
-
-h = corecol(numcol=1, pal="wilke", offset=3)
-l = corecol(numcol=1, offset=3)
-# Colors
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 16
-# Order labels
-
-ball_tree_fig = ggtree(ball_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 30) +
-  geom_tiplab(aes(label=ball_info$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=25, label="Ar", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=8, label="S", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=31, label="X", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=36, label="Ac", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=33, label="P", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=18, label="D", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=19, label="L", align=T, color="#333333", offset=famoffset) + 
-  ggtitle("Ballesteros et al. 2021")
-  
-  #theme(legend.position=c(0.05,0.9))
-
-ball_tree_fig = ball_tree_fig %>% ggtree::rotate(27) %>% ggtree::rotate(30) %>% ggtree::rotate(29) %>% ggtree::rotate(33) %>% ggtree::rotate(34)
-
-#print(ball_tree_fig)
-
-
-```
-
-```{r cds-pro-tree-nobl, out.width="75%", fig.align = "center", warning=FALSE}
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 16
-# Order labels
-
-pro_cds_tree_nobl_fig = ggtree(pro_tree, size=0.8, ladderize=T, branch.length="none") +#, aes(color=full_data$Family)) +
-  xlim(0, 30) +
-  geom_tiplab(aes(label=pro_info$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=32, label="Ar", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=12, label="S", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="X", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=30, label="Ac", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=23, label="P", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=1, label="D", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=2, label="L", align=T, color="#333333", offset=famoffset) +
-  ggtitle("CDS tree")
-  
-  #theme(legend.position=c(0.05,0.9))
-
-  pro_cds_tree_nobl_fig = pro_cds_tree_nobl_fig %>% ggtree::rotate(34) %>% ggtree::rotate(35) %>% ggtree::rotate(37)
-
-#print(pro_cds_tree_nobl_fig)
-```
-
-```{r astral-pro-tree-cds-16spec, out.width="50%", fig.align = "center", warning=FALSE}
-orig_pro_tree_16 = read.tree(pro_tree_file_16)
-
-tree_to_df_list = treeToDF(orig_pro_tree_16, add_avg_bl=TRUE)
-pro_info_16 = tree_to_df_list[["info"]]
-pro_tree_16 = tree_to_df_list[["labeled.tree"]]
-# Parse the tree info, and replace the tip branch lengths
-# with the avg. internal branch lengths as "labeled.tree"
-
-pro_info_16 = merge(pro_info_16, spec_abbrs, by="label", all=TRUE)
-pro_info_16 = subset(pro_info_16, label!="HLONG" & label!="ABRUE" & label!="TGIGA")
-pro_info_16 = pro_info_16[order(pro_info_16$node), ]
-# Merge the fulle species names and re-order the rows by the R node
-
-h = corecol(numcol=1, pal="wilke", offset=3)
-l = corecol(numcol=1, offset=3)
-# Colors
-
-famcol = corecol(pal="wilke", numcol=1, offset=2)
-famoffset = 16
-# Order labels
-
-pro_cds_tree_fig_16 = ggtree(pro_tree_16, size=0.8, ladderize=T, branch.length="none") +#, aes(color=full_data$Family)) +
-  xlim(0, 30) +
-  geom_tiplab(aes(label=pro_info_16$S.name), fontface='italic', size=4) +
-  #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
-  #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
-  
-  geom_cladelabel(node=22, label="Ar", align=T, color=corecol(numcol=1, offset=2), offset=famoffset) +
-  geom_cladelabel(node=7, label="S", align=T, color=corecol(numcol=1), offset=famoffset) +
-  geom_cladelabel(node=27, label="X", align=T, color=corecol(numcol=1, offset=4), offset=famoffset) +
-  geom_cladelabel(node=28, label="Ac", align=T, color=corecol(numcol=1, offset=7), offset=famoffset) +
-  geom_cladelabel(node=29, label="P", align=T, color=corecol(numcol=1, offset=1, pal="trek"), offset=famoffset) +
-  geom_cladelabel(node=15, label="D", align=T, color="#333333", offset=famoffset) +
-  geom_cladelabel(node=16, label="L", align=T, color="#333333", offset=famoffset) +
-  ggtitle("CDS tree (16 species)")
-  
-  #theme(legend.position=c(0.05,0.9))
-
-  #pro_cds_tree_fig = pro_cds_tree_fig %>% ggtree::rotate(34) %>% ggtree::rotate(35) %>% ggtree::rotate(37)
-
-#print(pro_cds_tree_fig_16)
+plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=3), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
 
 ```
 
 
-```{r tree-comp, out.width="80%", fig.align = "center", warning=FALSE, fig.height=6}
-other_trees = plot_grid(trad_tree_fig, ball_tree_fig, pro_cds_tree_nobl_fig, pro_cds_tree_fig_16, ncol=2)
-print(other_trees)
-```
-
-```{r algo, out.width="75%", fig.align = "center", warning=FALSE, eval=F}
-# Outline of algorithm to calculate gene concordance factors with paralogs
-
-Basically, match clades between the species and gene tree and check for paralogs. If paralogs are present, remove them and then check if the branch is concordant.
-
-
-for every gene tree{
-  for every branch in the species tree{
-    get the list of all species descending from this branch in the species tree
-  
-    find the LCA of these species in the gene tree
-    
-    get the list of species descening from the LCA in the gene tree
-    
-    if the list of species from the species tree branch and the gene tree branch match exactly{
-      classify this branch as concordant for this gene tree
-    }
-    
-    if list from the gene tree include species NOT in the species tree list{
-      for each species not in the species tree list{
-        if this species has another gene-copy present in the gene tree{
-          consider as paralog and remove from gene tree list
-        }
-        else{
-          keep in gene tree list
-        }
-      }
-      
-      if the gene tree list no longer contains species NOT in the species tree list{
-        classify this branch as concordant for this gene tree
-      }
-      else{
-        classify this branch as disconcordant for this gene tree
-      }
-    }
-  }
-}
-
-```
 
 [< Back to project](index.html)
