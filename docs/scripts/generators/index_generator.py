@@ -35,7 +35,7 @@ html_template = """
 				<li><h3><a href="orthologs.html">Ortholog clustering summary</a><span style="font-size:0.65em;"> / <a href="orig/orthologs.html">Old 19 spec</a> / <a href="orig/16spec/orthologs.html">Old 16 spec</a></span></h3></li>
 				<li><h3><a href="alignments.html">Alignment summary stats</a><span style="font-size:0.65em;"> / <a href="orig/alignments.html">Old 19 spec</a> / <a href="orig/16spec/alignments.html">Old 16 spec</a></span></h3></li>
 				<li><h3><a href="trees.html">Species trees</a><span style="font-size:0.65em;"> / <a href="orig/trees.html">Old 19 spec</a> / <a href="orig/16spec/trees.html">Old 16 spec</a></span></h3></li>
-				<li><h3><a href="grampa.html">GRAMPA results</a><span style="font-size:0.65em;"> / <a href="orig/grampa.html">Old 19 spec</a> / <a href="orig/16spec/grampa_results.html">Old 16 spec</a></span></h3></li>
+				<li><h3>GRAMPA results: <a href="grampa_multi.html">Multi</a> / <a href="grampa_pro.html">Pro</a><span style="font-size:0.65em;"> / <a href="orig/grampa.html">Old Pro 19 spec</a> / <a href="orig/16spec/grampa_results.html">Old Pro 16 spec</a></span></h3></li>
 				<!-- <li><h3><a href="hox.html">Hox gene trees</a></h3></li> -->
 			</ul>
 		</div>

@@ -25,7 +25,7 @@ library(kableExtra)
 #library(tidyr)
 library(ggtree)
 #library(phytools)
-#library(phangorn)
+library(phangorn)
 #library(reshape2)
 library(ggExtra)
 #library(ggrepel)
@@ -42,6 +42,19 @@ source("../lib/get_tree_info.r")
 #ggtree::rotate <- ggtree::rotate()
 
 #htmltools::includeHTML("../html-chunks/rmd_nav.html")
+
+prune_tips <- function(tree1, tree2) {
+# Prunes tips from tree2 that are not in tree 1
+# Returns pruned tree
+  
+  tips_to_prune = tree2$tip.label[!tree2$tip.label %in% tree1$tip.label]
+  
+  if(length(tips_to_prune) > 0){
+    tree2 = drop.tip(tree2, tips_to_prune)
+  }
+  return(tree2)
+}
+
 ```
 
 [< Back to project](index.html)
@@ -124,7 +137,7 @@ Note: Tip branch lengths arbitrarily set to average of internal branch lengths..
 
 **[Newick tree file (19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-pro.rooted.tre) (RIGHT)**
 
-```{r astral-pro-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
+```{r astral-pro-tree-cds, out.width="35%", fig.align = "center", warning=FALSE}
 
 orig_pro_tree_16 = read.tree(file=pro_file_16)
 tree_to_df_list = treeToDF(orig_pro_tree_16, add_avg_bl=TRUE)
@@ -140,11 +153,16 @@ pro_tree_19 = tree_to_df_list[["labeled.tree"]]
 # # Parse the tree info, and replace the tip branch lengths
 # # with the avg. internal branch lengths as "labeled.tree"
 
-comp = cophylo(pro_tree_16, pro_tree_19)
+#comp = cophylo(pro_tree_16, pro_tree_19)
 # Generate the cophylo object
 
-plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
 # Plot the trees
+
+pro_tree_19_pruned = prune_tips(pro_tree_16, pro_tree_19)
+#RF.dist(pro_tree_16, pro_tree_19_pruned)
+
+comparePhylo(pro_tree_16, pro_tree_19_pruned, commons=F, plot=T, location=NA)
 
 ```
 
@@ -156,7 +174,7 @@ plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.trans
 
 **[Newick tree file (Ballesteros topology; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/ballesteros.tre) (RIGHT; arbitrary branch lengths)**
 
-```{r astral-pro-tree-cds-16-bal, out.width="50%", fig.align = "center", warning=FALSE}
+```{r astral-pro-tree-cds-16-bal, out.width="35%", fig.align = "center", warning=FALSE}
 
 orig_bal_tree_16 = read.tree(file=bal_file_16)
 tree_to_df_list = treeToDF(orig_bal_tree_16, add_avg_bl=TRUE)
@@ -165,11 +183,14 @@ bal_tree_16 = tree_to_df_list[["labeled.tree"]]
 # # Parse the tree info, and replace the tip branch lengths
 # # with the avg. internal branch lengths as "labeled.tree"
 
-comp = cophylo(pro_tree_16, bal_tree_16)
+#comp = cophylo(pro_tree_16, bal_tree_16)
 # Generate the cophylo object
 
-plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1), 0.5), fsize=c(0.5,0.5))
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1), 0.5), fsize=c(0.5,0.5))
 # Plot the trees
+
+#RF.dist(pro_tree_16, bal_tree_16)
+comparePhylo(pro_tree_16, bal_tree_16, commons=F, plot=T, location=NA)
 
 ```
 
@@ -180,7 +201,7 @@ plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.trans
 
 **[Newick tree file (Ballesteros topology; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/ballesteros.tre) (RIGHT; arbitrary branch lengths)**
 
-```{r astral-pro-tree-cds-19-bal, out.width="50%", fig.align = "center", warning=FALSE}
+```{r astral-pro-tree-cds-19-bal, out.width="35%", fig.align = "center", warning=FALSE}
 
 orig_bal_tree_19 = read.tree(file=bal_file_19)
 tree_to_df_list = treeToDF(orig_bal_tree_19, add_avg_bl=TRUE)
@@ -189,11 +210,14 @@ bal_tree_19 = tree_to_df_list[["labeled.tree"]]
 # # Parse the tree info, and replace the tip branch lengths
 # # with the avg. internal branch lengths as "labeled.tree"
 
-comp = cophylo(pro_tree_19, bal_tree_19)
+#comp = cophylo(pro_tree_19, bal_tree_19)
 # Generate the cophylo object
 
-plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1), 0.5), fsize=c(0.5,0.5))
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1), 0.5), fsize=c(0.5,0.5))
 # Plot the trees
+
+#RF.dist(pro_tree_19, bal_tree_19)
+comparePhylo(pro_tree_19, bal_tree_19, commons=F, plot=T, location=NA)
 
 ```
 
@@ -203,7 +227,7 @@ plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.trans
 
 **[Newick tree file (HC non-arachnid; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/traditional.tre) (RIGHT; arbitrary branch lengths)**
 
-```{r astral-pro-tree-cds-16-trad, out.width="50%", fig.align = "center", warning=FALSE}
+```{r astral-pro-tree-cds-16-trad, out.width="35%", fig.align = "center", warning=FALSE}
 
 orig_trad_tree_16 = read.tree(file=trad_file_16)
 tree_to_df_list = treeToDF(orig_trad_tree_16, add_avg_bl=TRUE)
@@ -212,11 +236,14 @@ trad_tree_16 = tree_to_df_list[["labeled.tree"]]
 # # Parse the tree info, and replace the tip branch lengths
 # # with the avg. internal branch lengths as "labeled.tree"
 
-comp = cophylo(pro_tree_16, trad_tree_16)
+#comp = cophylo(pro_tree_16, trad_tree_16)
 # Generate the cophylo object
 
-plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=2), 0.5), fsize=c(0.5,0.5))
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=2), 0.5), fsize=c(0.5,0.5))
 # Plot the trees
+
+#RF.dist(pro_tree_16, trad_tree_16)
+comparePhylo(pro_tree_16, trad_tree_16, commons=F, plot=T, location=NA)
 
 ```
 
@@ -226,7 +253,7 @@ plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.trans
 
 **[Newick tree file (HC non-arachnid; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/traditional.tre) (RIGHT; arbitrary branch lengths)**
 
-```{r astral-pro-tree-cds-19-trad, out.width="50%", fig.align = "center", warning=FALSE}
+```{r astral-pro-tree-cds-19-trad, out.width="35%", fig.align = "center", warning=FALSE}
 
 orig_trad_tree_19 = read.tree(file=trad_file_19)
 tree_to_df_list = treeToDF(orig_trad_tree_19, add_avg_bl=TRUE)
@@ -235,11 +262,14 @@ trad_tree_19 = tree_to_df_list[["labeled.tree"]]
 # # Parse the tree info, and replace the tip branch lengths
 # # with the avg. internal branch lengths as "labeled.tree"
 
-comp = cophylo(pro_tree_19, trad_tree_19)
+#comp = cophylo(pro_tree_19, trad_tree_19)
 # Generate the cophylo object
 
-plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=2), 0.5), fsize=c(0.5,0.5))
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=2), 0.5), fsize=c(0.5,0.5))
 # Plot the trees
+
+#RF.dist(pro_tree_19, trad_tree_19)
+comparePhylo(pro_tree_19, trad_tree_19, commons=F, plot=T, location=NA)
 
 ```
 
@@ -255,17 +285,137 @@ Note: Tip branch lengths inferred by ASTRAL since this is treating the paralogs 
 
 **[Newick tree file (19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-multi.rooted.tre)**
 
-```{r astral-multi-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
+```{r astral-multi-tree-cds, out.width="35%", fig.align = "center", warning=FALSE}
 
-orig_multi_tree_16 = read.tree(file=multi_file_16)
-orig_multi_tree_19 = read.tree(file=multi_file_19)
+multi_tree_16 = read.tree(file=multi_file_16)
+multi_tree_19 = read.tree(file=multi_file_19)
 # Read the trees
 
-comp = cophylo(orig_multi_tree_16, orig_multi_tree_19)
+#comp = cophylo(orig_multi_tree_16, orig_multi_tree_19)
 # Generate the cophylo object
 
-plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
 # Plot the trees
+
+#RF.dist(orig_multi_tree_16, prune_tips(orig_multi_tree_16, orig_multi_tree_19))
+multi_tree_19_pruned = prune_tips(multi_tree_16, multi_tree_19)
+comparePhylo(multi_tree_16, multi_tree_19_pruned, commons=F, plot=T, location=NA)
+
+```
+
+## 16 species tree vs. Ballesteros species tree
+
+**[Newick tree file (16 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/chelicerate-16spec-astral-multi.rooted.tre) (LEFT)**
+
+**[Newick tree file (Ballesteros topology; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/ballesteros.tre) (RIGHT; arbitrary branch lengths)**
+
+```{r astral-multi-tree-cds-16-bal, out.width="35%", fig.align = "center", warning=FALSE}
+
+#comp = cophylo(orig_multi_tree_16, bal_tree_16)
+# Generate the cophylo object
+
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
+
+#RF.dist(orig_multi_tree_16, bal_tree_16)
+comparePhylo(multi_tree_16, bal_tree_16, commons=F, plot=T, location=NA)
+
+```
+
+## 19 species tree vs. Ballesteros species tree
+
+**[Newick tree file (19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-multi.rooted.tre) (LEFT)**
+
+**[Newick tree file (Ballesteros topology; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/ballesteros.tre) (RIGHT; arbitrary branch lengths)**
+
+```{r astral-multi-tree-cds-19-bal, out.width="35%", fig.align = "center", warning=FALSE}
+
+#comp = cophylo(orig_multi_tree_19, bal_tree_19)
+# Generate the cophylo object
+
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
+
+#RF.dist(orig_multi_tree_19, bal_tree_19)
+comparePhylo(multi_tree_19, bal_tree_19, commons=F, plot=T, location=NA)
+
+```
+
+## 16 species tree vs. Traditional species tree (horseshoe crabs not with arachnids)
+
+**[Newick tree file (16 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/chelicerate-16spec-astral-multi.rooted.tre) (LEFT)**
+
+**[Newick tree file (HC non-arachnid; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/traditional.tre) (RIGHT; arbitrary branch lengths)**
+
+```{r astral-multi-tree-cds-16-trad, out.width="35%", fig.align = "center", warning=FALSE}
+
+#comp = cophylo(orig_multi_tree_16, trad_tree_16)
+# Generate the cophylo object
+
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=2), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
+
+#RF.dist(orig_multi_tree_16, trad_tree_16)
+comparePhylo(multi_tree_16, trad_tree_16, commons=F, plot=T, location=NA)
+
+```
+
+## 19 species tree vs. Traditional species tree (horseshoe crabs not with arachnids)
+
+**[Newick tree file (19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-multi.rooted.tre) (LEFT)**
+
+**[Newick tree file (HC non-arachnid; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/traditional.tre) (RIGHT; arbitrary branch lengths)**
+
+```{r astral-multi-tree-cds-19-trad, out.width="35%", fig.align = "center", warning=FALSE}
+
+#comp = cophylo(orig_multi_tree_19, trad_tree_19)
+# Generate the cophylo object
+
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=2), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
+
+#RF.dist(orig_multi_tree_19, trad_tree_19)
+comparePhylo(multi_tree_19, trad_tree_19, commons=F, plot=T, location=NA)
+
+```
+
+# Pro vs. Multi trees
+
+## 16 species
+
+**[Newick tree file (PRO; 16 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/chelicerate-16spec-astral-pro.rooted.tre) (LEFT)**
+
+**[Newick tree file (MULTI; 16 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/16spec/trees/chelicerate-16spec-astral-multi.rooted.tre) (RIGHT)**
+
+```{r pro-multi-16, out.width="35%", fig.align = "center", warning=FALSE}
+
+#comp = cophylo(pro_tree_16, orig_multi_tree_16)
+# Generate the cophylo object
+
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
+
+#RF.dist(pro_tree_16, orig_multi_tree_16)
+comparePhylo(pro_tree_16, multi_tree_16, commons=F, plot=T, location=NA)
+
+```
+
+## 19 species
+
+**[Newick tree file (PRO; 19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-pro.rooted.tre) (LEFT)**
+
+**[Newick tree file (MULTI; 19 species; CDS; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-multi.rooted.tre) (RIGHT)**
+
+```{r pro-multi-19, out.width="35%", fig.align = "center", warning=FALSE}
+
+#comp = cophylo(pro_tree_19, orig_multi_tree_19)
+# Generate the cophylo object
+
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
+# Plot the trees
+
+#RF.dist(pro_tree_19, orig_multi_tree_19)
+comparePhylo(pro_tree_19, multi_tree_19, commons=F, plot=T, location=NA)
 
 ```
 
@@ -281,7 +431,7 @@ Note: Tip branch lengths arbitrarily set to average of internal branch lengths..
 
 **[Newick tree file (19 species; CDS; 8 genes; rooted)](https://github.com/gwct/spider-wgd/blob/main/data/19spec/trees/chelicerate-19spec-astral-single-copy.rooted.tre)**
 
-```{r astral-sc-tree-cds, out.width="50%", fig.align = "center", warning=FALSE}
+```{r astral-sc-tree-cds, out.width="35%", fig.align = "center", warning=FALSE}
 
 orig_sc_tree_16 = read.tree(file=sc_file_16)
 tree_to_df_list = treeToDF(orig_sc_tree_16, add_avg_bl=TRUE)
@@ -297,11 +447,15 @@ sc_tree_19 = tree_to_df_list[["labeled.tree"]]
 # # Parse the tree info, and replace the tip branch lengths
 # # with the avg. internal branch lengths as "labeled.tree"
 
-comp = cophylo(sc_tree_16, sc_tree_19)
+#comp = cophylo(sc_tree_16, sc_tree_19)
 # Generate the cophylo object
 
-plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=1), 0.5), fsize=c(0.5,0.5))
 # Plot the trees
+
+#RF.dist(sc_tree_16, prune_tips(sc_tree_16, sc_tree_19))
+sc_tree_19_pruned = prune_tips(sc_tree_16, sc_tree_19)
+comparePhylo(sc_tree_16, sc_tree_19_pruned, commons=F, plot=T, location=NA)
 
 ```
 
@@ -322,13 +476,16 @@ They find:
 
 Our results also consistently show Xiphosura sister to Araneae and Scopriones, within Arachnida. We also find inconsistent placements of Acariformes, though never sister to Xiphosura.
 
-```{r trad-bal-comp, out.width="50%", fig.align = "center", warning=FALSE}
+```{r trad-bal-comp, out.width="35%", fig.align = "center", warning=FALSE}
 
-comp = cophylo(trad_tree_19, bal_tree_19)
+#comp = cophylo(trad_tree_19, bal_tree_19)
 # Generate the cophylo object
 
-plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=3), 0.5), fsize=c(0.5,0.5))
+#plot(comp, link.type="curved", link.lwd=4, link.lty="solid", link.col=make.transparent(corecol(numcol=1, offset=3), 0.5), fsize=c(0.5,0.5))
 # Plot the trees
+
+#RF.dist(trad_tree_19, bal_tree_19)
+comparePhylo(trad_tree_19, bal_tree_19, commons=F, plot=T, location=NA)
 
 ```
 

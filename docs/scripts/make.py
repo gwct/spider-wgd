@@ -51,7 +51,8 @@ if pages['trees']:
     os.system("Rscript trees_generator.r");
 
 if pages['grampa']:
-    os.system("Rscript grampa_generator.r");
+    os.system("Rscript grampa_pro_generator.r");
+    os.system("Rscript grampa_multi_generator.r");
 
 if pages['hox']:
     os.system("Rscript hox_generator.r");
