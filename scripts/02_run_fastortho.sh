@@ -12,7 +12,7 @@
 
 cd /n/home07/gthomas/projects/spider-wgd/scripts/
 
-specstr="16spec"
+specstr="18spec"
 configfile="/n/home07/gthomas/projects/spider-wgd/scripts/02_fastortho_opts_$specstr.txt"
 
 i=2

@@ -14,7 +14,7 @@ from collections import defaultdict
 
 #############################################################################
 
-data_str = "16spec"
+data_str = "18spec"
 # Which dataset to get seqs from
 
 inflation_param = "3";
@@ -23,6 +23,9 @@ inflation_param = "3";
 if data_str == "16spec":
     specs = ["bmori", "crotu", "cscul", "dmela", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "smimo", "sscab", "tanti", "turti", "vdest"];
     data_st = "16spec";
+
+elif data_str == "18spec":
+    specs = ["abrue", "bmori", "crotu", "cscul", "dmela", "hlong", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "smimo", "sscab", "tanti", "tgiga", "turti", "vdest"];
 
 elif data_str == "19spec":
     specs = ["abrue", "bmori", "crotu", "cscul", "dmela", "hlong", "iscap", "lhesp", "lpoly", "lrecl", "mocci", "nclav", "ptepi", "smimo", "sscab", "tanti", "tgiga", "turti", "vdest"];

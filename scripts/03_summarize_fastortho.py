@@ -50,7 +50,7 @@ def runTime(msg=False, writeout=False, printout=True):
 inflation_params = ["2", "3", "4", "5", "6"];
 # The various inflation params used when running fastortho
 
-spec_str = "19spec"
+spec_str = "18spec"
 # The dataset to parse
 
 fastortho_dir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/" + spec_str + "/"

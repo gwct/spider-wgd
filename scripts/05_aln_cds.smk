@@ -4,6 +4,7 @@
 #############################################################################
 
 # snakemake -p -s 05_aln_cds.smk --configfile 16spec_config.yaml --profile slurm_profile/ --keep-going --dryrun
+# snakemake -p -s 05_aln_cds.smk --configfile 18spec_config.yaml --profile slurm_profile/ --keep-going --dryrun
 # snakemake -p -s 05_aln_cds.smk --configfile 19spec_config.yaml --profile slurm_profile/ --keep-going --dryrun
 
 #############################################################################

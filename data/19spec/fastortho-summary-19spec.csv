@@ -1,7 +1,7 @@
 # Summarize FastOrtho
 # PYTHON VERSION: 3.7.12
 # Script call:    03_summarize_fastortho.py
-# Runtime:        01/05/2023 15:42:01
+# Runtime:        06/09/2023 14:38:50
 # ----------------
 # Ortholog directory:/n/holylfs05/LABS/informatics/Users/gthomas/spiders/fastortho/19spec/
 # Output file:      ../data/19spec/fastortho-summary-19spec.csv
