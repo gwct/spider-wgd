@@ -1,7 +1,7 @@
 # CDS alignment filter
 # PYTHON VERSION: 3.7.12
 # Script call:    06_aln_filter.py -i /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/19spec/01-Guidance/ -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/19spec/02-Filter/ --overwrite
-# Runtime:        01/17/2023 16:25:54
+# Runtime:        07/11/2023 15:22:45
 # ----------------
 # IO OPTIONS
 # Input CDS directory:    /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/19spec/01-Guidance
@@ -12,7 +12,7 @@
 # --overwrite set:        Overwriting previous files in output directory.
 # Log file:               /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/19spec/02-Filter-spec4-seq20-site50/aln-stats-spec4-seq20-site50.log
 # ----------------
-# 01.17.2023 | 16:25:54 Beginning filter.
+# 07.11.2023 | 15:22:45 Beginning filter.
 align	pre guidance codon length	guidance codons rm	pre num seqs	pre num species	pre codon aln length	pre avg nongap length	pre uniq seqs	pre ident seqs	pre gappy seqs	pre invariant sites	pre informative codon sites	pre informative nt sites	pre stop codons	pre percent sites with gap	pre gappy sites	sites filtered	post num seqs	post num species	post codon aln length	post avg nongap length	post uniq seqs	post ident seqs	post gappy seqs	post invariant sites	post informative codon sites	post informative nt sites	post stop codons	post percent sites with gap	post gappy sites
 ORTHOMCL16792	154.66666666666666	9.666666666666666	4	4	145	133.5	4	0	0	4	12	62	0	17	17	14	4	4	131	127.5	4	0	0	3	12	62	0	6	6
 ORTHOMCL18408	287.6666666666667	63.666666666666664	4	4	224	131.75	4	0	3	5	8	31	0	134	134	79	2	2	145	110.0	4	0	2	5	8	31	0	57	57
@@ -14065,11 +14065,11 @@ ORTHOMCL5168	1045.6666666666667	393.6666666666667	16	16	652	480.875	16	0	13	5	46
 # ----------------
 # Pre-filter alignments: 14048
 # Pre-filter sequences : 178365
-# Pre-filter single-copy alignments: 288
+# Pre-filter single-copy alignments: 78
 # Alignments removed with too few species: 2736
 # Alignments removed for being too short: 818
 # Samples removed above gappy threshold:    44241
 # Samples removed with premature stops:    0
 # Post-filter alignments: 11016
 # Post-filter sequences : 123558
-# Post-filter single-copy alignments: 218
+# Post-filter single-copy alignments: 8
