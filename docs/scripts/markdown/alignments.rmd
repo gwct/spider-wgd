@@ -55,7 +55,7 @@ get_orths_stats %>% kable() %>% kable_styling(bootstrap_options=c("striped", "co
 
 ## Sequences by species
 
-```{r seq-summary-spec, out.width="75%", fig.align = "center", warning=FALSE}
+```{r seq-summary-spec, out.width="85%", fig.align = "center", warning=FALSE, fig.height=4}
 
 spec_seq_data_orig_16= read.csv(here("data", "16spec", "get-orths-spec-stats.csv"), header=T)
 spec_seq_data_16 = select(spec_seq_data_orig_16, -sequences.total, -abbr)
@@ -65,13 +65,36 @@ spec_p_16 = ggplot(spec_seq_data_long_16, aes(x=species, y=value, fill=variable)
   geom_bar(position="stack", stat="identity") +
   scale_y_continuous(expand=c(0,0)) +
   xlab("Species") +
+  ylab("") +
+  bartheme() +
+  theme(legend.position="bottom", 
+        legend.text=element_text(size=8),
+        #legend.key.size = unit(1,"line"),
+        axis.text=element_text(size=10),
+        axis.text.x=element_text(angle=35, hjust=1, size=6),
+        axis.text.y=element_text(size=6)) +
+  guides(shape = guide_legend(override.aes=list(size=2))) +
+  coord_flip()
+#print(spec_p_16)
+
+####################
+
+spec_seq_data_orig_18= read.csv(here("data", "18spec", "get-orths-spec-stats.csv"), header=T)
+spec_seq_data_18 = select(spec_seq_data_orig_18, -sequences.total, -abbr)
+spec_seq_data_long_18 = melt(spec_seq_data_18, id.vars=c("species"))
+
+spec_p_18 = ggplot(spec_seq_data_long_18, aes(x=species, y=value, fill=variable)) +
+  geom_bar(position="stack", stat="identity") +
+  scale_y_continuous(expand=c(0,0)) +
+  xlab("") +
   ylab("# of sequences") +
   bartheme() +
   theme(legend.position="bottom", 
-        axis.text.x=element_text(angle=35, hjust=1),
-        axis.text.y=element_text(size=8)) +
+        axis.text=element_text(size=10),
+        axis.text.x=element_text(angle=35, hjust=1, size=6),
+        axis.text.y=element_text(size=6)) +
   coord_flip()
-#print(spec_p_16)
+#print(spec_p_19)
 
 ####################
 
@@ -82,12 +105,12 @@ spec_seq_data_long_19 = melt(spec_seq_data_19, id.vars=c("species"))
 spec_p_19 = ggplot(spec_seq_data_long_19, aes(x=species, y=value, fill=variable)) +
   geom_bar(position="stack", stat="identity") +
   scale_y_continuous(expand=c(0,0)) +
-  xlab("Species") +
-  ylab("# of sequences") +
+  xlab("") +
+  ylab("") +
   bartheme() +
   theme(legend.position="bottom", 
-        axis.text.x=element_text(angle=35, hjust=1),
-        axis.text.y=element_text(size=8)) +
+        axis.text.x=element_text(angle=35, hjust=1, size=6),
+        axis.text.y=element_text(size=6)) +
   coord_flip()
 #print(spec_p_19)
 
@@ -95,11 +118,12 @@ spec_p_19 = ggplot(spec_seq_data_long_19, aes(x=species, y=value, fill=variable)
 
 leg = get_legend(spec_p_16)
 
-spec_p_top = plot_grid(spec_p_16 + theme(legend.position="none"), spec_p_19 + theme(legend.position="none"), ncol=2, labels=c("16 species", "19 species"))
+spec_p_top = plot_grid(spec_p_16 + theme(legend.position="none"), spec_p_18 + theme(legend.position="none"), spec_p_19 + theme(legend.position="none"), ncol=3, labels=c("16 species", "18 species (No PTEPI)", "19 species"), label_size=10)
 spec_p = plot_grid(spec_p_top, leg, nrow=2, rel_heights=c(1,0.1))
 print(spec_p)
 
 spec_seq_data_orig_16 %>% kable(caption="16 species") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
+spec_seq_data_orig_18 %>% kable(caption="18 species (No PTEPI)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 spec_seq_data_orig_19 %>% kable(caption="19 species") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 ```
 
@@ -109,10 +133,12 @@ spec_seq_data_orig_19 %>% kable(caption="19 species") %>% kable_styling(bootstra
 
 aln_data_16 = read.csv(here("data", "16spec", "aln-stats-spec4-seq20-site50.log"), sep="\t", header=T, comment.char="#")
 aln_data_16$dataset = "16 species"
+aln_data_18 = read.csv(here("data", "18spec", "aln-stats-spec4-seq20-site50.log"), sep="\t", header=T, comment.char="#")
+aln_data_18$dataset = "18 species (No PTEPI)"
 aln_data_19 = read.csv(here("data", "19spec", "aln-stats-spec4-seq20-site50.log"), sep="\t", header=T, comment.char="#")
 aln_data_19$dataset = "19 species"
 
-aln_data = rbind(aln_data_16, aln_data_19)
+aln_data = rbind(aln_data_16, aln_data_18, aln_data_19)
 
 aln_summary_data = read.csv(here("data", "aln-stats-summary.csv"), header=T)
 aln_summary_data %>% kable() %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
@@ -126,6 +152,7 @@ Distributions visualized from subset of alignments with length less than 1000 co
 - Red points denote average lengths considering the FULL distribution
 - Blue points denote median lengths considering the FULL distribution
 - Table shows summary statistics from FULL distribution
+- Horizontal line is 33 codons, the minimum length to be included in further analyses
 
 ```{r aln-lens, out.width="50%", fig.align = "center", warning=FALSE}
 
@@ -146,7 +173,7 @@ aln_lens = rbind(pre_guid_len, pre_filt_len, post_filt_len)
 aln_means = aln_lens %>% group_by(dataset, label) %>% summarize(avg.length=mean(length, na.rm=T), median.length=median(length, na.rm=T), max.length=max(length, na.rm=T))
 
 aln_lens$label = factor(aln_lens$label, levels=c("Pre Guidance filtering", "Pre codon window filtering", "Post filtering"), ordered=T)
-aln_lens$dataset = factor(aln_lens$dataset, levels=c("16 species", "19 species"), ordered=T)
+aln_lens$dataset = factor(aln_lens$dataset, levels=c("16 species", "18 species (No PTEPI)", "19 species"), ordered=T)
 aln_lens = subset(aln_lens, length < 1000)
 
 aln_means$label = factor(aln_means$label, levels=c("Pre Guidance filtering", "Pre codon window filtering", "Post filtering"), ordered=T)
@@ -162,7 +189,7 @@ aln_lens_p = ggplot(aln_lens, aes(x=label, y=length, fill=dataset)) +
   geom_hline(yintercept=33) +
   ylab("Alignment length (codons)") +
   xlab("") +
-  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
+  scale_fill_manual(labels=c("16 species", "18 species (No PTEPI)", "19 species"), values=corecol()) +
   bartheme() +
   theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_lens_p)
@@ -196,7 +223,7 @@ aln_lens = rbind(pre_filt_len, post_filt_len)
 aln_means = aln_lens %>% group_by(dataset, label) %>% summarize(avg.length=mean(length, na.rm=T), median.length=median(length, na.rm=T), max.length=max(length, na.rm=T))
 
 aln_lens$label = factor(aln_lens$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
-aln_lens$dataset = factor(aln_lens$dataset, levels=c("16 species", "19 species"), ordered=T)
+aln_lens$dataset = factor(aln_lens$dataset, levels=c("16 species", "18 species (No PTEPI)", "19 species"), ordered=T)
 aln_lens = subset(aln_lens, length < 1000)
 
 aln_means$label = factor(aln_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
@@ -211,7 +238,7 @@ aln_lens_p = ggplot(aln_lens, aes(x=label, y=length, fill=dataset)) +
   geom_point(data=aln_means, aes(x=label, y=median.length, group=dataset), size=2, color="blue", position=dodge, show.legend=FALSE) +
   ylab("Avg. ungapped sequence length (codons)") +
   xlab("") +
-  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
+  scale_fill_manual(labels=c("16 species", "18 species (No PTEPI)", "19 species"), values=corecol()) +
   bartheme() +
   theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_lens_p)
@@ -249,7 +276,7 @@ aln_gappy_sites = rbind(pre_filt_sites, post_filt_sites)
 aln_gappy_means = aln_gappy_sites %>% group_by(dataset, label) %>% summarize(avg.gappy.sites=mean(gappy.sites, na.rm=T), median.gappy.sites=median(gappy.sites, na.rm=T), max.gappy.sites=max(gappy.sites, na.rm=T))
 
 aln_gappy_sites$label = factor(aln_gappy_sites$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
-aln_gappy_sites$dataset = factor(aln_gappy_sites$dataset, levels=c("16 species", "19 species"), ordered=T)
+aln_gappy_sites$dataset = factor(aln_gappy_sites$dataset, levels=c("16 species", "18 species (No PTEPI)", "19 species"), ordered=T)
 aln_gappy_sites = subset(aln_gappy_sites, gappy.sites < 1000)
 
 aln_gappy_means$label = factor(aln_gappy_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
@@ -264,7 +291,7 @@ aln_gappy_p = ggplot(aln_gappy_sites, aes(x=label, y=gappy.sites, fill=dataset))
   geom_point(data=aln_gappy_means, aes(x=label, y=median.gappy.sites, group=dataset), size=2, color="blue", position=dodge, show.legend=FALSE) +
   ylab("# of gappy sites (codons)") +
   xlab("") +
-  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
+  scale_fill_manual(labels=c("16 species", "18 species (No PTEPI)", "19 species"), values=corecol()) +
   bartheme() +
   theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_gappy_p)
@@ -300,7 +327,7 @@ aln_informative_sites = rbind(pre_filt_sites, post_filt_sites)
 aln_informative_means = aln_informative_sites %>% group_by(dataset, label) %>% summarize(avg.informative.sites=mean(informative.sites, na.rm=T), median.informative.sites=median(informative.sites, na.rm=T), max.informative.sites=max(informative.sites, na.rm=T))
 
 aln_informative_sites$label = factor(aln_informative_sites$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
-aln_informative_sites$dataset = factor(aln_informative_sites$dataset, levels=c("16 species", "19 species"), ordered=T)
+aln_informative_sites$dataset = factor(aln_informative_sites$dataset, levels=c("16 species", "18 species (No PTEPI)", "19 species"), ordered=T)
 aln_informative_sites = subset(aln_informative_sites, informative.sites < 1000)
 
 aln_informative_means$label = factor(aln_informative_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
@@ -315,7 +342,7 @@ aln_informative_p = ggplot(aln_informative_sites, aes(x=label, y=informative.sit
   geom_point(data=aln_informative_means, aes(x=label, y=median.informative.sites, group=dataset), size=2, color="blue", position=dodge, show.legend=FALSE) +
   ylab("# of informative sites (nucleotides)") +
   xlab("") +
-  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
+  scale_fill_manual(labels=c("16 species", "18 species (No PTEPI)", "19 species"), values=corecol()) +
   bartheme() +
   theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_informative_p)
@@ -332,13 +359,20 @@ pre_counts_16 = hist(aln_data_16$pre.informative.nt.sites, breaks=bins_16, inclu
 pre_binned_16 = data.frame("informative.sites"=bin_labels_16, "loci"=pre_counts_16)
 pre_binned_16$dataset = "16 species"
 
+bins_18 = seq(-1, max(aln_data_18$pre.informative.nt.sites, na.rm=T), by=1)
+bin_labels_18 = seq(0, max(aln_data_18$pre.informative.nt.sites, na.rm=T), by=1)
+pre_counts_18 = hist(aln_data_18$pre.informative.nt.sites, breaks=bins_18, include.lowest=T, plot=F)$counts
+pre_binned_18 = data.frame("informative.sites"=bin_labels_18, "loci"=pre_counts_18)
+pre_binned_18$dataset = "18 species (No PTEPI)"
+
 bins_19 = seq(-1, max(aln_data_19$pre.informative.nt.sites, na.rm=T), by=1)
 bin_labels_19 = seq(0, max(aln_data_19$pre.informative.nt.sites, na.rm=T), by=1)
 pre_counts_19 = hist(aln_data_19$pre.informative.nt.sites, breaks=bins_19, include.lowest=T, plot=F)$counts
 pre_binned_19 = data.frame("informative.sites"=bin_labels_19, "loci"=pre_counts_19)
 pre_binned_19$dataset = "19 species"
 
-pre_binned = merge(pre_binned_16, pre_binned_19, by="informative.sites")
+tmp = merge(pre_binned_16, pre_binned_18, by="informative.sites")
+pre_binned = merge(tmp, pre_binned_19, by="informative.sites")
 
 head(pre_binned) %>% kable(caption="Pre-filter informative sites (NT)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
@@ -348,13 +382,20 @@ post_counts_16 = hist(aln_data_16$post.informative.nt.sites, breaks=bins_16, inc
 post_binned_16 = data.frame("informative.sites"=bin_labels_16, "loci"=post_counts_16)
 post_binned_16$dataset = "16 species"
 
+bins_18 = seq(-1, max(aln_data_18$post.informative.nt.sites, na.rm=T), by=1)
+bin_labels_18 = seq(0, max(aln_data_18$post.informative.nt.sites, na.rm=T), by=1)
+post_counts_18 = hist(aln_data_18$post.informative.nt.sites, breaks=bins_18, include.lowest=T, plot=F)$counts
+post_binned_18 = data.frame("informative.sites"=bin_labels_18, "loci"=post_counts_18)
+post_binned_18$dataset = "18 species (No pTEPI)"
+
 bins_19 = seq(-1, max(aln_data_19$post.informative.nt.sites, na.rm=T), by=1)
 bin_labels_19 = seq(0, max(aln_data_19$post.informative.nt.sites, na.rm=T), by=1)
 post_counts_19 = hist(aln_data_19$post.informative.nt.sites, breaks=bins_19, include.lowest=T, plot=F)$counts
 post_binned_19 = data.frame("informative.sites"=bin_labels_19, "loci"=post_counts_19)
 post_binned_19$dataset = "19 species"
 
-post_binned = merge(post_binned_16, post_binned_19, by="informative.sites")
+tmp = merge(post_binned_16, post_binned_18, by="informative.sites")
+post_binned = merge(tmp, post_binned_19, by="informative.sites")
 
 head(post_binned) %>% kable(caption="Post-filter informative sites (NT)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
@@ -387,7 +428,7 @@ aln_informative_sites = rbind(pre_filt_sites, post_filt_sites)
 aln_informative_means = aln_informative_sites %>% group_by(dataset, label) %>% summarize(avg.informative.sites=mean(informative.sites, na.rm=T), median.informative.sites=median(informative.sites, na.rm=T), max.informative.sites=max(informative.sites, na.rm=T))
 
 aln_informative_sites$label = factor(aln_informative_sites$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
-aln_informative_sites$dataset = factor(aln_informative_sites$dataset, levels=c("16 species", "19 species"), ordered=T)
+aln_informative_sites$dataset = factor(aln_informative_sites$dataset, levels=c("16 species", "18 species (No PTEPI)", "19 species"), ordered=T)
 aln_informative_sites = subset(aln_informative_sites, informative.sites < 1000)
 
 aln_informative_means$label = factor(aln_informative_means$label, levels=c("Pre filtering", "Post filtering"), ordered=T)
@@ -402,7 +443,7 @@ aln_informative_p = ggplot(aln_informative_sites, aes(x=label, y=informative.sit
   geom_point(data=aln_informative_means, aes(x=label, y=median.informative.sites, group=dataset), size=2, color="blue", position=dodge, show.legend=FALSE) +
   ylab("# of informative sites (codons)") +
   xlab("") +
-  scale_fill_manual(labels=c("16 species", "19 species"), values=corecol()) +
+  scale_fill_manual(labels=c("16 species", "18 species (No PTEPI)", "19 species"), values=corecol()) +
   bartheme() +
   theme(legend.position="bottom", axis.text.x = element_text(angle=15, hjust=1))
 print(aln_informative_p)
@@ -420,13 +461,20 @@ pre_counts_16 = hist(aln_data_16$pre.informative.codon.sites, breaks=bins_16, in
 pre_binned_16 = data.frame("informative.sites"=bin_labels_16, "loci"=pre_counts_16)
 pre_binned_16$dataset = "16 species"
 
+bins_18 = seq(-1, max(aln_data_18$pre.informative.codon.sites, na.rm=T), by=1)
+bin_labels_18 = seq(0, max(aln_data_18$pre.informative.codon.sites, na.rm=T), by=1)
+pre_counts_18 = hist(aln_data_18$pre.informative.codon.sites, breaks=bins_18, include.lowest=T, plot=F)$counts
+pre_binned_18 = data.frame("informative.sites"=bin_labels_18, "loci"=pre_counts_18)
+pre_binned_18$dataset = "18 species (No PTEPI)"
+
 bins_19 = seq(-1, max(aln_data_19$pre.informative.codon.sites, na.rm=T), by=1)
 bin_labels_19 = seq(0, max(aln_data_19$pre.informative.codon.sites, na.rm=T), by=1)
 pre_counts_19 = hist(aln_data_19$pre.informative.codon.sites, breaks=bins_19, include.lowest=T, plot=F)$counts
 pre_binned_19 = data.frame("informative.sites"=bin_labels_19, "loci"=pre_counts_19)
 pre_binned_19$dataset = "19 species"
 
-pre_binned = merge(pre_binned_16, pre_binned_19, by="informative.sites")
+tmp = merge(pre_binned_16, pre_binned_18, by="informative.sites")
+pre_binned = merge(tmp, pre_binned_19, by="informative.sites")
 
 head(pre_binned) %>% kable(caption="Pre-filter informative sites (codons)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
@@ -437,11 +485,20 @@ post_counts_16 = hist(aln_data_16$post.informative.codon.sites, breaks=bins_16, 
 post_binned_16 = data.frame("informative.sites"=bin_labels_16, "loci"=post_counts_16)
 post_binned_16$dataset = "16 species"
 
+bins_18 = seq(-1, max(aln_data_18$post.informative.codon.sites, na.rm=T), by=1)
+bin_labels_18 = seq(0, max(aln_data_18$post.informative.codon.sites, na.rm=T), by=1)
+post_counts_18 = hist(aln_data_18$post.informative.codon.sites, breaks=bins_18, include.lowest=T, plot=F)$counts
+post_binned_18 = data.frame("informative.sites"=bin_labels_18, "loci"=post_counts_18)
+post_binned_18$dataset = "18 species (No PTEPI)"
+
 bins_19 = seq(-1, max(aln_data_19$post.informative.codon.sites, na.rm=T), by=1)
 bin_labels_19 = seq(0, max(aln_data_19$post.informative.codon.sites, na.rm=T), by=1)
 post_counts_19 = hist(aln_data_19$post.informative.codon.sites, breaks=bins_19, include.lowest=T, plot=F)$counts
 post_binned_19 = data.frame("informative.sites"=bin_labels_19, "loci"=post_counts_19)
 post_binned_19$dataset = "19 species"
+
+tmp = merge(post_binned_16, post_binned_18, by="informative.sites")
+post_binned = merge(tmp, post_binned_19, by="informative.sites")
 
 head(post_binned) %>% kable(caption="Post-filter informative sites (codons)") %>% kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
