@@ -180,6 +180,40 @@ scores_fig_16 = ggplot(grampa_data_16, aes(x=rank, y=score, color=label)) +
 ####################
 
 ####################
+rlist = readGrampa(18, "astral-multi", 90, "hcsp", "ASTRAL-Multi")
+multi_hcsp_18 = rlist[[1]]; multi_hcsp_dups_18 = rlist[[2]]
+
+rlist = readGrampa(18, "ballesteros", 90, "hcsp", "Ballesteros")
+bal_hcsp_18 = rlist[[1]]; bal_hcsp_dups_18 = rlist[[2]]
+
+rlist = readGrampa(18, "traditional", 90, "hcsp", "Horseshoe crabs sister")
+trad_hcsp_18 = rlist[[1]]; trad_hcsp_dups_18 = rlist[[2]]
+
+grampa_data_18 = rbind(multi_hcsp_18, bal_hcsp_18, trad_hcsp_18)
+grampa_data_st_18 = grampa_data_18 %>% filter(mul.tree == 0)
+grampa_data_auto_18 = grampa_data_18 %>% filter(h1.node == h2.node & mul.tree != 0)  
+
+cols = corecol(numcol=3, pal="wilke")
+names(cols) = c("ASTRAL-Multi", "Ballesteros", "Horseshoe crabs sister")
+
+####################
+
+scores_fig_18 = ggplot(grampa_data_18, aes(x=rank, y=score, color=label)) +
+  geom_point(size=2, alpha=0.33, show.legend=F) +
+  geom_point(data=grampa_data_st_18, aes(x=rank, y=score), size=3, alpha=0.75, color="#333333", fill="#999999") +
+  geom_point(data=grampa_data_auto_18, aes(x=rank, y=score, color=label), size=5, alpha=0.5) +
+  scale_x_continuous(limits=c(-10,max(grampa_data_18$rank)+10)) +
+  scale_color_manual(values=cols) +
+  xlab("Rank") +
+  ylab("GRAMPA score") +
+  bartheme() +
+  theme(legend.position="bottom")
+#print(scores_fig_18)
+# Plot scores
+
+####################
+
+####################
 
 rlist = readGrampa(19, "astral-multi", 90, "hcsp", "ASTRAL-Multi")
 multi_hcsp_19 = rlist[[1]]; multi_hcsp_dups_19 = rlist[[2]]
@@ -213,7 +247,10 @@ scores_fig_19 = ggplot(grampa_data_19, aes(x=rank, y=score, color=label)) +
 
 leg = get_legend(scores_fig_19)
 
-scores_fig_top = plot_grid(scores_fig_16 + theme(legend.position="none"), scores_fig_19 + theme(legend.position="none"), ncol=2, labels=c("16 species", "19species"))
+scores_fig_top = plot_grid(scores_fig_16 + theme(legend.position="none"), 
+                           scores_fig_18 + theme(legend.position="none"), 
+                           scores_fig_19 + theme(legend.position="none"), 
+                           ncol=3, labels=c("16 species", "18 species", "19 species"))
 scores_fig = plot_grid(scores_fig_top, leg, nrow=2, rel_heights=c(1,0.1))
 print(scores_fig)
 
@@ -224,8 +261,10 @@ print(scores_fig)
 ```{r cds-apro-hcsp-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
 
 #amulti_trees_16 = plotGrampaTrees(grampa_data_16 %>% filter(label == "ASTRAL-Multi") %>% slice_head(n=6), multi_hcsp_dups_16, "16 species")
+amulti_trees_18 = plotGrampaTrees(grampa_data_18 %>% filter(label == "ASTRAL-Multi") %>% slice_head(n=6), multi_hcsp_dups_18, "18 species")
 amulti_trees_19 = plotGrampaTrees(grampa_data_19 %>% filter(label == "ASTRAL-Multi") %>% slice_head(n=6), multi_hcsp_dups_19, "19 species")
 
+print(amulti_trees_18)
 print(amulti_trees_19)
 # Combine and render figs
 
@@ -248,9 +287,11 @@ multi_hcsp_dups_19 %>% kable() %>% kable_styling(bootstrap_options=c("striped", 
 ```{r ballesteros-hcsp-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
 
 bal_trees_16 = plotGrampaTrees(grampa_data_16 %>% filter(label == "Ballesteros") %>% slice_head(n=6), bal_hcsp_dups_16, "16 species")
+bal_trees_18 = plotGrampaTrees(grampa_data_18 %>% filter(label == "Ballesteros") %>% slice_head(n=6), bal_hcsp_dups_18, "18 species")
 bal_trees_19 = plotGrampaTrees(grampa_data_19 %>% filter(label == "Ballesteros") %>% slice_head(n=6), bal_hcsp_dups_19, "19 species")
 
 print(bal_trees_16)
+print(bal_trees_18)
 print(bal_trees_19)
 # Combine and render figs
 
@@ -262,9 +303,11 @@ print(bal_trees_19)
 ```{r traditional-hcsp-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
 
 trad_trees_16 = plotGrampaTrees(grampa_data_16 %>% filter(label == "Horseshoe crabs sister") %>% slice_head(n=6), trad_hcsp_dups_16, "16 species")
+trad_trees_18 = plotGrampaTrees(grampa_data_18 %>% filter(label == "Horseshoe crabs sister") %>% slice_head(n=6), trad_hcsp_dups_18, "18 species")
 trad_trees_19 = plotGrampaTrees(grampa_data_19 %>% filter(label == "Horseshoe crabs sister") %>% slice_head(n=6), trad_hcsp_dups_19, "19 species")
 
 print(trad_trees_16)
+print(trad_trees_18)
 print(trad_trees_19)
 # Combine and render figs
 
@@ -314,6 +357,38 @@ scores_fig_16 = ggplot(grampa_data_16, aes(x=rank, y=score, color=label)) +
 
 ####################
 
+rlist = readGrampa(18, "astral-multi", 90, "full", "ASTRAL-Multi")
+multi_full_18 = rlist[[1]]; multi_full_dups_18 = rlist[[2]]
+
+rlist = readGrampa(18, "ballesteros", 90, "full", "Ballesteros")
+bal_full_18 = rlist[[1]]; bal_full_dups_18 = rlist[[2]]
+
+rlist = readGrampa(18, "traditional", 90, "full", "Horseshoe crabs sister")
+trad_full_18 = rlist[[1]]; trad_full_dups_18 = rlist[[2]]
+
+grampa_data_18 = rbind(multi_full_18, bal_full_18, trad_full_18)
+grampa_data_st_18 = grampa_data_18 %>% filter(mul.tree == 0)
+grampa_data_auto_18 = grampa_data_18 %>% filter(h1.node == h2.node & mul.tree != 0)  
+
+####################
+
+scores_fig_18 = ggplot(grampa_data_18, aes(x=rank, y=score, color=label)) +
+  geom_point(size=2, alpha=0.33, show.legend=F) +
+  geom_point(data=grampa_data_st_18, aes(x=rank, y=score), size=3, alpha=0.75, color="#333333", fill="#999999") +
+  geom_point(data=grampa_data_auto_18, aes(x=rank, y=score, color=label), size=5, alpha=0.5) +
+  scale_x_continuous(limits=c(-10,max(grampa_data_18$rank)+10)) +
+  scale_color_manual(values=cols) +
+  xlab("Rank") +
+  ylab("GRAMPA score") +
+  bartheme() +
+  theme(legend.position="bottom")
+#print(scores_fig_16)
+# Plot scores
+
+####################
+
+####################
+
 rlist = readGrampa(19, "astral-multi", 90, "full", "ASTRAL-Multi")
 multi_full_19 = rlist[[1]]; multi_full_dups_19 = rlist[[2]]
 
@@ -346,7 +421,10 @@ scores_fig_19 = ggplot(grampa_data_19, aes(x=rank, y=score, color=label)) +
 
 leg = get_legend(scores_fig_19)
 
-scores_fig_top = plot_grid(scores_fig_16 + theme(legend.position="none"), scores_fig_19 + theme(legend.position="none"), ncol=2, labels=c("16 species", "19species"))
+scores_fig_top = plot_grid(scores_fig_16 + theme(legend.position="none"), 
+                           scores_fig_18 + theme(legend.position="none"), 
+                           scores_fig_19 + theme(legend.position="none"), 
+                           ncol=3, labels=c("16 species", "18 species", "19 species"))
 scores_fig = plot_grid(scores_fig_top, leg, nrow=2, rel_heights=c(1,0.1))
 print(scores_fig)
 
@@ -357,9 +435,11 @@ print(scores_fig)
 ```{r cds-apro-full-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
 
 amulti_trees_16 = plotGrampaTrees(grampa_data_16 %>% filter(label == "ASTRAL-Multi") %>% slice_head(n=6), multi_full_dups_16, "16 species")
+amulti_trees_18 = plotGrampaTrees(grampa_data_18 %>% filter(label == "ASTRAL-Multi") %>% slice_head(n=6), multi_full_dups_18, "18 species")
 amulti_trees_19 = plotGrampaTrees(grampa_data_19 %>% filter(label == "ASTRAL-Multi") %>% slice_head(n=6), multi_full_dups_19, "19 species")
 
 print(amulti_trees_16)
+print(amulti_trees_18)
 print(amulti_trees_19)
 # Combine and render figs
 
@@ -370,9 +450,11 @@ print(amulti_trees_19)
 ```{r ballesteros-full-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
 
 bal_trees_16 = plotGrampaTrees(grampa_data_16 %>% filter(label == "Ballesteros") %>% slice_head(n=6), bal_full_dups_16, "16 species")
+bal_trees_18 = plotGrampaTrees(grampa_data_18 %>% filter(label == "Ballesteros") %>% slice_head(n=6), bal_full_dups_18, "18 species")
 bal_trees_19 = plotGrampaTrees(grampa_data_19 %>% filter(label == "Ballesteros") %>% slice_head(n=6), bal_full_dups_19, "19 species")
 
 print(bal_trees_16)
+print(bal_trees_18)
 print(bal_trees_19)
 # Combine and render figs
 
@@ -383,9 +465,11 @@ print(bal_trees_19)
 ```{r traditional-full-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
 
 trad_trees_16 = plotGrampaTrees(grampa_data_16 %>% filter(label == "Horseshoe crabs sister") %>% slice_head(n=6), trad_full_dups_16, "16 species")
+trad_trees_18 = plotGrampaTrees(grampa_data_18 %>% filter(label == "Horseshoe crabs sister") %>% slice_head(n=6), trad_full_dups_18, "18 species")
 trad_trees_19 = plotGrampaTrees(grampa_data_19 %>% filter(label == "Horseshoe crabs sister") %>% slice_head(n=6), trad_full_dups_19, "19 species")
 
 print(trad_trees_16)
+print(trad_trees_18)
 print(trad_trees_19)
 # Combine and render figs
 
