@@ -16,8 +16,9 @@ from collections import defaultdict
 
 ############################################################
 
-dataset = "19spec";
-# The current dataset, 16spec of 19spec
+dataset = "18spec";
+print(dataset)
+# The current dataset, 16spec or 18spec or 19spec
 
 indir = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/" + dataset + "/cds-iqtree/loci/";
 # The input directory with the gene trees in individual folders
@@ -35,6 +36,8 @@ outgroup_counts = defaultdict(int);
 #####
 if dataset == "16spec":
     num_spec = 16;
+elif dataset == "18spec":
+    num_spec = 18;
 elif dataset == "19spec":
     num_spec = 19;
 else:

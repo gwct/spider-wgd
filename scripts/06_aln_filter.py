@@ -335,7 +335,7 @@ with open(log_file, "w") as logfile, open(spec_file, "w") as specfile:
 
     pre_single_copy_alns = [];
     post_single_copy_alns = [];
-    num_spec = 16;
+    num_spec = 19;
 
     pre_alns, pre_seqs, post_alns, post_seqs = 0, 0, 0, 0;
     # Counts of aligns and sequences before and after filtering

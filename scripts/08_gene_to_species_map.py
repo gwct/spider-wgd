@@ -11,8 +11,9 @@ from collections import defaultdict
 
 ############################################################
 
-dataset = "16spec";
-# The dataset to run on, 16spec of 19spec
+dataset = "18spec";
+print(dataset);
+# The dataset to run on, 16spec or 18spec or 19spec
 
 infilename = "/n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/" + dataset + "/cds-iqtree/loci.treefile";
 # The input file name: a file with one gene tree per line

@@ -10,8 +10,8 @@
 #SBATCH --mem=8g
 #SBATCH --time=48:00:00
 
-specstr="16spec"
-# DATASET: 16spec or 19spec
+specstr="18spec"
+# DATASET: 16spec or 18spec or 19spec
 
 bs="90"
 # The bootstrap threshold for rearrangement
@@ -30,6 +30,10 @@ if [ $specstr == "16spec" ]; then
     hc_clade="CROTU,LPOLY"
     sp_clade="CSCUL,LRECL,SMIMO,LHESP,PTEPI,NCLAV,TANTI"
     hcsp_clade="CROTU,LPOLY,CSCUL,LRECL,SMIMO,LHESP,PTEPI,NCLAV,TANTI"
+elif [ $specstr == "18spec" ]; then
+    hc_clade="CROTU,TGIGA,LPOLY"
+    sp_clade="CSCUL,LRECL,SMIMO,LHESP,ABRUE,NCLAV,TANTI"
+    hcsp_clade="CROTU,TGIGA,LPOLY,CSCUL,LRECL,SMIMO,LHESP,ABRUE,NCLAV,TANTI"
 elif [ $specstr == "19spec" ]; then
     hc_clade="CROTU,TGIGA,LPOLY"
     sp_clade="CSCUL,LRECL,SMIMO,LHESP,PTEPI,ABRUE,NCLAV,TANTI"

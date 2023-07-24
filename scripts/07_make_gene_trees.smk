@@ -3,7 +3,7 @@
 # Gregg Thomas, January 2023
 #############################################################################
 
-# snakemake -p -s 01_guidance.smk --configfile snakemake-config.yaml --profile slurm_profile/ --keep-going --dryrun
+# snakemake -p -s 07_make_gene_trees.smk --configfile 19spec_config.yaml --profile slurm_profile/ --keep-going --dryrun
 
 #############################################################################
 

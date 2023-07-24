@@ -32,7 +32,7 @@
     ii.     Remove any _err folders
     iii.    Trim/filter and translate alignments with aln_filter.py
             time -p python 06_aln_filter.py -i /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/01-Guidance/ -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/aln/16spec/02-Filter/
-11. Gene trees with iqtree_gt_gen.py
+11. Gene trees with make_gene_trees.smk
     - Cat all loci tree files to loci.treefile
          find . -type f -name *.treefile -exec awk '{print}' {} \; > ../loci.treefile
 12. Make gene to species map with gene_to_species_map.py for ASTRAL-Pro and ASTRAL
@@ -45,17 +45,31 @@
 14. Infer species tree
     - module load jdk
     A. Run ASTRAL-pro:
-        - time -p astral-pro -a gene-to-spec-map.txt -o chelicerate-16spec-astral-pro.tre ../loci.treefile 2> astral-pro.log
+        cd astral-pro-tree
+        - 16spec: time -p astral-pro -a gene-to-spec-map.txt -o chelicerate-16spec-astral-pro.tre ../cds-iqtree/loci.treefile 2> astral-pro.log
+        - 18spec: time -p astral-pro -a gene-to-spec-map.txt -o chelicerate-18spec-astral-pro.tre ../cds-iqtree/loci.treefile 2> astral-pro.log
+        - 19spec: time -p astral-pro -a gene-to-spec-map.txt -o chelicerate-19spec-astral-pro.tre ../cds-iqtree/loci.treefile 2> astral-pro.log
     B. Run ASTRAL on single-copy groups:
-        - cat single copy trees from step 13 into a single file
+        - combine single copy trees from step 13 into a single file
+            cd loci-single-copy
             find . -type f -name *.rooted.treefile -exec awk '{print}' {} \; > ../loci-single-copy.rooted.treefile
-        - time -p astral -i loci-single-copy.treefile -o chelicerate-16spec-astral-single-copy.tre 2> astral.log
+        - run ASTRAL
+            cd dataset tree dir
+            mkdir astral-single-copy
+            cd astral-single-copy
+            - 16spec: time -p astral -i ../cds-iqtree/loci-single-copy.rooted.treefile -o chelicerate-16spec-astral-single-copy.tre 2> astral.log
+            - 18spec: time -p astral -i ../cds-iqtree/loci-single-copy.rooted.treefile -o chelicerate-18spec-astral-single-copy.tre 2> astral.log
+            - 19spec: time -p astral -i ../cds-iqtree/loci-single-copy.rooted.treefile -o chelicerate-19spec-astral-single-copy.tre 2> astral.log
     C. Run ASTRAL-multi:
-        - First, re-label/map the gene trees so they don't take up too much memory: time -p astral -i ../loci.treefile -a gene-to-spec-map-single-line.txt -o loci-relabeled.treefile -R > gene-to-spec-remap.txt
-        - time -p astral -i loci-relabeled.treefile -a gene-to-spec-remap.txt -o chelicerate-16spec-astral-multi.tre 2> astral.log
+        cd astral-multi-tree
+        - First, re-label/map the gene trees so they don't take up too much memory: 
+            time -p astral -i ../cds-iqtree/loci.treefile -a gene-to-spec-map-single-line.txt -o loci-relabeled.treefile -R > gene-to-spec-remap.txt
+        - 16spec: time -p astral -i loci-relabeled.treefile -a gene-to-spec-remap.txt -o chelicerate-16spec-astral-multi.tre 2> astral.log
+        - 18spec: time -p astral -i loci-relabeled.treefile -a gene-to-spec-remap.txt -o chelicerate-18spec-astral-multi.tre 2> astral.log
+        - 19spec: time -p astral -i loci-relabeled.treefile -a gene-to-spec-remap.txt -o chelicerate-19spec-astral-multi.tre 2> astral.log
 15. Root the species trees: nw_reroot -l <species tree file> DMELA BMORI > <rooted species tree file>
 16. Bootstrap rearrange gene trees:
-    - find "$(pwd -P)" -name *.treefile > loci-filenames-st.txt
+    - find "$(pwd -P)" -name *.rooted.treefile > loci-filenames-st.txt
     - Then add species tree filename to beginning of file
     A. 16 spec:
         - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/cds-iqtree/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 90 --edgeweights name --treeoutput newick --nolosses --outputdir astral-pro-tree/loci-rearrange-90/ 2> astral-pro-tree/loci-rearrange-90.log
@@ -69,6 +83,8 @@
         - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/ballesteros/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 90 --edgeweights name --treeoutput newick --nolosses --outputdir ballesteros/loci-rearrange-90/ 2> ballesteros/loci-rearrange-90.log
     F. Traditional:
         - time -p notung -b /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/traditional/loci-filenames-st.txt --absfilenames --rearrange --speciestag postfix --threshold 90 --edgeweights name --treeoutput newick --nolosses --outputdir traditional/loci-rearrange-90/ 2> traditional/loci-rearrange-90.log
+    - Then cat the gene trees from the output directory into a file for GRAMPA
+        find . -type f -name *.rooted.treefile.rearrange.0 -exec awk '{print}' {} \; > ../loci-rearrange-90.rooted.treefile
 17. GRAMPA
 
 
