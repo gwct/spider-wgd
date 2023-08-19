@@ -1,0 +1,31 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i Varroa_destructor_gca002443255.Vdes_3.0.51.gff3.gz -o vdest-features.tab --lens
+# Runtime:        08/09/2023 11:24:51
+# ----------------
+# Input file:            Varroa_destructor_gca002443255.Vdes_3.0.51.gff3.gz
+# Output file:           vdest-features.tab
+# Length output file:    vdest-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:24:51 Detecting compression...
+# 08.09.2023 | 11:24:51 Counting features...
+# Features types read:   13
+# Total features read:   686766
+# ----------------
+# 08.09.2023 | 11:24:53 Writing output...
+# ----------------
+feature type	count	avg length
+region	1426	258724.31206171107
+gene	10260	21357.74805068226
+mRNA	32344	25099.702634182537
+exon	304119	466.5692081060374
+five_prime_UTR	53861	434.9099162659438
+CDS	245563	239.22467554151072
+three_prime_UTR	32778	1347.0440539386173
+ncRNA_gene	2524	7288.885895404121
+lnc_RNA	3308	9001.170798065295
+pseudogene	107	3866.373831775701
+pseudogenic_transcript	107	3866.373831775701
+tRNA	367	73.05177111716621
+rRNA	2	936.5
+# 08.09.2023 | 11:24:53 Writing lens...

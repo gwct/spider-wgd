@@ -1,0 +1,35 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i Ixodes_scapularis.IscaW1.51.gff3.gz -o iscap-features.tab --lens
+# Runtime:        08/09/2023 11:19:58
+# ----------------
+# Input file:            Ixodes_scapularis.IscaW1.51.gff3.gz
+# Output file:           iscap-features.tab
+# Length output file:    iscap-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:19:58 Detecting compression...
+# 08.09.2023 | 11:19:58 Counting features...
+# Features types read:   17
+# Total features read:   604564
+# ----------------
+# 08.09.2023 | 11:20:00 Writing output...
+# ----------------
+feature type	count	avg length
+scaffold	369492	4776.863093111623
+ncRNA_gene	2854	97.06552207428172
+pre_miRNA	523	93.64244741873804
+exon	92429	214.4494585032836
+gene	20488	10833.509517766497
+mRNA	20488	10833.509517766497
+CDS	88800	196.18841216216217
+five_prime_UTR	3532	137.04643261608155
+three_prime_UTR	3627	450.0581748001103
+tRNA	1966	79.41353001017293
+rRNA	150	245.98
+SRP_RNA	37	216.1081081081081
+snoRNA	18	161.5
+snRNA	149	147.2214765100671
+ncRNA	7	128.0
+lnc_RNA	1	200.0
+RNase_MRP_RNA	3	363.6666666666667
+# 08.09.2023 | 11:20:00 Writing lens...

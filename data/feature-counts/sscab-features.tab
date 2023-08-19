@@ -1,0 +1,37 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i Sarcoptes_scabiei.SscaA1.51.sorted.gff3.gz -o sscab-features.tab --lens
+# Runtime:        08/09/2023 11:22:58
+# ----------------
+# Input file:            Sarcoptes_scabiei.SscaA1.51.sorted.gff3.gz
+# Output file:           sscab-features.tab
+# Length output file:    sscab-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:22:58 Detecting compression...
+# 08.09.2023 | 11:22:58 Counting features...
+# Features types read:   19
+# Total features read:   106544
+# ----------------
+# 08.09.2023 | 11:22:58 Writing output...
+# ----------------
+feature type	count	avg length
+supercontig	18859	2981.595577708256
+gene	10471	1456.9840511889981
+mRNA	10471	1456.9840511889981
+exon	33203	369.36026865042317
+CDS	32223	371.17475095428733
+ncRNA_gene	140	117.62857142857143
+snoRNA	1	226.0
+three_prime_UTR	199	119.47738693467336
+five_prime_UTR	465	58.50322580645161
+pseudogene	186	1690.4086021505377
+pseudogenic_transcript	186	1690.4086021505377
+pre_miRNA	44	105.6590909090909
+rRNA	11	395.72727272727275
+tRNA	73	68.05479452054794
+snRNA	8	151.5
+RNase_P_RNA	1	429.0
+RNase_MRP_RNA	1	328.0
+SRP_RNA	1	303.0
+chromosome	1	13666.0
+# 08.09.2023 | 11:22:58 Writing lens...

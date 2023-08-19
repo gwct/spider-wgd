@@ -1,0 +1,33 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i GCF_000255335.1_Mocc_1.0_genomic.gff.gz -o mocci-features.tab --lens
+# Runtime:        08/09/2023 11:21:29
+# ----------------
+# Input file:            GCF_000255335.1_Mocc_1.0_genomic.gff.gz
+# Output file:           mocci-features.tab
+# Length output file:    mocci-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:21:29 Detecting compression...
+# 08.09.2023 | 11:21:29 Counting features...
+# Features types read:   15
+# Total features read:   171704
+# ----------------
+# 08.09.2023 | 11:21:30 Writing output...
+# ----------------
+feature type	count	avg length
+region	2211	68621.48349163274
+gene	12042	4994.336073741903
+mRNA	11923	5066.854482932148
+exon	73533	302.53424992860346
+CDS	68751	265.95314977236694
+tRNA	213	71.38028169014085
+cDNA_match	2282	336.8102541630149
+pseudogene	486	3619.3168724279835
+lnc_RNA	168	1989.8988095238096
+snRNA	25	134.44
+transcript	44	4173.545454545455
+snoRNA	7	127.0
+rRNA	13	1290.3076923076924
+D_loop	4	309.75
+sequence_feature	2	33.0
+# 08.09.2023 | 11:21:30 Writing lens...

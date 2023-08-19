@@ -1,0 +1,25 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i GCA_015342795.1_ASM1534279v1_genomic.gff.gz -o abrue-features.tab --lens
+# Runtime:        08/09/2023 11:15:28
+# ----------------
+# Input file:            GCA_015342795.1_ASM1534279v1_genomic.gff.gz
+# Output file:           abrue-features.tab
+# Length output file:    abrue-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:15:28 Detecting compression...
+# 08.09.2023 | 11:15:28 Counting features...
+# Features types read:   7
+# Total features read:   515749
+# ----------------
+# 08.09.2023 | 11:15:29 Writing output...
+# ----------------
+feature type	count	avg length
+region	2231	748670.2958314657
+gene	23259	28170.889290167248
+mRNA	26307	28275.230889116967
+exon	201375	185.29419242706393
+CDS	201375	185.29419242706393
+three_prime_UTR	27670	104.43476689555476
+five_prime_UTR	33532	79.98458189192414
+# 08.09.2023 | 11:15:29 Writing lens...

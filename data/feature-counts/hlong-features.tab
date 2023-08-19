@@ -1,0 +1,23 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i GCA_013339765.2_ASM1333976v2_genomic.gff.gz -o hlong-features.tab --lens --overwrite
+# Runtime:        08/09/2023 11:18:12
+# ----------------
+# Input file:            GCA_013339765.2_ASM1333976v2_genomic.gff.gz
+# Output file:           hlong-features.tab
+# Length output file:    hlong-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:18:12 Detecting compression...
+# 08.09.2023 | 11:18:12 Counting features...
+# Features types read:   5
+# Total features read:   208680
+# ----------------
+# 08.09.2023 | 11:18:12 Writing output...
+# ----------------
+feature type	count	avg length
+region	3886	657422.2035512094
+gene	25651	6394.671903629488
+mRNA	25651	6394.671903629488
+exon	76746	294.9557892268001
+CDS	76746	294.9557892268001
+# 08.09.2023 | 11:18:12 Writing lens...

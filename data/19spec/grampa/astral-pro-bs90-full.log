@@ -1,0 +1,81 @@
+# Warning! With -c set to 15 or higher, some gene trees may take a very long time to reconcile!
+
+#
+# =========================================================================
+# Welcome to GRAMPA -- Gene tree reconciliations with MUL-trees.
+# Version 1.4.0 released on March 2023
+# GRAMPA was developed by Gregg Thomas, S. Hussain Ather, Matthew Hahn
+# Citation:      https://doi.org/10.1093/sysbio/syx044
+# Website:       https://gwct.github.io/grampa/
+# Report issues: https://github.com/gwct/grampa
+#
+# The date and time at the start is:  03.14.2023  21:13:14
+# Using Python executable located at: /n/home07/gthomas/miniconda3/envs/mapping-sims/bin/python3.9
+# Using Python version:               3.9.15
+#
+# The program was called as:          grampa.py -s /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/astral-pro-tree//chelicerate-19spec-astral-pro.rooted.tre -g /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/astral-pro-tree//loci-rearrange-90.rooted.treefile -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-pro-bs90-full/ -c 15 -f astral-pro-bs90-full -p 30
+#
+# -----------------------------------------------------------------------------------------------------------------------------
+# INPUT/OUTPUT INFO:
+# Species tree file:                    /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/astral-pro-tree//chelicerate-19spec-astral-pro.rooted.tre
+# Gene tree file:                       /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/astral-pro-tree//loci-rearrange-90.rooted.treefile
+# Output directory:                     /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-pro-bs90-full/
+# Score file:                           /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-pro-bs90-full/astral-pro-bs90-full-scores.txt
+# Filtered gene trees:                  /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-pro-bs90-full/astral-pro-bs90-full-trees-filtered.txt
+# Check nums file:                      /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-pro-bs90-full/astral-pro-bs90-full-checknums.txt
+# Detailed mapping file:                /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-pro-bs90-full/astral-pro-bs90-full-detailed.txt
+# Duplication count file:               /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-pro-bs90-full/astral-pro-bs90-full-dup-counts.txt
+# -----------------------------------------------------------------------------------------------------------------------------
+# OPTIONS INFO:
+# Option                                Current setting               Current action
+# -h1                                   All                           GRAMPA will search these H1 nodes. If none are specified, all nodes will be searched as H1 nodes.
+# -h2                                   All                           GRAMPA will search these H2 nodes. If none are specified, all nodes will be searched as H2 nodes.
+# -c                                    15                            Gene trees with more than this number of groups/clades with polyploid species for a given h1/h2 combination will be skipped.
+# -f                                    astral-pro-bs90-full          All output files generated will have this string preprended to them.
+# -p                                    30                            GRAMPA will use this number of processes for LCA mapping.
+# -v                                    3                             Controls the amount of info printed to the screen as GRAMPA is running.
+# --multree                             False                         The tree input with -s will be read as singly-labeled tree.
+# --checknums                           False                         GRAMPA will count groups to filter gene trees and then perform reconciliations.
+# --no-st, --st-only                    default                       GRAMPA will perform reconciliations to all MUL-trees specified by -h1 and -h2 and the input species tree.
+# --maps                                False                         GRAMPA will only output duplication and loss counts in the detailed output file.
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Date        Time      Current step                                      Status                                  Elapsed time (s)    Step time (s)   Current mem (MB)  Virtual mem (MB)
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# 03.14.2023  21:13:14  Reading species tree                              Success: species tree read              0.76075             0.01853         0.0               0.0       
+# 03.14.2023  21:13:14  Parsing hybrid clades                             Success: got H nodes                    0.76271             0.00119         0.0               0.0       
+# 03.14.2023  21:13:14  Counting MUL-trees to be generated                Success: 1187 total MUL-trees           0.76421             0.00065         0.0               0.0       
+# 03.14.2023  21:13:15  Building MUL-trees                                Success: 1187 MUL-trees built           1.69947             0.93448         0.0               0.0       
+# 03.14.2023  21:13:16  Reading gene trees                                Success: 6368 gene trees read           2.88343             1.18302         0.0               0.0       
+# 03.14.2023  21:22:46  Collapsing gene tree groupings                    Success                                 572.7518            569.86474       0.0               0.0       
+# 03.14.2023  21:23:57  Filtering gene trees over group cap               Success: 8 gts over cap                 643.14102           70.38504        0.0               0.0       
+# WARNING: Gene tree on line 1532 is over the group cap in 37 MTs and will be filtered.
+# WARNING: Gene tree on line 2190 is over the group cap in 109 MTs and will be filtered.
+# WARNING: Gene tree on line 2191 is over the group cap in 239 MTs and will be filtered.
+# WARNING: Gene tree on line 2556 is over the group cap in 37 MTs and will be filtered.
+# WARNING: Gene tree on line 3559 is over the group cap in 37 MTs and will be filtered.
+# WARNING: Gene tree on line 4228 is over the group cap in 37 MTs and will be filtered.
+# WARNING: Gene tree on line 5137 is over the group cap in 37 MTs and will be filtered.
+# WARNING: Gene tree on line 5788 is over the group cap in 109 MTs and will be filtered.
+# 03.14.2023  21:23:57  INFO: Filtered gene trees: 8
+# 03.14.2023  21:23:57  INFO: Final gene tree count for reconciliations: 6360
+# 03.14.2023  21:23:57  Writing filtered gene trees to file               Success: 6360 gene trees written        643.22336           0.01165         0.0               0.0       
+# ----------------------------------------
+# 03.14.2023  22:08:52  Reconciliation                                    Success                                 3338.64972          2695.42471      0.0               0.0       
+# 03.14.2023  22:13:07  Getting maps for lowest scoring MTs               Success                                 3592.98892          254.33488       0.0               0.0       
+# 03.14.2023  22:13:07  Writing detailed output file                      Success                                 3593.01418          0.02125         0.0               0.0       
+# 03.14.2023  22:13:07  Writing main output file                          Success                                 3593.1967           0.18188         0.0               0.0       
+# ===============================================================================================================================================================================
+#
+# Done!
+# The date and time at the end is: 03.14.2023  22:13:07
+# Total execution time:            3593.329 seconds.
+# Output directory for this run:   /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-pro-bs90-full/
+# Log file for this run:           /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-pro-bs90-full/astral-pro-bs90-full.log
+
+# GRAMPA finished with 9 WARNINGS -- check log file for more info
+# ----------------------------------------
+# The MUL-tree with the minimum parsimony score is MT-531:	((DMELA,BMORI)<1>,(((MOCCI,VDEST)<2>,(ISCAP,HLONG)<3>)<4>,(((TGIGA,CROTU)<5>,LPOLY)<6>,((TURTI,SSCAB)<7>,(CSCUL,((LRECL,PTEPI*)<8>,(SMIMO,((PTEPI+,LHESP)<9>,(ABRUE,(NCLAV,TANTI)<10>)<11>)<12>)<13>)<14>)<15>)<16>)<17>)<18>)<19>
+# Score = 61982
+# ----------------------------------------
+# ===============================================================================================================================================================================
+#

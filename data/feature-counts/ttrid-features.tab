@@ -1,0 +1,25 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i T.tridentatus_hic.gff3.gz -o ttrid-features.tab --lens --overwrite
+# Runtime:        08/09/2023 11:24:15
+# ----------------
+# Input file:            T.tridentatus_hic.gff3.gz
+# Output file:           ttrid-features.tab
+# Length output file:    ttrid-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:24:15 Detecting compression...
+# 08.09.2023 | 11:24:15 Counting features...
+# Features types read:   7
+# Total features read:   921711
+# ----------------
+# 08.09.2023 | 11:24:16 Writing output...
+# ----------------
+feature type	count	avg length
+gene	79557	9878.444976557688
+mRNA	68907	15029.659671731464
+exon	369015	234.21998021760632
+CDS	345752	170.51803315671347
+three_prime_UTR	19463	1066.8293685454453
+tRNA	13692	72.22443762781187
+five_prime_UTR	25325	224.47119447186574
+# 08.09.2023 | 11:24:16 Writing lens...

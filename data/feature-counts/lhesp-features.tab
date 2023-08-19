@@ -1,0 +1,22 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i LHES.Models.gff3 -o lhesp-features.tab --lens
+# Runtime:        08/09/2023 11:20:25
+# ----------------
+# Input file:            LHES.Models.gff3
+# Output file:           lhesp-features.tab
+# Length output file:    lhesp-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:20:25 Detecting compression...
+# 08.09.2023 | 11:20:25 Counting features...
+# Features types read:   4
+# Total features read:   179589
+# ----------------
+# 08.09.2023 | 11:20:25 Writing output...
+# ----------------
+feature type	count	avg length
+gene	17364	8399.097615756738
+mRNA	17364	8399.097615756738
+exon	73609	298.06595660856686
+CDS	71252	167.46836580025823
+# 08.09.2023 | 11:20:25 Writing lens...

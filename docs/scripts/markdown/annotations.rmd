@@ -17,8 +17,9 @@ output:
 ```{r setup, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
-library(ggplot2)
-library(dplyr)
+library(tidyverse)
+#library(ggplot2)
+#library(dplyr)
 library(ggrepel)
 library(here)
 library(reshape2)
@@ -36,6 +37,19 @@ infilename = here("data", "chelicerate_genomes-gwct.csv")
 in_data = read.csv(infilename, header=T)
 
 in_data = subset(in_data, !is.na(Data.downloaded.from))
+
+
+feature_dir = here("data", "feature-counts")
+filenames = list.files(path=feature_dir, pattern = "*-features-lens.tab")
+lens_df = data.frame("feature"=c(), "length"=c(), "spec"=c())
+for(f in filenames){
+  spec_abbr = substr(f, 1, 5)
+  f_path = here("data", "feature-counts", f)
+  cur_df = read_tsv(f_path) %>% filter(feature == "gene") %>% mutate("spec" = spec_abbr)
+  lens_df = rbind(lens_df, cur_df)
+}
+
+
 
 ```
 
@@ -55,6 +69,28 @@ gene_p = ggplot(in_data, aes(x=Species.name, y=Genes, color=Dataset)) +
         legend.title=element_text(size=12),
         legend.position="bottom")
 print(gene_p)
+
+```
+
+## Gene lens
+
+```{r gene-lens, out.width="66%", fig.align="center"}
+
+gene_len_p = ggplot(subset(lens_df, length<50000), aes(x=spec, y=length)) +
+  geom_boxplot(outlier.shape=NA) +
+  #geom_segment(aes(x=Species.name, y=0, xend=Species.name, yend=Genes), linetype="dotted", color="#666666") +
+  #geom_point(size=4) +
+  #scale_y_continuous(expand=c(0,0), limits=c(0,90000)) +
+  #scale_color_manual(values=corecol(pal="wilke", numcol=3)) +
+  #ylab("# genes") +
+  #xlab(paste("")) +
+  bartheme() +
+  theme(axis.text.x=element_text(angle=45, hjust=1, size=10))
+  #      legend.title=element_text(size=12),
+  #      legend.position="bottom")
+print(gene_len_p)
+
+avg_lens = lens_df %>% filter(length < 9999999999999999) %>% group_by(spec) %>% summarize(mean.len = mean(length), med.len = median(length))
 
 ```
 

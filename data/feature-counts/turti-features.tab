@@ -1,0 +1,39 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i Tetranychus_urticae.ASM23943v1.51.gff3.gz -o turti-features.tab --lens
+# Runtime:        08/09/2023 11:24:35
+# ----------------
+# Input file:            Tetranychus_urticae.ASM23943v1.51.gff3.gz
+# Output file:           turti-features.tab
+# Length output file:    turti-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:24:35 Detecting compression...
+# 08.09.2023 | 11:24:35 Counting features...
+# Features types read:   21
+# Total features read:   227161
+# ----------------
+# 08.09.2023 | 11:24:36 Writing output...
+# ----------------
+feature type	count	avg length
+supercontig	640	141898.209375
+biological_region	1395	870.2487455197132
+gene	17671	2726.3783600248994
+mRNA	17671	2726.3783600248994
+exon	80981	400.65121448240944
+CDS	62549	326.4437321140226
+three_prime_UTR	8248	294.2827352085354
+transposable_element_gene	12932	591.0504175688216
+transposable_element	12932	591.0504175688216
+five_prime_UTR	9902	151.52373257927692
+ncRNA_gene	771	143.81452658884567
+tRNA	255	74.16078431372549
+pseudogene	349	1640.4699140401146
+pseudogenic_transcript	349	1640.4699140401146
+snoRNA	109	115.4862385321101
+miRNA	53	46.18867924528302
+pre_miRNA	19	82.57894736842105
+rRNA	172	237.75
+snRNA	20	134.1
+ncRNA	142	221.8661971830986
+RNase_P_RNA	1	285.0
+# 08.09.2023 | 11:24:36 Writing lens...

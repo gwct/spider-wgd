@@ -1,0 +1,32 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i GCF_000365465.3_Ptep_3.0_genomic.gff.gz -o ptepi-features.tab --lens
+# Runtime:        08/09/2023 11:22:17
+# ----------------
+# Input file:            GCF_000365465.3_Ptep_3.0_genomic.gff.gz
+# Output file:           ptepi-features.tab
+# Length output file:    ptepi-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:22:17 Detecting compression...
+# 08.09.2023 | 11:22:17 Counting features...
+# Features types read:   14
+# Total features read:   780116
+# ----------------
+# 08.09.2023 | 11:22:19 Writing output...
+# ----------------
+feature type	count	avg length
+region	59853	20532.17507894341
+gene	23512	25594.21057332426
+mRNA	33091	35647.26587289595
+exon	343094	282.3616006109113
+CDS	306689	187.55901907143718
+lnc_RNA	3089	13697.202007122047
+pseudogene	145	7458.731034482758
+cDNA_match	8694	249.86369910282954
+tRNA	1008	74.81150793650794
+transcript	799	31778.724655819773
+snRNA	96	139.66666666666666
+snoRNA	39	122.41025641025641
+guide_RNA	1	128.0
+rRNA	6	482.3333333333333
+# 08.09.2023 | 11:22:19 Writing lens...

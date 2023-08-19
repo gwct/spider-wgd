@@ -1,0 +1,34 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i Bombyx_mori.ASM15162v1.51.gff3.gz -o bmori-features.tab --lens --overwrite
+# Runtime:        08/09/2023 11:18:46
+# ----------------
+# Input file:            Bombyx_mori.ASM15162v1.51.gff3.gz
+# Output file:           bmori-features.tab
+# Length output file:    bmori-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:18:46 Detecting compression...
+# 08.09.2023 | 11:18:46 Counting features...
+# Features types read:   16
+# Total features read:   280850
+# ----------------
+# 08.09.2023 | 11:18:47 Writing output...
+# ----------------
+feature type	count	avg length
+supercontig	43462	11084.632575583268
+gene	14623	6042.478629556179
+mRNA	14623	6042.478629556179
+exon	80905	219.82552376243743
+CDS	79783	221.27492072245968
+ncRNA_gene	1122	116.7620320855615
+snRNA	488	148.452868852459
+tRNA	427	73.65105386416862
+pre_miRNA	74	85.8108108108108
+snoRNA	8	166.5
+rRNA	110	149.0
+ncRNA	2	69.0
+SRP_RNA	10	209.8
+biological_region	45210	1107.0696306126963
+RNase_P_RNA	2	284.5
+RNase_MRP_RNA	1	236.0
+# 08.09.2023 | 11:18:47 Writing lens...

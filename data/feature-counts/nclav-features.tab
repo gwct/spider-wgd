@@ -1,0 +1,23 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i GCA_002102615.1_NepCla1.0_genomic.gff.gz -o nclav-features.tab --lens
+# Runtime:        08/09/2023 11:21:46
+# ----------------
+# Input file:            GCA_002102615.1_NepCla1.0_genomic.gff.gz
+# Output file:           nclav-features.tab
+# Length output file:    nclav-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:21:46 Detecting compression...
+# 08.09.2023 | 11:21:46 Counting features...
+# Features types read:   5
+# Total features read:   366429
+# ----------------
+# 08.09.2023 | 11:21:47 Writing output...
+# ----------------
+feature type	count	avg length
+region	180236	13532.930324685412
+gene	22738	4625.272891195355
+mRNA	22738	4625.272891195355
+exon	71831	368.7441633834974
+CDS	68886	305.2864297535058
+# 08.09.2023 | 11:21:47 Writing lens...

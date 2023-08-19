@@ -1,0 +1,37 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i Drosophila_melanogaster.BDGP6.32.51.gff3.gz -o dmela-features.tab --lens --overwrite
+# Runtime:        08/09/2023 11:19:33
+# ----------------
+# Input file:            Drosophila_melanogaster.BDGP6.32.51.gff3.gz
+# Output file:           dmela-features.tab
+# Length output file:    dmela-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:19:33 Detecting compression...
+# 08.09.2023 | 11:19:33 Counting features...
+# Features types read:   19
+# Total features read:   505346
+# ----------------
+# 08.09.2023 | 11:19:34 Writing output...
+# ----------------
+feature type	count	avg length
+region	1870	76857.82459893049
+pseudogene	342	1012.0029239766081
+pseudogenic_transcript	370	1096.2432432432433
+exon	195510	514.5785177228786
+ncRNA_gene	4044	1275.795994065282
+ncRNA	3036	2704.050724637681
+gene	13968	6960.518399198168
+mRNA	30719	10875.24929196914
+CDS	162568	374.26324368879483
+transposable_element_gene	5578	1503.5059160989601
+transposable_element	5578	1503.5059160989601
+five_prime_UTR	46634	203.31567096967876
+three_prime_UTR	33623	538.1971567082057
+snoRNA	300	117.13333333333334
+pre_miRNA	262	90.56106870229007
+miRNA	485	21.249484536082473
+snRNA	32	161.75
+tRNA	312	74.26282051282051
+rRNA	115	462.0173913043478
+# 08.09.2023 | 11:19:34 Writing lens...

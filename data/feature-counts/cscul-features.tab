@@ -1,0 +1,32 @@
+# GFF/GTF feature counting.
+# PYTHON VERSION: 3.9.15
+# Script call:    /n/home07/gthomas/env/pylib/core/python/gxf_feature_counter.py -i GCF_000671375.1_Cexi_2.0_genomic.gff.gz -o cscul-features.tab --lens --overwrite
+# Runtime:        08/09/2023 11:19:21
+# ----------------
+# Input file:            GCF_000671375.1_Cexi_2.0_genomic.gff.gz
+# Output file:           cscul-features.tab
+# Length output file:    cscul-features-lens.tab
+# ----------------
+# 08.09.2023 | 11:19:21 Detecting compression...
+# 08.09.2023 | 11:19:21 Counting features...
+# Features types read:   14
+# Total features read:   630517
+# ----------------
+# 08.09.2023 | 11:19:22 Writing output...
+# ----------------
+feature type	count	avg length
+region	8338	110993.83785080355
+gene	28845	18206.34546715202
+mRNA	35529	23516.551718314615
+exon	295708	270.4397851935017
+CDS	253768	196.09637937013335
+lnc_RNA	3962	8159.352852094901
+cDNA_match	1031	337.97672162948595
+transcript	882	24265.098639455784
+tRNA	782	75.58951406649616
+pseudogene	1513	4250.697290152016
+snRNA	123	149.9268292682927
+snoRNA	23	139.69565217391303
+rRNA	11	121.18181818181819
+guide_RNA	2	133.0
+# 08.09.2023 | 11:19:22 Writing lens...
