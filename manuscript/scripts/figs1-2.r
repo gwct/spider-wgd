@@ -66,7 +66,7 @@ readGrampa <- function(spec, type, bs, search, label) {
 
 ############################################################
 
-save_fig = T
+save_fig = F
 
 genome_file = here("data", "chelicerate_genomes-gwct.csv")
 
@@ -107,7 +107,7 @@ bal_low = readTrees(bal_low_mul$labeled.tree, type="string")
 
 #####
 
-trad_grampa = readGrampa(19, "traditional", 90, "hcsp", "Horseshoe crabs sister")
+trad_grampa = readGrampa(19, "traditional", 90, "hcsp", "Horseshoe crabs sister\nto arachnids")
 trad_low_mul = trad_grampa$scores[1,]
 # Read the GRAMPA results and get the info for the lowest scoring MUL-tree (first row in scores df)
 
@@ -206,30 +206,35 @@ grampa_st = grampa_scores %>% filter(mul.tree == 0)
 grampa_auto = grampa_scores %>% filter(h1.node == h2.node & mul.tree != 0)
 # Select data For Fig. 2
 
+legend_names = c("ASTRAL-Multi", "Ballesteros et al. 2022", "Horseshoe crabs sister\nto arachnids")
 cols = corecol(numcol=3, pal="wilke")
-names(cols) = c("ASTRAL-Multi", "Ballesteros et al. 2022", "Horseshoe crabs sister")
+names(cols) = legend_names
+shapes = c(21, 22, 24)
+names(shapes) = legend_names
 # Colors for Fig. 2
 
-multi_scores = ggplot(grampa_allo, aes(x=rank, y=score, color=label)) +
+multi_scores = ggplot(grampa_allo, aes(x=rank, y=score, shape=label, color=label, fill=label)) +
   geom_point(size=2, alpha=0.33, show.legend=F) +
-  geom_point(data=grampa_st, aes(x=rank, y=score), size=3, alpha=0.75, color="#333333", fill="#999999") +
-  geom_point(data=grampa_auto, aes(x=rank, y=score, color=label), size=5, alpha=0.5) +
+  geom_point(data=grampa_st, aes(x=rank, y=score, shape=label), size=3, alpha=0.75, color="#000000", fill="#000000", show_guide=F) +
+  geom_point(data=grampa_auto, aes(x=rank, y=score, shape=label, color=label, fill=label), size=5, alpha=0.5) +
   scale_x_continuous(limits=c(-10,max(grampa_scores$rank)+10)) +
   scale_color_manual(name="Species tree", values=cols) +
+  scale_fill_manual(name="Species tree", values=cols) +
+  scale_shape_manual(name="Species tree", values=shapes) +
   xlab("MUL-tree rank") +
   ylab("Duplications + losses") +
   bartheme() +
-  theme(legend.position="right",
+  theme(legend.position="bottom",
         legend.title=element_text(size=12),
         legend.text=element_text(size=10)) +
-  guides(color=guide_legend(nrow=3, byrow=TRUE))
+  guides(color=guide_legend(nrow=1, byrow=TRUE, label.hjust = 0.5))
 print(multi_scores)
 # Fig. 2
 
 if(save_fig){
   figfile = here("manuscript", "figs", "fig2.png")
   cat(as.character(Sys.time()), " | Fig2: Saving figure:", figfile, "\n")
-  ggsave(filename=figfile, multi_scores, width=8, height=6, units="in")
+  ggsave(filename=figfile, multi_scores, width=7, height=6, units="in")
 }
 
 ####################

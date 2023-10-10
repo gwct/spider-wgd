@@ -5,3 +5,4 @@ scripts/etc/snakemake/.snakemake/
 docs/scripts/lib/__pycache__/
 scripts/.snakemake/
 scripts/slurm_logs/
+manuscript/co-author-edits/
