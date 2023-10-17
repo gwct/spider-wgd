@@ -68,6 +68,10 @@ readGrampa <- function(spec, type, bs, search, label) {
 
 save_fig = F
 
+do_supp = T
+
+save_supp_fig = T
+
 genome_file = here("data", "chelicerate_genomes-gwct.csv")
 
 genome_data = read_csv(genome_file)
@@ -237,5 +241,201 @@ if(save_fig){
   ggsave(filename=figfile, multi_scores, width=7, height=6, units="in")
 }
 
+########################################
+
+if(do_supp){
+  multi_low_mul = multi_grampa$scores[2:4,]
+  # Read the GRAMPA results and get the info for the lowest scoring MUL-tree (first row in scores df)
+  
+  multi_plot_list = list()
+  
+  for(i in 1:nrow(multi_low_mul)){
+    multi_low_counts = multi_grampa$counts %>% filter(mul.tree == multi_low_mul[i,]$mul.tree)
+    names(multi_low_counts)[2] = "mul.label"
+    # Get the counts per branch for the lowest scoring MUL-tree
+    
+    multi_low = readTrees(multi_low_mul[i,]$labeled.tree, type="string")
+    # Read the lowest scoring MUL-tree into an R phylo object
+    ## Read the Astral-MULTI data
+    
+    multi_low$info = multi_low$info %>% 
+      mutate(mul.label = label) %>%
+      mutate(label = str_replace(label, "\\*", "")) %>%
+      mutate(label = str_replace(label, "\\+", "")) %>%
+      left_join(select(genome_data, label, S.name), by="label") %>%
+      # Get the formatted species names for nice tip labels
+      left_join(multi_low_counts, by="mul.label") %>%
+      # Get the counts to match up to the branches in the tree df
+      #mutate(h1 = ifelse(clade %in% h1_clades, "Y", "N")) %>%
+      # Add a column for whether or not a branch is an H1 branch
+      arrange(node)
+    # Re-order by node for ggtree
+    # Adjust Multi results
+    
+    # multi_low$info = multi_low$info %>%
+    #   mutate(h.branch = ifelse(clade %in% h_clades, "Y", "N"))
+    
+    multi_low_p = ggtree(multi_low[["tree"]], size=0.75, ladderize=T, aes(color=!!multi_low[["info"]][["dups"]])) +
+      scale_color_viridis(name='Duplications', option="C", limits=c(0, max_dups+100)) +
+      xlim(0, 18) +
+      geom_tiplab(aes(label=!!multi_low[["info"]][["S.name"]]), size=2, color="#333333", fontface=3) +
+      #geom_label2(aes(subset=(multi_low$info$h1=="Y"), x=branch, label="H1"), size=2.5, fill=corecol(pal="trek", numcol=1), color="#ececec", nudge_x=-0.1, nudge_y=0.65) +
+      ggtitle(paste0("MUL tree ", multi_low_mul[i,]$mul.tree, " (Score: ", multi_low_mul[i,]$score,", Rank ", i+1,")")) +
+      theme(legend.position="bottom",
+            legend.text=element_text(size=6),
+            legend.title=element_text(size=8),
+            plot.title = element_text(hjust=0.5, size=10),
+            plot.margin=unit(c(1,1,1,0), "cm"))
+    
+    ## SET MARGINS, FIX FONT SIZES, FIX LEGEND FONT
+    
+    print(multi_low_p)
+    
+    leg = get_legend(multi_low_p)
+    multi_low_p = multi_low_p + theme(legend.position="none")
+    
+    multi_plot_list[[i]] = multi_low_p
+  }
+  
+  multi_plot_main = plot_grid(plotlist=multi_plot_list, ncol=3, labels=c("A", "B", "C"), label_size=14, align='vh', rel_widths=c(1,1,1))
+  multi_plot = plot_grid(multi_plot_main, leg, nrow=2, rel_heights=c(1,0.1))
+  
+  if(save_supp_fig){
+    figfile = here("manuscript", "figs", "supp", "figS1-base.png")
+    cat(as.character(Sys.time()), " | FigS1: Saving figure:", figfile, "\n")
+    ggsave(filename=figfile, multi_plot, width=8, height=4, units="in")
+  }
+  
+  ####################
+  
+  bal_low_mul = bal_grampa$scores[2:4,]
+  # Read the GRAMPA results and get the info for the lowest scoring MUL-tree (first row in scores df)
+  
+  bal_plot_list = list()
+  
+  for(i in 1:nrow(bal_low_mul)){
+    bal_low_counts = bal_grampa$counts %>% filter(mul.tree == bal_low_mul[i,]$mul.tree)
+    names(bal_low_counts)[2] = "mul.label"
+    # Get the counts per branch for the lowest scoring MUL-tree
+    
+    bal_low = readTrees(bal_low_mul[i,]$labeled.tree, type="string")
+    # Read the lowest scoring MUL-tree into an R phylo object
+    ## Read the Astral-MULTI data
+    
+    bal_low$info = bal_low$info %>% 
+      mutate(mul.label = label) %>%
+      mutate(label = str_replace(label, "\\*", "")) %>%
+      mutate(label = str_replace(label, "\\+", "")) %>%
+      left_join(select(genome_data, label, S.name), by="label") %>%
+      # Get the formatted species names for nice tip labels
+      left_join(bal_low_counts, by="mul.label") %>%
+      # Get the counts to match up to the branches in the tree df
+      #mutate(h1 = ifelse(clade %in% h1_clades, "Y", "N")) %>%
+      # Add a column for whether or not a branch is an H1 branch
+      arrange(node)
+    # Re-order by node for ggtree
+    # Adjust Multi results
+    
+    bal_low$info = bal_low$info %>%
+      mutate(h.branch = ifelse(clade %in% h_clades, "Y", "N"))
+    
+    bal_low_p = ggtree(bal_low[["tree"]], size=0.75, ladderize=T, aes(color=!!bal_low[["info"]][["dups"]])) +
+      scale_color_viridis(name='Duplications', option="C", limits=c(0, max_dups+100)) +
+      xlim(0, 18) +
+      geom_tiplab(aes(label=!!bal_low[["info"]][["S.name"]]), size=2, color="#333333", fontface=3) +
+      #geom_label2(aes(subset=(bal_low$info$h1=="Y"), x=branch, label="H1"), size=2.5, fill=corecol(pal="trek", numcol=1), color="#ececec", nudge_x=-0.1, nudge_y=0.65) +
+      ggtitle(paste0("MUL tree ", bal_low_mul[i,]$mul.tree, " (Score: ", bal_low_mul[i,]$score,", Rank ", i+1,")")) +
+      theme(legend.position="bottom",
+            legend.text=element_text(size=6),
+            legend.title=element_text(size=8),
+            plot.title = element_text(hjust=0.5, size=10),
+            plot.margin=unit(c(1,1,1,0), "cm"))
+    
+    ## SET MARGINS, FIX FONT SIZES, FIX LEGEND FONT
+    
+    print(bal_low_p)
+    
+    leg = get_legend(bal_low_p)
+    bal_low_p = bal_low_p + theme(legend.position="none")
+    
+    bal_plot_list[[i]] = bal_low_p
+  }
+  
+  bal_plot_main = plot_grid(plotlist=bal_plot_list, ncol=3, labels=c("A", "B", "C"), label_size=14, align='vh', rel_widths=c(1,1,1))
+  bal_plot = plot_grid(bal_plot_main, leg, nrow=2, rel_heights=c(1,0.1))
+  
+  if(save_supp_fig){
+    figfile = here("manuscript", "figs", "supp", "figS2-base.png")
+    cat(as.character(Sys.time()), " | FigS2: Saving figure:", figfile, "\n")
+    ggsave(filename=figfile, bal_plot, width=8, height=4, units="in")
+  }
+  
+  ####################
+  
+  trad_low_mul = trad_grampa$scores[2:4,]
+  # Read the GRAMPA results and get the info for the lowest scoring MUL-tree (first row in scores df)
+  
+  trad_plot_list = list()
+  
+  for(i in 1:nrow(trad_low_mul)){
+    trad_low_counts = trad_grampa$counts %>% filter(mul.tree == trad_low_mul[i,]$mul.tree)
+    names(trad_low_counts)[2] = "mul.label"
+    # Get the counts per branch for the lowest scoring MUL-tree
+    
+    trad_low = readTrees(trad_low_mul[i,]$labeled.tree, type="string")
+    # Read the lowest scoring MUL-tree into an R phylo object
+    ## Read the Astral-MULTI data
+    
+    trad_low$info = trad_low$info %>% 
+      mutate(mul.label = label) %>%
+      mutate(label = str_replace(label, "\\*", "")) %>%
+      mutate(label = str_replace(label, "\\+", "")) %>%
+      left_join(select(genome_data, label, S.name), by="label") %>%
+      # Get the formatted species names for nice tip labels
+      left_join(trad_low_counts, by="mul.label") %>%
+      # Get the counts to match up to the branches in the tree df
+      #mutate(h1 = ifelse(clade %in% h1_clades, "Y", "N")) %>%
+      # Add a column for whether or not a branch is an H1 branch
+      arrange(node)
+    # Re-order by node for ggtree
+    # Adjust Multi results
+    
+    trad_low$info = trad_low$info %>%
+      mutate(h.branch = ifelse(clade %in% h_clades, "Y", "N"))
+    
+    trad_low_p = ggtree(trad_low[["tree"]], size=0.75, ladderize=T, aes(color=!!trad_low[["info"]][["dups"]])) +
+      scale_color_viridis(name='Duplications', option="C", limits=c(0, max_dups+100)) +
+      xlim(0, 18) +
+      geom_tiplab(aes(label=!!trad_low[["info"]][["S.name"]]), size=2, color="#333333", fontface=3) +
+      #geom_label2(aes(subset=(trad_low$info$h1=="Y"), x=branch, label="H1"), size=2.5, fill=corecol(pal="trek", numcol=1), color="#ececec", nudge_x=-0.1, nudge_y=0.65) +
+      ggtitle(paste0("MUL tree ", trad_low_mul[i,]$mul.tree, " (Score: ", trad_low_mul[i,]$score,", Rank ", i+1,")")) +
+      theme(legend.position="bottom",
+            legend.text=element_text(size=6),
+            legend.title=element_text(size=8),
+            plot.title = element_text(hjust=0.5, size=10),
+            plot.margin=unit(c(1,1,1,0), "cm"))
+    
+    ## SET MARGINS, FIX FONT SIZES, FIX LEGEND FONT
+    
+    print(trad_low_p)
+    
+    leg = get_legend(trad_low_p)
+    trad_low_p = trad_low_p + theme(legend.position="none")
+    
+    trad_plot_list[[i]] = trad_low_p
+  }
+  
+  trad_plot_main = plot_grid(plotlist=trad_plot_list, ncol=3, labels=c("A", "B", "C"), label_size=14, align='vh', rel_widths=c(1,1,1))
+  trad_plot = plot_grid(trad_plot_main, leg, nrow=2, rel_heights=c(1,0.1))
+  
+  if(save_supp_fig){
+    figfile = here("manuscript", "figs", "supp", "figS3-base.png")
+    cat(as.character(Sys.time()), " | FigS3: Saving figure:", figfile, "\n")
+    ggsave(filename=figfile, trad_plot, width=8, height=4, units="in")
+  }
+}
+
 ####################
+
+
 

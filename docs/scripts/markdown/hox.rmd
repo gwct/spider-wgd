@@ -17,22 +17,11 @@ output:
 ```{r setup, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
-library(ggplot2)
+library(tidyverse)
 library(cowplot)
-#library(ggbeeswarm)
-library(dplyr)
 library(kableExtra)
-#library(tidyr)
 library(ggtree)
-#library(phytools)
-#library(phangorn)
-#library(reshape2)
 library(ggExtra)
-#library(ggrepel)
-#library(vroom)
-#library(ggdist)
-#library(stringr)
-#library(ggsignif)
 library(here)
 source("../lib/design.r")
 source("../lib/get_tree_info.r")
@@ -49,7 +38,8 @@ Gene trees for genes from the [Hox gene complex from the Drosophila annotation](
 ```{r file-setup, out.width="75%", fig.align = "center", warning=FALSE}
 
 hox_data_file = here("data", "dmela-hox-genes.csv")
-hox_data = read.csv(hox_data_file, header=T, comment.char="#")
+hox_data = read_csv(hox_data_file, comment="#")
+names(hox_data) = make.names(names(hox_data), unique=TRUE)
 
 
 ```
@@ -72,7 +62,7 @@ for(i in 1:nrow(hox_data)){
   cur_tree = read.tree(text=row$CDS.tree)
   
   cur_gt_fig = ggtree(cur_tree, size=0.8, ladderize=T) +#, aes(color=full_data$Family)) +
-  xlim(0, 4) +
+  xlim(0, 5) +
   geom_tiplab(size=4) +
   #scale_color_manual(name='Include?', values=c("N"=corecol(pal="wilke", numcol=1,offset=1), "Y"=corecol(numcol=1, offset=1))) +
   #geom_text(aes(label=node), hjust=-.3, vjust=-.3, color="#ff6db6") +
