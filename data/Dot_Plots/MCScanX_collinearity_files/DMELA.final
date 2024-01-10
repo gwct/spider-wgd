@@ -1,0 +1,27 @@
+############### Parameters ###############
+# MATCH_SCORE: 50
+# MATCH_SIZE: 5
+# GAP_PENALTY: -1
+# OVERLAP_WINDOW: 5
+# E_VALUE: 1e-05
+# MAX GAPS: 25
+############### Statistics ###############
+# Number of collinear genes: 21, Percentage: 0.07
+# Number of all genes: 30719
+##########################################
+## Alignment 0: score=364.0 e_value=1.2e-15 N=8 2L&2L plus
+  0-  0:	FBpp0091050	FBpp0091092	  1e-51	-2	-2
+  0-  1:	FBpp0091155	FBpp0091125	  7e-67	-2	-2
+  0-  2:	FBpp0091154	FBpp0091120	  1e-53	-2	-2
+  0-  3:	FBpp0085248	FBpp0091101	  1e-52	-2	-2
+  0-  4:	FBpp0091151	FBpp0091119	  7e-67	-2	-2
+  0-  5:	FBpp0091147	FBpp0091115	  7e-67	-2	-2
+  0-  6:	FBpp0091063	FBpp0091108	  1e-74	-2	-2
+  0-  7:	FBpp0091064	FBpp0091109	  9e-97	-2	-2
+## Alignment 1: score=255.0 e_value=2e-08 N=6 2L&2L plus
+  1-  0:	FBpp0091050	FBpp0091074	  1e-51	-2	-2
+  1-  1:	FBpp0091154	FBpp0091134	  1e-53	-2	-2
+  1-  2:	FBpp0085250	FBpp0091085	  9e-97	-2	-2
+  1-  3:	FBpp0091151	FBpp0091125	  7e-67	-2	-2
+  1-  4:	FBpp0091057	FBpp0091101	  1e-52	-2	-2
+  1-  5:	FBpp0091147	FBpp0091119	  7e-67	-2	-2

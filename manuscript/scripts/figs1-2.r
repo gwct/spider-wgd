@@ -336,8 +336,8 @@ if(do_supp){
     # Re-order by node for ggtree
     # Adjust Multi results
     
-    bal_low$info = bal_low$info %>%
-      mutate(h.branch = ifelse(clade %in% h_clades, "Y", "N"))
+    # bal_low$info = bal_low$info %>%
+    #   mutate(h.branch = ifelse(clade %in% h_clades, "Y", "N"))
     
     bal_low_p = ggtree(bal_low[["tree"]], size=0.75, ladderize=T, aes(color=!!bal_low[["info"]][["dups"]])) +
       scale_color_viridis(name='Duplications', option="C", limits=c(0, max_dups+100)) +
@@ -400,8 +400,8 @@ if(do_supp){
     # Re-order by node for ggtree
     # Adjust Multi results
     
-    trad_low$info = trad_low$info %>%
-      mutate(h.branch = ifelse(clade %in% h_clades, "Y", "N"))
+    # trad_low$info = trad_low$info %>%
+    #   mutate(h.branch = ifelse(clade %in% h_clades, "Y", "N"))
     
     trad_low_p = ggtree(trad_low[["tree"]], size=0.75, ladderize=T, aes(color=!!trad_low[["info"]][["dups"]])) +
       scale_color_viridis(name='Duplications', option="C", limits=c(0, max_dups+100)) +
