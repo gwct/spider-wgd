@@ -5,4 +5,9 @@ scripts/etc/snakemake/.snakemake/
 docs/scripts/lib/__pycache__/
 scripts/.snakemake/
 scripts/slurm_logs/
-manuscript/co-author-edits/
+manuscript/co-author-comments/
+manuscript/old-endnote/
+manuscript/BIORXIV-2024-578966v1-Thomas.pdf
+manuscript/cover-letter.docx
+manuscript/MBE-24-0119_Proof_hi.pdf
+manuscript/spider-wgd*
