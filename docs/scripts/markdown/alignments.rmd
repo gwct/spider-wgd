@@ -26,7 +26,8 @@ library(ggpubr)
 library(dplyr)
 library(kableExtra)
 library(here)
-source("../lib/design.r")
+source(here("docs", "scripts", "lib", "design.r"))
+#source("../lib/design.r")
 
 ```
 
