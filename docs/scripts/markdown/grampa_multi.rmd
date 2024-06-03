@@ -408,7 +408,7 @@ scores_fig_19 = ggplot(grampa_data_19, aes(x=rank, y=score, color=label)) +
   geom_point(size=2, alpha=0.33, show.legend=F) +
   geom_point(data=grampa_data_st_19, aes(x=rank, y=score), size=3, alpha=0.75, color="#333333", fill="#999999") +
   geom_point(data=grampa_data_auto_19, aes(x=rank, y=score, color=label), size=5, alpha=0.5) +
-  scale_x_continuous(limits=c(-10,max(grampa_data_16$rank)+10)) +
+  scale_x_continuous(limits=c(-10,max(grampa_data_19$rank)+10)) +
   scale_color_manual(values=cols) +
   xlab("Rank") +
   ylab("GRAMPA score") +
@@ -430,7 +430,7 @@ print(scores_fig)
 
 ```
 
-## Lowest scoring trees - ASTRAL-Pro
+## Lowest scoring trees - ASTRAL-Multi
 
 ```{r cds-apro-full-trees, out.width="65%", fig.align = "center", warning=FALSE, fig.height=6}
 

@@ -1,0 +1,76 @@
+# Warning! With -c set to 15 or higher, some gene trees may take a very long time to reconcile!
+
+#
+# =========================================================================
+# Welcome to GRAMPA -- Gene tree reconciliations with MUL-trees.
+# Version 1.4.0 released on March 2023
+# GRAMPA was developed by Gregg Thomas, S. Hussain Ather, Matthew Hahn
+# Citation:      https://doi.org/10.1093/sysbio/syx044
+# Website:       https://gwct.github.io/grampa/
+# Report issues: https://github.com/gwct/grampa
+#
+# The date and time at the start is:  05.28.2024  23:35:49
+# Using Python executable located at: /n/home07/gthomas/miniconda3/bin/python3.9
+# Using Python version:               3.9.15
+#
+# The program was called as:          grampa.py -s /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//ballesteros.tre -g /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//loci-rearrange-80.rooted.treefile -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs80-h1-hc/ -h1 CROTU,TGIGA,LPOLY -c 15 -f ballesteros-bs80-hc -p 30
+#
+# -----------------------------------------------------------------------------------------------------------------------------
+# INPUT/OUTPUT INFO:
+# Species tree file:                    /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//ballesteros.tre
+# Gene tree file:                       /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//loci-rearrange-80.rooted.treefile
+# Output directory:                     /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs80-h1-hc/
+# Score file:                           /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs80-h1-hc/ballesteros-bs80-hc-scores.txt
+# Filtered gene trees:                  /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs80-h1-hc/ballesteros-bs80-hc-trees-filtered.txt
+# Check nums file:                      /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs80-h1-hc/ballesteros-bs80-hc-checknums.txt
+# Detailed mapping file:                /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs80-h1-hc/ballesteros-bs80-hc-detailed.txt
+# Duplication count file:               /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs80-h1-hc/ballesteros-bs80-hc-dup-counts.txt
+# -----------------------------------------------------------------------------------------------------------------------------
+# OPTIONS INFO:
+# Option                                Current setting               Current action
+# -h1                                   CROTU,TGIGA,LPOLY             GRAMPA will search these H1 nodes. If none are specified, all nodes will be searched as H1 nodes.
+# -h2                                   All                           GRAMPA will search these H2 nodes. If none are specified, all nodes will be searched as H2 nodes.
+# -c                                    15                            Gene trees with more than this number of groups/clades with polyploid species for a given h1/h2 combination will be skipped.
+# -f                                    ballesteros-bs80-hc           All output files generated will have this string preprended to them.
+# -p                                    30                            GRAMPA will use this number of processes for LCA mapping.
+# -v                                    3                             Controls the amount of info printed to the screen as GRAMPA is running.
+# --multree                             False                         The tree input with -s will be read as singly-labeled tree.
+# --checknums                           False                         GRAMPA will count groups to filter gene trees and then perform reconciliations.
+# --no-st, --st-only                    default                       GRAMPA will perform reconciliations to all MUL-trees specified by -h1 and -h2 and the input species tree.
+# --maps                                False                         GRAMPA will only output duplication and loss counts in the detailed output file.
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# Date        Time      Current step                                      Status                                  Elapsed time (s)    Step time (s)   
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# 05.28.2024  23:35:49  Reading species tree                              Success: species tree read              0.20873             0.00405         
+# 05.28.2024  23:35:49  Parsing hybrid clades                             Success: got H nodes                    0.2097              0.00046         
+# 05.28.2024  23:35:49  Counting MUL-trees to be generated                Success: 33 total MUL-trees             0.21018             4e-05           
+# 05.28.2024  23:35:49  Building MUL-trees                                Success: 33 MUL-trees built             0.22918             0.01859         
+# 05.28.2024  23:35:49  Reading gene trees                                Success: 6368 gene trees read           0.68004             0.45034         
+# 05.28.2024  23:36:09  Collapsing gene tree groupings                    Success                                 19.94143            19.26019        
+# 05.28.2024  23:36:10  Filtering gene trees over group cap               Success: 3 gts over cap                 21.20669            1.2631          
+# WARNING: Gene tree on line 1171 is over the group cap in 33 MTs and will be filtered.
+# WARNING: Gene tree on line 1532 is over the group cap in 33 MTs and will be filtered.
+# WARNING: Gene tree on line 2191 is over the group cap in 33 MTs and will be filtered.
+# 05.28.2024  23:36:10  INFO: Filtered gene trees: 3
+# 05.28.2024  23:36:10  INFO: Final gene tree count for reconciliations: 6365
+# 05.28.2024  23:36:10  Writing filtered gene trees to file               Success: 6365 gene trees written        21.21882            0.00724         
+# ----------------------------------------
+# 05.28.2024  23:57:08  Reconciliation                                    Success                                 1279.87196          1258.65213      
+# 05.29.2024  00:51:26  Getting maps for lowest scoring MTs               Success                                 4537.66158          3257.78306      
+# 05.29.2024  00:51:26  Writing detailed output file                      Success                                 4537.67858          0.01153         
+# 05.29.2024  00:51:26  Writing main output file                          Success                                 4537.81355          0.13422         
+# ===============================================================================================================================================================================
+#
+# Done!
+# The date and time at the end is: 05.29.2024  00:51:27
+# Total execution time:            4537.93 seconds.
+# Output directory for this run:   /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs80-h1-hc/
+# Log file for this run:           /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs80-h1-hc/ballesteros-bs80-hc.log
+
+# GRAMPA finished with 4 WARNINGS -- check log file for more info
+# ----------------------------------------
+# The tree with the minimum parsimony score is the singly-labled tree (ST):	((((((((((NCLAV,TANTI),ABRUE),(PTEPI,LHESP)),SMIMO),LRECL),CSCUL),(LPOLY,(CROTU,TGIGA))),((MOCCI,VDEST),(ISCAP,HLONG))),(TURTI,SSCAB)),(DMELA,BMORI));
+# Score = 76353
+# ----------------------------------------
+# ===============================================================================================================================================================================
+#

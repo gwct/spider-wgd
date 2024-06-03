@@ -1,0 +1,91 @@
+# Warning! With -c set to 15 or higher, some gene trees may take a very long time to reconcile!
+
+#
+# =========================================================================
+# Welcome to GRAMPA -- Gene tree reconciliations with MUL-trees.
+# Version 1.4.0 released on March 2023
+# GRAMPA was developed by Gregg Thomas, S. Hussain Ather, Matthew Hahn
+# Citation:      https://doi.org/10.1093/sysbio/syx044
+# Website:       https://gwct.github.io/grampa/
+# Report issues: https://github.com/gwct/grampa
+#
+# The date and time at the start is:  05.29.2024  22:23:15
+# Using Python executable located at: /n/home07/gthomas/miniconda3/bin/python3.9
+# Using Python version:               3.9.15
+#
+# The program was called as:          grampa.py -s /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//ballesteros.tre -g /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//loci-rearrange-0.rooted.treefile -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs0-full/ -c 15 -f ballesteros-bs0-full -p 30
+#
+# -----------------------------------------------------------------------------------------------------------------------------
+# INPUT/OUTPUT INFO:
+# Species tree file:                    /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//ballesteros.tre
+# Gene tree file:                       /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/ballesteros//loci-rearrange-0.rooted.treefile
+# Output directory:                     /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs0-full/
+# Score file:                           /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs0-full/ballesteros-bs0-full-scores.txt
+# Filtered gene trees:                  /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs0-full/ballesteros-bs0-full-trees-filtered.txt
+# Check nums file:                      /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs0-full/ballesteros-bs0-full-checknums.txt
+# Detailed mapping file:                /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs0-full/ballesteros-bs0-full-detailed.txt
+# Duplication count file:               /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs0-full/ballesteros-bs0-full-dup-counts.txt
+# -----------------------------------------------------------------------------------------------------------------------------
+# OPTIONS INFO:
+# Option                                Current setting               Current action
+# -h1                                   All                           GRAMPA will search these H1 nodes. If none are specified, all nodes will be searched as H1 nodes.
+# -h2                                   All                           GRAMPA will search these H2 nodes. If none are specified, all nodes will be searched as H2 nodes.
+# -c                                    15                            Gene trees with more than this number of groups/clades with polyploid species for a given h1/h2 combination will be skipped.
+# -f                                    ballesteros-bs0-full          All output files generated will have this string preprended to them.
+# -p                                    30                            GRAMPA will use this number of processes for LCA mapping.
+# -v                                    3                             Controls the amount of info printed to the screen as GRAMPA is running.
+# --multree                             False                         The tree input with -s will be read as singly-labeled tree.
+# --checknums                           False                         GRAMPA will count groups to filter gene trees and then perform reconciliations.
+# --no-st, --st-only                    default                       GRAMPA will perform reconciliations to all MUL-trees specified by -h1 and -h2 and the input species tree.
+# --maps                                False                         GRAMPA will only output duplication and loss counts in the detailed output file.
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# Date        Time      Current step                                      Status                                  Elapsed time (s)    Step time (s)   
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# 05.29.2024  22:23:15  Reading species tree                              Success: species tree read              0.31992             0.01048         
+# 05.29.2024  22:23:15  Parsing hybrid clades                             Success: got H nodes                    0.32203             0.00104         
+# 05.29.2024  22:23:15  Counting MUL-trees to be generated                Success: 1181 total MUL-trees           0.32369             0.00066         
+# 05.29.2024  22:23:15  Building MUL-trees                                Success: 1181 MUL-trees built           0.84516             0.52052         
+# 05.29.2024  22:23:16  Reading gene trees                                Success: 6368 gene trees read           1.48927             0.64272         
+# 05.29.2024  22:29:26  Collapsing gene tree groupings                    Success                                 371.49871           370.00803       
+# 05.29.2024  22:30:05  Filtering gene trees over group cap               Success: 18 gts over cap                410.6259            39.12192        
+# WARNING: Gene tree on line 315 is over the group cap in 40 MTs and will be filtered.
+# WARNING: Gene tree on line 846 is over the group cap in 1 MTs and will be filtered.
+# WARNING: Gene tree on line 595 is over the group cap in 30 MTs and will be filtered.
+# WARNING: Gene tree on line 942 is over the group cap in 26 MTs and will be filtered.
+# WARNING: Gene tree on line 1171 is over the group cap in 33 MTs and will be filtered.
+# WARNING: Gene tree on line 1532 is over the group cap in 37 MTs and will be filtered.
+# WARNING: Gene tree on line 1722 is over the group cap in 9 MTs and will be filtered.
+# WARNING: Gene tree on line 1826 is over the group cap in 31 MTs and will be filtered.
+# WARNING: Gene tree on line 2094 is over the group cap in 31 MTs and will be filtered.
+# WARNING: Gene tree on line 2190 is over the group cap in 189 MTs and will be filtered.
+# WARNING: Gene tree on line 2389 is over the group cap in 14 MTs and will be filtered.
+# WARNING: Gene tree on line 2556 is over the group cap in 60 MTs and will be filtered.
+# WARNING: Gene tree on line 2191 is over the group cap in 259 MTs and will be filtered.
+# WARNING: Gene tree on line 3559 is over the group cap in 37 MTs and will be filtered.
+# WARNING: Gene tree on line 4228 is over the group cap in 121 MTs and will be filtered.
+# WARNING: Gene tree on line 5137 is over the group cap in 116 MTs and will be filtered.
+# WARNING: Gene tree on line 5488 is over the group cap in 3 MTs and will be filtered.
+# WARNING: Gene tree on line 5788 is over the group cap in 87 MTs and will be filtered.
+# 05.29.2024  22:30:05  INFO: Filtered gene trees: 18
+# 05.29.2024  22:30:05  INFO: Final gene tree count for reconciliations: 6350
+# 05.29.2024  22:30:05  Writing filtered gene trees to file               Success: 6350 gene trees written        410.64972           0.00723         
+# ----------------------------------------
+# 05.29.2024  23:14:57  Reconciliation                                    Success                                 3102.30246          2691.65121      
+# 05.29.2024  23:21:01  Getting maps for lowest scoring MTs               Success                                 3466.8761           364.56292       
+# 05.29.2024  23:21:01  Writing detailed output file                      Success                                 3466.89577          0.016           
+# 05.29.2024  23:21:01  Writing main output file                          Success                                 3467.07606          0.17932         
+# ===============================================================================================================================================================================
+#
+# Done!
+# The date and time at the end is: 05.29.2024  23:21:02
+# Total execution time:            3467.189 seconds.
+# Output directory for this run:   /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs0-full/
+# Log file for this run:           /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/ballesteros-bs0-full/ballesteros-bs0-full.log
+
+# GRAMPA finished with 19 WARNINGS -- check log file for more info
+# ----------------------------------------
+# The MUL-tree with the minimum parsimony score is MT-1112:	((((((((((NCLAV,TANTI)<1>,ABRUE)<2>,(PTEPI,LHESP)<3>)<4>,SMIMO)<5>,(LRECL,(TURTI*,SSCAB*)<6>)<7>)<8>,CSCUL)<9>,(LPOLY,(CROTU,TGIGA)<10>)<11>)<12>,((MOCCI,VDEST)<13>,(ISCAP,HLONG)<14>)<15>)<16>,(TURTI+,SSCAB+)<17>)<18>,(DMELA,BMORI)<19>)<20>
+# Score = 126763
+# ----------------------------------------
+# ===============================================================================================================================================================================
+#

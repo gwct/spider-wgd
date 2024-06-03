@@ -1,0 +1,76 @@
+# Warning! With -c set to 15 or higher, some gene trees may take a very long time to reconcile!
+
+#
+# =========================================================================
+# Welcome to GRAMPA -- Gene tree reconciliations with MUL-trees.
+# Version 1.4.0 released on March 2023
+# GRAMPA was developed by Gregg Thomas, S. Hussain Ather, Matthew Hahn
+# Citation:      https://doi.org/10.1093/sysbio/syx044
+# Website:       https://gwct.github.io/grampa/
+# Report issues: https://github.com/gwct/grampa
+#
+# The date and time at the start is:  05.29.2024  15:32:14
+# Using Python executable located at: /n/home07/gthomas/miniconda3/bin/python3.9
+# Using Python version:               3.9.15
+#
+# The program was called as:          grampa.py -s /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/astral-single-copy//chelicerate-19spec-astral-single-copy.rooted.tre -g /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/astral-single-copy//loci-rearrange-0.rooted.treefile -o /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-single-copy-bs0-h1-hc/ -h1 CROTU,TGIGA,LPOLY -c 15 -f astral-sc-bs0-hc -p 30
+#
+# -----------------------------------------------------------------------------------------------------------------------------
+# INPUT/OUTPUT INFO:
+# Species tree file:                    /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/astral-single-copy//chelicerate-19spec-astral-single-copy.rooted.tre
+# Gene tree file:                       /n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/19spec/astral-single-copy//loci-rearrange-0.rooted.treefile
+# Output directory:                     /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-single-copy-bs0-h1-hc/
+# Score file:                           /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-single-copy-bs0-h1-hc/astral-sc-bs0-hc-scores.txt
+# Filtered gene trees:                  /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-single-copy-bs0-h1-hc/astral-sc-bs0-hc-trees-filtered.txt
+# Check nums file:                      /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-single-copy-bs0-h1-hc/astral-sc-bs0-hc-checknums.txt
+# Detailed mapping file:                /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-single-copy-bs0-h1-hc/astral-sc-bs0-hc-detailed.txt
+# Duplication count file:               /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-single-copy-bs0-h1-hc/astral-sc-bs0-hc-dup-counts.txt
+# -----------------------------------------------------------------------------------------------------------------------------
+# OPTIONS INFO:
+# Option                                Current setting               Current action
+# -h1                                   CROTU,TGIGA,LPOLY             GRAMPA will search these H1 nodes. If none are specified, all nodes will be searched as H1 nodes.
+# -h2                                   All                           GRAMPA will search these H2 nodes. If none are specified, all nodes will be searched as H2 nodes.
+# -c                                    15                            Gene trees with more than this number of groups/clades with polyploid species for a given h1/h2 combination will be skipped.
+# -f                                    astral-sc-bs0-hc              All output files generated will have this string preprended to them.
+# -p                                    30                            GRAMPA will use this number of processes for LCA mapping.
+# -v                                    3                             Controls the amount of info printed to the screen as GRAMPA is running.
+# --multree                             False                         The tree input with -s will be read as singly-labeled tree.
+# --checknums                           False                         GRAMPA will count groups to filter gene trees and then perform reconciliations.
+# --no-st, --st-only                    default                       GRAMPA will perform reconciliations to all MUL-trees specified by -h1 and -h2 and the input species tree.
+# --maps                                False                         GRAMPA will only output duplication and loss counts in the detailed output file.
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# Date        Time      Current step                                      Status                                  Elapsed time (s)    Step time (s)   
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# 05.29.2024  15:32:14  Reading species tree                              Success: species tree read              0.321               0.00453         
+# 05.29.2024  15:32:14  Parsing hybrid clades                             Success: got H nodes                    0.32226             0.00048         
+# 05.29.2024  15:32:14  Counting MUL-trees to be generated                Success: 33 total MUL-trees             0.32308             4e-05           
+# 05.29.2024  15:32:14  Building MUL-trees                                Success: 33 MUL-trees built             0.34367             0.01992         
+# 05.29.2024  15:32:15  Reading gene trees                                Success: 6368 gene trees read           0.83934             0.49463         
+# 05.29.2024  15:32:33  Collapsing gene tree groupings                    Success                                 19.61633            18.77579        
+# 05.29.2024  15:32:35  Filtering gene trees over group cap               Success: 3 gts over cap                 21.01737            1.398           
+# WARNING: Gene tree on line 1171 is over the group cap in 33 MTs and will be filtered.
+# WARNING: Gene tree on line 1532 is over the group cap in 33 MTs and will be filtered.
+# WARNING: Gene tree on line 2191 is over the group cap in 33 MTs and will be filtered.
+# 05.29.2024  15:32:35  INFO: Filtered gene trees: 3
+# 05.29.2024  15:32:35  INFO: Final gene tree count for reconciliations: 6365
+# 05.29.2024  15:32:35  Writing filtered gene trees to file               Success: 6365 gene trees written        21.03249            0.00815         
+# ----------------------------------------
+# 05.29.2024  15:55:40  Reconciliation                                    Success                                 1406.07116          1385.03707      
+# 05.29.2024  16:55:09  Getting maps for lowest scoring MTs               Success                                 4975.68211          3569.60655      
+# 05.29.2024  16:55:09  Writing detailed output file                      Success                                 4975.71299          0.01841         
+# 05.29.2024  16:55:10  Writing main output file                          Success                                 4975.89418          0.18018         
+# ===============================================================================================================================================================================
+#
+# Done!
+# The date and time at the end is: 05.29.2024  16:55:10
+# Total execution time:            4975.992 seconds.
+# Output directory for this run:   /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-single-copy-bs0-h1-hc/
+# Log file for this run:           /n/holylfs05/LABS/informatics/Users/gthomas/spiders/grampa//19spec/astral-single-copy-bs0-h1-hc/astral-sc-bs0-hc.log
+
+# GRAMPA finished with 4 WARNINGS -- check log file for more info
+# ----------------------------------------
+# The MUL-tree with the minimum parsimony score is MT-8:	(((HLONG,ISCAP)<1>,((MOCCI,VDEST)<2>,((CSCUL,((TURTI,SSCAB)<3>,((LRECL,(LPOLY*,(TGIGA*,CROTU*)<4>)<5>)<6>,((ABRUE,(NCLAV,TANTI)<7>)<8>,(SMIMO,(PTEPI,LHESP)<9>)<10>)<11>)<12>)<13>)<14>,(LPOLY+,(TGIGA+,CROTU+)<15>)<16>)<17>)<18>)<19>,(BMORI,DMELA)<20>)<21>
+# Score = 139182
+# ----------------------------------------
+# ===============================================================================================================================================================================
+#
