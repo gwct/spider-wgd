@@ -1,0 +1,489 @@
+############### Parameters ###############
+# MATCH_SCORE: 50
+# MATCH_SIZE: 3
+# GAP_PENALTY: -1
+# OVERLAP_WINDOW: 5
+# E_VALUE: 1e-05
+# MAX GAPS: 50
+############### Statistics ###############
+# Number of collinear genes: 643, Percentage: 3.64
+# Number of all genes: 17671
+##########################################
+## Alignment 0: score=249.0 e_value=4.2e-13 N=6 HE587301&HE587306 minus
+  0-  0:	tetur01g10250	tetur06g06480	  4e-76
+  0-  1:	tetur01g10280	tetur06g06813	 1e-101
+  0-  2:	tetur01g17274	tetur06g06803	      0
+  0-  3:	tetur01g17034	tetur06g06923	      0
+  0-  4:	tetur01g17044	tetur06g06903	 1e-143
+  0-  5:	tetur01g10290	tetur06g00960	 6e-178
+## Alignment 1: score=175.0 e_value=2.9e-07 N=4 HE587301&HE587307 minus
+  1-  0:	tetur01g17294	tetur07g07940	  3e-48
+  1-  1:	tetur01g12080	tetur07g07760	  3e-99
+  1-  2:	tetur01g12090	tetur07g08309	  1e-34
+  1-  3:	tetur01g12100	tetur07g07740	 3e-166
+## Alignment 2: score=158.0 e_value=3.1e-08 N=4 HE587301&HE587308 plus
+  2-  0:	tetur01g11910	tetur08g05470	 8e-115
+  2-  1:	tetur01g12080	tetur08g05940	  5e-99
+  2-  2:	tetur01g12090	tetur08g05950	  1e-33
+  2-  3:	tetur01g12100	tetur08g05960	 1e-160
+## Alignment 3: score=157.0 e_value=5.8e-06 N=5 HE587301&HE587319 plus
+  3-  0:	tetur01g00570	tetur19g00930	  8e-31
+  3-  1:	tetur01g00770	tetur19g00960	  2e-19
+  3-  2:	tetur01g00990	tetur19g01130	      0
+  3-  3:	tetur01g01330	tetur19g01530	  7e-36
+  3-  4:	tetur01g01400	tetur19g03411	  1e-63
+## Alignment 4: score=296.0 e_value=7.6e-08 N=6 HE587301&HE587405 minus
+  4-  0:	tetur01g17174	tetur117g00110	  1e-25
+  4-  1:	tetur01g17194	tetur117g00090	  1e-24
+  4-  2:	tetur01g17204	tetur117g00080	  2e-93
+  4-  3:	tetur01g17234	tetur117g00050	 5e-152
+  4-  4:	tetur01g17244	tetur117g00040	  2e-30
+  4-  5:	tetur01g17264	tetur117g00030	 2e-163
+## Alignment 5: score=217.0 e_value=5.5e-07 N=5 HE587302&HE587302 minus
+  5-  0:	tetur02g12310	tetur02g12620	      0
+  5-  1:	tetur02g12330	tetur02g12590	  4e-78
+  5-  2:	tetur02g14951	tetur02g14851	      0
+  5-  3:	tetur02g14911	tetur02g14811	 5e-165
+  5-  4:	tetur02g14881	tetur02g14781	      0
+## Alignment 6: score=151.0 e_value=1.5e-06 N=5 HE587302&HE587302 minus
+  6-  0:	tetur02g07560	tetur02g09910	  3e-18
+  6-  1:	tetur02g07960	tetur02g09740	  3e-50
+  6-  2:	tetur02g08160	tetur02g09700	  2e-84
+  6-  3:	tetur02g08320	tetur02g09670	      0
+  6-  4:	tetur02g08680	tetur02g09470	  3e-18
+## Alignment 7: score=427.0 e_value=6.6e-28 N=9 HE587302&HE587303 minus
+  7-  0:	tetur02g10150	tetur03g03360	 4e-158
+  7-  1:	tetur02g15615	tetur03g10207	 4e-127
+  7-  2:	tetur02g15555	tetur03g10197	 7e-136
+  7-  3:	tetur02g15575	tetur03g10187	      0
+  7-  4:	tetur02g15485	tetur03g10287	      0
+  7-  5:	tetur02g15495	tetur03g03350	 1e-103
+  7-  6:	tetur02g15505	tetur03g10277	  3e-73
+  7-  7:	tetur02g15515	tetur03g10267	  1e-36
+  7-  8:	tetur02g10330	tetur03g03130	  6e-58
+## Alignment 8: score=212.0 e_value=2.8e-13 N=5 HE587302&HE587306 plus
+  8-  0:	tetur02g15555	tetur06g06903	 2e-130
+  8-  1:	tetur02g15565	tetur06g06913	 9e-146
+  8-  2:	tetur02g15575	tetur06g06923	      0
+  8-  3:	tetur02g15485	tetur06g06803	      0
+  8-  4:	tetur02g10540	tetur06g01340	  8e-16
+## Alignment 9: score=348.0 e_value=1.6e-11 N=7 HE587302&HE587312 minus
+  9-  0:	tetur02g10150	tetur12g01630	 2e-136
+  9-  1:	tetur02g15615	tetur12g05036	 3e-106
+  9-  2:	tetur02g15565	tetur12g04966	 1e-102
+  9-  3:	tetur02g15575	tetur12g04956	      0
+  9-  4:	tetur02g15485	tetur12g05006	      0
+  9-  5:	tetur02g15495	tetur12g01620	  1e-71
+  9-  6:	tetur02g15505	tetur12g04996	  2e-64
+## Alignment 10: score=306.0 e_value=2.5e-12 N=7 HE587302&HE587316 plus
+ 10-  0:	tetur02g14100	tetur16g03260	      0
+ 10-  1:	tetur02g14130	tetur16g03290	 3e-164
+ 10-  2:	tetur02g14140	tetur16g03310	      0
+ 10-  3:	tetur02g14400	tetur16g03500	      0
+ 10-  4:	tetur02g14500	tetur16g03550	 4e-156
+ 10-  5:	tetur02g14530	tetur16g03570	      0
+ 10-  6:	tetur02g14540	tetur16g03680	      0
+## Alignment 11: score=258.0 e_value=7.4e-09 N=6 HE587302&HE587316 plus
+ 11-  0:	tetur02g14020	tetur16g03500	      0
+ 11-  1:	tetur02g14100	tetur16g03520	      0
+ 11-  2:	tetur02g14120	tetur16g03550	 2e-122
+ 11-  3:	tetur02g14360	tetur16g03670	      0
+ 11-  4:	tetur02g14450	tetur16g03760	 2e-114
+ 11-  5:	tetur02g14510	tetur16g03790	  3e-84
+## Alignment 12: score=183.0 e_value=4.9e-08 N=5 HE587302&HE587316 plus
+ 12-  0:	tetur02g14120	tetur16g03240	      0
+ 12-  1:	tetur02g14440	tetur16g03290	 1e-165
+ 12-  2:	tetur02g14450	tetur16g03340	 1e-114
+ 12-  3:	tetur02g14530	tetur16g03690	      0
+ 12-  4:	tetur02g14540	tetur16g03770	      0
+## Alignment 13: score=274.0 e_value=1.5e-10 N=6 HE587302&HE587316 minus
+ 13-  0:	tetur02g14380	tetur16g03800	      0
+ 13-  1:	tetur02g14390	tetur16g04149	 2e-118
+ 13-  2:	tetur02g14400	tetur16g03790	      0
+ 13-  3:	tetur02g14410	tetur16g03650	      0
+ 13-  4:	tetur02g14440	tetur16g03560	  1e-78
+ 13-  5:	tetur02g14530	tetur16g03490	      0
+## Alignment 14: score=317.0 e_value=1.1e-22 N=9 HE587302&HE587325 minus
+ 14-  0:	tetur02g02460	tetur25g01490	  2e-15
+ 14-  1:	tetur02g02520	tetur25g01120	 2e-122
+ 14-  2:	tetur02g02550	tetur25g01060	 4e-138
+ 14-  3:	tetur02g02560	tetur25g01030	  4e-91
+ 14-  4:	tetur02g02570	tetur25g01020	  3e-93
+ 14-  5:	tetur02g02590	tetur25g00990	      0
+ 14-  6:	tetur02g02750	tetur25g00850	  1e-60
+ 14-  7:	tetur02g03120	tetur25g00820	  8e-12
+ 14-  8:	tetur02g03130	tetur25g00390	  9e-38
+## Alignment 15: score=159.0 e_value=8.7e-07 N=4 HE587302&HE587325 minus
+ 15-  0:	tetur02g02500	tetur25g01510	  6e-34
+ 15-  1:	tetur02g02720	tetur25g01140	  2e-44
+ 15-  2:	tetur02g02740	tetur25g01130	  2e-45
+ 15-  3:	tetur02g02760	tetur25g01100	  5e-11
+## Alignment 16: score=154.0 e_value=2.2e-06 N=5 HE587302&HE587327 plus
+ 16-  0:	tetur02g03150	tetur27g00800	      0
+ 16-  1:	tetur02g03340	tetur27g01160	  1e-14
+ 16-  2:	tetur02g03440	tetur27g01190	  3e-20
+ 16-  3:	tetur02g03570	tetur27g01450	  3e-24
+ 16-  4:	tetur02g03930	tetur27g01590	  2e-13
+## Alignment 17: score=279.0 e_value=5.4e-15 N=6 HE587302&HE587332 plus
+ 17-  0:	tetur02g10150	tetur32g01500	 4e-158
+ 17-  1:	tetur02g15615	tetur32g02397	 4e-127
+ 17-  2:	tetur02g15555	tetur32g02387	 7e-136
+ 17-  3:	tetur02g15495	tetur32g01510	 2e-101
+ 17-  4:	tetur02g15505	tetur32g02377	  3e-61
+ 17-  5:	tetur02g10240	tetur32g01720	 7e-144
+## Alignment 18: score=248.0 e_value=1.2e-14 N=6 HE587302&HE587332 minus
+ 18-  0:	tetur02g02220	tetur32g01220	  2e-38
+ 18-  1:	tetur02g02520	tetur32g00710	  6e-32
+ 18-  2:	tetur02g02550	tetur32g00690	 7e-120
+ 18-  3:	tetur02g02590	tetur32g00670	 1e-152
+ 18-  4:	tetur02g02600	tetur32g00660	  9e-24
+ 18-  5:	tetur02g02610	tetur32g00650	  1e-79
+## Alignment 19: score=348.0 e_value=7.8e-11 N=7 HE587302&HE587358 plus
+ 19-  0:	tetur02g10150	tetur59g00020	 4e-158
+ 19-  1:	tetur02g15615	tetur59g00130	 8e-127
+ 19-  2:	tetur02g15555	tetur59g00100	 7e-136
+ 19-  3:	tetur02g15575	tetur59g00120	      0
+ 19-  4:	tetur02g15485	tetur59g00070	      0
+ 19-  5:	tetur02g15495	tetur59g00030	 2e-107
+ 19-  6:	tetur02g15515	tetur59g00080	  2e-60
+## Alignment 20: score=297.0 e_value=3.5e-08 N=6 HE587302&HE587405 plus
+ 20-  0:	tetur02g15405	tetur117g00030	      0
+ 20-  1:	tetur02g15415	tetur117g00040	 7e-105
+ 20-  2:	tetur02g15425	tetur117g00050	      0
+ 20-  3:	tetur02g15435	tetur117g00090	  2e-26
+ 20-  4:	tetur02g15445	tetur117g00100	  1e-23
+ 20-  5:	tetur02g15455	tetur117g00110	  2e-67
+## Alignment 21: score=163.0 e_value=3e-06 N=4 HE587303&HE587306 plus
+ 21-  0:	tetur03g10277	tetur06g03390	  8e-37
+ 21-  1:	tetur03g10187	tetur06g06843	      0
+ 21-  2:	tetur03g10197	tetur06g06873	 5e-130
+ 21-  3:	tetur03g03430	tetur06g03760	 2e-171
+## Alignment 22: score=155.0 e_value=2.3e-10 N=7 HE587303&HE587306 minus
+ 22-  0:	tetur03g02300	tetur06g04220	  8e-35
+ 22-  1:	tetur03g02600	tetur06g03960	  1e-60
+ 22-  2:	tetur03g02840	tetur06g03900	      0
+ 22-  3:	tetur03g03120	tetur06g03650	  1e-51
+ 22-  4:	tetur03g10277	tetur06g03390	  8e-37
+ 22-  5:	tetur03g03600	tetur06g02930	  7e-20
+ 22-  6:	tetur03g03970	tetur06g02440	  3e-29
+## Alignment 23: score=178.0 e_value=9.8e-07 N=5 HE587303&HE587308 plus
+ 23-  0:	tetur03g00030	tetur08g07910	 4e-139
+ 23-  1:	tetur03g09941	tetur08g07930	      0
+ 23-  2:	tetur03g00200	tetur08g07940	 1e-133
+ 23-  3:	tetur03g00640	tetur08g08040	  7e-66
+ 23-  4:	tetur03g00800	tetur08g08050	      0
+## Alignment 24: score=297.0 e_value=2.3e-09 N=6 HE587303&HE587312 plus
+ 24-  0:	tetur03g10277	tetur12g04996	  5e-58
+ 24-  1:	tetur03g03350	tetur12g01620	  5e-73
+ 24-  2:	tetur03g10287	tetur12g05006	      0
+ 24-  3:	tetur03g10187	tetur12g04956	      0
+ 24-  4:	tetur03g10207	tetur12g05036	 1e-107
+ 24-  5:	tetur03g03360	tetur12g01630	 3e-137
+## Alignment 25: score=300.0 e_value=8.8e-19 N=7 HE587303&HE587332 minus
+ 25-  0:	tetur03g02870	tetur32g01890	 8e-144
+ 25-  1:	tetur03g03080	tetur32g01710	 1e-149
+ 25-  2:	tetur03g10277	tetur32g02377	  2e-56
+ 25-  3:	tetur03g03350	tetur32g01510	 1e-105
+ 25-  4:	tetur03g10197	tetur32g02387	 2e-150
+ 25-  5:	tetur03g10207	tetur32g02397	 1e-128
+ 25-  6:	tetur03g03360	tetur32g01500	 7e-159
+## Alignment 26: score=348.0 e_value=2.6e-11 N=7 HE587303&HE587358 minus
+ 26-  0:	tetur03g10267	tetur59g00080	  7e-37
+ 26-  1:	tetur03g03350	tetur59g00030	 1e-103
+ 26-  2:	tetur03g10287	tetur59g00070	      0
+ 26-  3:	tetur03g10187	tetur59g00120	      0
+ 26-  4:	tetur03g10197	tetur59g00100	 2e-150
+ 26-  5:	tetur03g10207	tetur59g00130	 4e-128
+ 26-  6:	tetur03g03360	tetur59g00020	 7e-159
+## Alignment 27: score=209.0 e_value=2.4e-14 N=8 HE587304&HE587311 minus
+ 27-  0:	tetur04g01400	tetur11g03510	  8e-75
+ 27-  1:	tetur04g01530	tetur11g03390	  3e-14
+ 27-  2:	tetur04g01660	tetur11g03130	  5e-34
+ 27-  3:	tetur04g01680	tetur11g03030	  2e-84
+ 27-  4:	tetur04g02100	tetur11g02570	 3e-114
+ 27-  5:	tetur04g02430	tetur11g02190	      0
+ 27-  6:	tetur04g02760	tetur11g01980	  4e-77
+ 27-  7:	tetur04g03100	tetur11g01960	  2e-23
+## Alignment 28: score=163.0 e_value=1.4e-07 N=4 HE587305&HE587305 minus
+ 28-  0:	tetur05g07160	tetur05g07780	  1e-15
+ 28-  1:	tetur05g07220	tetur05g07330	  7e-88
+ 28-  2:	tetur05g07250	tetur05g07300	  3e-97
+ 28-  3:	tetur05g07260	tetur05g07290	      0
+## Alignment 29: score=299.0 e_value=1.6e-07 N=6 HE587305&HE587306 plus
+ 29-  0:	tetur05g05570	tetur06g06983	 2e-100
+ 29-  1:	tetur05g09445	tetur06g06843	      0
+ 29-  2:	tetur05g09455	tetur06g06853	      0
+ 29-  3:	tetur05g09465	tetur06g06863	      0
+ 29-  4:	tetur05g09475	tetur06g06873	 4e-151
+ 29-  5:	tetur05g05580	tetur06g03400	  5e-39
+## Alignment 30: score=170.0 e_value=7.6e-08 N=4 HE587305&HE587308 minus
+ 30-  0:	tetur05g00270	tetur08g06060	  2e-49
+ 30-  1:	tetur05g00590	tetur08g05960	 2e-127
+ 30-  2:	tetur05g00600	tetur08g05950	  8e-60
+ 30-  3:	tetur05g09495	tetur08g08462	  2e-89
+## Alignment 31: score=477.0 e_value=2.1e-19 N=10 HE587305&HE587349 plus
+ 31-  0:	tetur05g02110	tetur49g00010	  2e-74
+ 31-  1:	tetur05g02160	tetur49g00020	  6e-94
+ 31-  2:	tetur05g02280	tetur49g00030	 3e-143
+ 31-  3:	tetur05g02340	tetur49g00040	      0
+ 31-  4:	tetur05g02350	tetur49g00070	      0
+ 31-  5:	tetur05g02360	tetur49g00080	  8e-21
+ 31-  6:	tetur05g02400	tetur49g00210	 1e-109
+ 31-  7:	tetur05g02410	tetur49g00110	 2e-174
+ 31-  8:	tetur05g02430	tetur49g00130	  1e-96
+ 31-  9:	tetur05g02500	tetur49g00190	 8e-165
+## Alignment 32: score=227.0 e_value=7.2e-06 N=5 HE587305&HE587349 plus
+ 32-  0:	tetur05g02100	tetur49g00030	 3e-148
+ 32-  1:	tetur05g02220	tetur49g00210	 3e-110
+ 32-  2:	tetur05g02300	tetur49g00150	  9e-66
+ 32-  3:	tetur05g02320	tetur49g00190	 6e-151
+ 32-  4:	tetur05g02460	tetur49g00200	      0
+## Alignment 33: score=249.0 e_value=1.5e-06 N=5 HE587305&HE587357 minus
+ 33-  0:	tetur05g00590	tetur58g00080	 5e-168
+ 33-  1:	tetur05g00600	tetur58g00070	  6e-34
+ 33-  2:	tetur05g09485	tetur58g00150	 3e-147
+ 33-  3:	tetur05g09495	tetur58g00140	 4e-107
+ 33-  4:	tetur05g09435	tetur58g00160	      0
+## Alignment 34: score=175.0 e_value=3.8e-11 N=6 HE587306&HE587306 plus
+ 34-  0:	tetur06g01610	tetur06g03070	  1e-43
+ 34-  1:	tetur06g02120	tetur06g03180	 2e-111
+ 34-  2:	tetur06g02370	tetur06g03470	 6e-109
+ 34-  3:	tetur06g02660	tetur06g03490	 4e-172
+ 34-  4:	tetur06g02930	tetur06g03520	 3e-178
+ 34-  5:	tetur06g02940	tetur06g03530	  2e-72
+## Alignment 35: score=194.0 e_value=3.2e-09 N=5 HE587306&HE587306 minus
+ 35-  0:	tetur06g02610	tetur06g03540	      0
+ 35-  1:	tetur06g02670	tetur06g03440	  6e-57
+ 35-  2:	tetur06g02930	tetur06g03040	      0
+ 35-  3:	tetur06g02940	tetur06g03030	  5e-90
+ 35-  4:	tetur06g02960	tetur06g02970	  3e-13
+## Alignment 36: score=153.0 e_value=1.7e-10 N=5 HE587306&HE587306 minus
+ 36-  0:	tetur06g00480	tetur06g03960	  3e-15
+ 36-  1:	tetur06g00960	tetur06g03410	  6e-83
+ 36-  2:	tetur06g06893	tetur06g03400	  7e-96
+ 36-  3:	tetur06g06813	tetur06g06983	  3e-69
+ 36-  4:	tetur06g06610	tetur06g06640	  2e-50
+## Alignment 37: score=188.0 e_value=1.9e-11 N=5 HE587306&HE587319 plus
+ 37-  0:	tetur06g06863	tetur19g03512	      0
+ 37-  1:	tetur06g03400	tetur19g03532	  7e-96
+ 37-  2:	tetur06g03410	tetur19g00030	  6e-83
+ 37-  3:	tetur06g03790	tetur19g03391	  5e-23
+ 37-  4:	tetur06g04160	tetur19g00320	  2e-27
+## Alignment 38: score=299.0 e_value=5.2e-09 N=6 HE587306&HE587319 minus
+ 38-  0:	tetur06g00960	tetur19g00030	 4e-178
+ 38-  1:	tetur06g06893	tetur19g03532	 7e-128
+ 38-  2:	tetur06g06903	tetur19g03522	 2e-147
+ 38-  3:	tetur06g06913	tetur19g03512	 4e-151
+ 38-  4:	tetur06g06803	tetur19g03542	      0
+ 38-  5:	tetur06g06813	tetur19g00020	 1e-101
+## Alignment 39: score=227.0 e_value=3.7e-09 N=5 HE587306&HE587328 plus
+ 39-  0:	tetur06g06983	tetur28g02771	  5e-15
+ 39-  1:	tetur06g03390	tetur28g02751	  2e-64
+ 39-  2:	tetur06g06843	tetur28g02701	      0
+ 39-  3:	tetur06g06853	tetur28g02721	 3e-155
+ 39-  4:	tetur06g03430	tetur28g01350	  7e-17
+## Alignment 40: score=151.0 e_value=1.3e-07 N=4 HE587306&HE587328 minus
+ 40-  0:	tetur06g00450	tetur28g01250	 3e-129
+ 40-  1:	tetur06g06913	tetur28g02721	 8e-148
+ 40-  2:	tetur06g06923	tetur28g02701	      0
+ 40-  3:	tetur06g06803	tetur28g02761	      0
+## Alignment 41: score=584.0 e_value=6.4e-26 N=12 HE587307&HE587334 plus
+ 41-  0:	tetur07g07770	tetur34g00040	      0
+ 41-  1:	tetur07g07790	tetur34g00050	  1e-57
+ 41-  2:	tetur07g07800	tetur34g00060	  2e-66
+ 41-  3:	tetur07g07810	tetur34g00080	 2e-175
+ 41-  4:	tetur07g07820	tetur34g00090	      0
+ 41-  5:	tetur07g08279	tetur34g01253	      0
+ 41-  6:	tetur07g07860	tetur34g00130	      0
+ 41-  7:	tetur07g07870	tetur34g00150	      0
+ 41-  8:	tetur07g07920	tetur34g01243	      0
+ 41-  9:	tetur07g07930	tetur34g00200	      0
+ 41- 10:	tetur07g07940	tetur34g00210	      0
+ 41- 11:	tetur07g07990	tetur34g00350	      0
+## Alignment 42: score=286.0 e_value=1.1e-08 N=6 HE587307&HE587334 minus
+ 42-  0:	tetur07g07860	tetur34g00370	      0
+ 42-  1:	tetur07g07880	tetur34g00330	 3e-170
+ 42-  2:	tetur07g07890	tetur34g00310	      0
+ 42-  3:	tetur07g07900	tetur34g00300	      0
+ 42-  4:	tetur07g07950	tetur34g00180	      0
+ 42-  5:	tetur07g07980	tetur34g00160	  2e-55
+## Alignment 43: score=164.0 e_value=2.3e-09 N=6 HE587308&HE587313 plus
+ 43-  0:	tetur08g02920	tetur13g01240	  1e-15
+ 43-  1:	tetur08g03150	tetur13g01360	  1e-65
+ 43-  2:	tetur08g03490	tetur13g01620	  3e-87
+ 43-  3:	tetur08g03890	tetur13g01880	  7e-16
+ 43-  4:	tetur08g03900	tetur13g01890	  4e-68
+ 43-  5:	tetur08g04400	tetur13g02130	  4e-51
+## Alignment 44: score=248.0 e_value=6.6e-07 N=5 HE587308&HE587357 plus
+ 44-  0:	tetur08g05940	tetur58g00060	  3e-83
+ 44-  1:	tetur08g08452	tetur58g00130	 2e-172
+ 44-  2:	tetur08g08462	tetur58g00140	  5e-90
+ 44-  3:	tetur08g05950	tetur58g00070	  1e-31
+ 44-  4:	tetur08g05960	tetur58g00080	 1e-126
+## Alignment 45: score=151.0 e_value=1.6e-07 N=5 HE587309&HE587309 minus
+ 45-  0:	tetur09g02630	tetur09g03910	      0
+ 45-  1:	tetur09g02670	tetur09g03870	  1e-14
+ 45-  2:	tetur09g06870	tetur09g03700	 2e-142
+ 45-  3:	tetur09g06920	tetur09g06739	      0
+ 45-  4:	tetur09g07160	tetur09g07380	      0
+## Alignment 46: score=269.0 e_value=2.8e-09 N=6 HE587311&HE587311 plus
+ 46-  0:	tetur11g00690	tetur11g01050	 4e-109
+ 46-  1:	tetur11g00720	tetur11g01060	  2e-44
+ 46-  2:	tetur11g00730	tetur11g01150	      0
+ 46-  3:	tetur11g00770	tetur11g01180	      0
+ 46-  4:	tetur11g00890	tetur11g01190	  3e-57
+ 46-  5:	tetur11g00970	tetur11g01210	  9e-74
+## Alignment 47: score=344.0 e_value=2.6e-11 N=7 HE587311&HE587346 plus
+ 47-  0:	tetur11g05440	tetur46g00010	 6e-117
+ 47-  1:	tetur11g05460	tetur46g00050	  6e-96
+ 47-  2:	tetur11g05470	tetur46g00080	  2e-92
+ 47-  3:	tetur11g05500	tetur46g00110	      0
+ 47-  4:	tetur11g05510	tetur46g00120	      0
+ 47-  5:	tetur11g05520	tetur46g00150	      0
+ 47-  6:	tetur11g05550	tetur46g00180	      0
+## Alignment 48: score=184.0 e_value=5.4e-08 N=5 HE587312&HE587312 minus
+ 48-  0:	tetur12g02280	tetur12g03430	  4e-13
+ 48-  1:	tetur12g02290	tetur12g03240	 2e-177
+ 48-  2:	tetur12g02560	tetur12g02830	 4e-158
+ 48-  3:	tetur12g02570	tetur12g02740	  3e-28
+ 48-  4:	tetur12g02580	tetur12g02640	  8e-26
+## Alignment 49: score=247.0 e_value=2.9e-06 N=5 HE587312&HE587327 plus
+ 49-  0:	tetur12g00010	tetur27g02480	      0
+ 49-  1:	tetur12g00020	tetur27g02490	  2e-47
+ 49-  2:	tetur12g00060	tetur27g02500	      0
+ 49-  3:	tetur12g00070	tetur27g02510	      0
+ 49-  4:	tetur12g00080	tetur27g02540	  5e-96
+## Alignment 50: score=296.0 e_value=6.1e-10 N=6 HE587312&HE587332 minus
+ 50-  0:	tetur12g04926	tetur32g02357	 5e-120
+ 50-  1:	tetur12g04996	tetur32g02377	  2e-51
+ 50-  2:	tetur12g01620	tetur32g01510	  1e-71
+ 50-  3:	tetur12g04986	tetur32g02387	 3e-140
+ 50-  4:	tetur12g05036	tetur32g02397	 1e-107
+ 50-  5:	tetur12g01630	tetur32g01500	 3e-137
+## Alignment 51: score=335.0 e_value=1.1e-12 N=7 HE587312&HE587335 plus
+ 51-  0:	tetur12g04440	tetur35g00010	      0
+ 51-  1:	tetur12g04520	tetur35g00040	  1e-33
+ 51-  2:	tetur12g04530	tetur35g00060	  3e-60
+ 51-  3:	tetur12g04560	tetur35g00090	  5e-65
+ 51-  4:	tetur12g04570	tetur35g00110	  6e-53
+ 51-  5:	tetur12g04590	tetur35g00170	 2e-108
+ 51-  6:	tetur12g04600	tetur35g00180	 8e-134
+## Alignment 52: score=296.0 e_value=5.4e-09 N=6 HE587312&HE587358 minus
+ 52-  0:	tetur12g04926	tetur59g00050	 4e-119
+ 52-  1:	tetur12g01620	tetur59g00030	  1e-71
+ 52-  2:	tetur12g05006	tetur59g00070	      0
+ 52-  3:	tetur12g04986	tetur59g00100	 3e-140
+ 52-  4:	tetur12g05036	tetur59g00130	 2e-107
+ 52-  5:	tetur12g01630	tetur59g00020	 3e-137
+## Alignment 53: score=345.0 e_value=1.1e-11 N=7 HE587312&HE587365 minus
+ 53-  0:	tetur12g04641	tetur66g00080	 9e-142
+ 53-  1:	tetur12g03940	tetur66g00050	  6e-90
+ 53-  2:	tetur12g03970	tetur66g00040	  1e-78
+ 53-  3:	tetur12g03980	tetur66g00140	  7e-35
+ 53-  4:	tetur12g04893	tetur66g00120	      0
+ 53-  5:	tetur12g04010	tetur66g00010	 2e-159
+ 53-  6:	tetur12g04020	tetur66g00090	 3e-176
+## Alignment 54: score=496.0 e_value=5.6e-19 N=10 HE587316&HE587330 plus
+ 54-  0:	tetur16g00010	tetur30g02300	  2e-52
+ 54-  1:	tetur16g00020	tetur30g02310	      0
+ 54-  2:	tetur16g00030	tetur30g02320	      0
+ 54-  3:	tetur16g00040	tetur30g02330	      0
+ 54-  4:	tetur16g00080	tetur30g02360	      0
+ 54-  5:	tetur16g00090	tetur30g02370	  2e-52
+ 54-  6:	tetur16g00100	tetur30g02380	      0
+ 54-  7:	tetur16g00130	tetur30g02390	      0
+ 54-  8:	tetur16g00140	tetur30g02400	 1e-112
+ 54-  9:	tetur16g00150	tetur30g02410	      0
+## Alignment 55: score=578.0 e_value=1.3e-26 N=12 HE587317&HE587324 plus
+ 55-  0:	tetur17g04080	tetur24g02867	      0
+ 55-  1:	tetur17g04110	tetur24g02717	      0
+ 55-  2:	tetur17g04120	tetur24g02737	      0
+ 55-  3:	tetur17g04010	tetur24g02887	      0
+ 55-  4:	tetur17g00030	tetur24g02550	      0
+ 55-  5:	tetur17g04150	tetur24g02757	      0
+ 55-  6:	tetur17g04160	tetur24g02747	      0
+ 55-  7:	tetur17g04180	tetur24g02807	      0
+ 55-  8:	tetur17g00110	tetur24g02600	      0
+ 55-  9:	tetur17g04210	tetur24g02697	      0
+ 55- 10:	tetur17g04220	tetur24g02937	      0
+ 55- 11:	tetur17g00140	tetur24g02680	      0
+## Alignment 56: score=319.0 e_value=2.4e-12 N=7 HE587317&HE587324 plus
+ 56-  0:	tetur17g04030	tetur24g02877	      0
+ 56-  1:	tetur17g04050	tetur24g02737	      0
+ 56-  2:	tetur17g04120	tetur24g02757	      0
+ 56-  3:	tetur17g00010	tetur24g02747	      0
+ 56-  4:	tetur17g00040	tetur24g02697	      0
+ 56-  5:	tetur17g04170	tetur24g02937	      0
+ 56-  6:	tetur17g00110	tetur24g02670	      0
+## Alignment 57: score=332.0 e_value=1.6e-11 N=7 HE587322&HE587362 plus
+ 57-  0:	tetur22g02630	tetur63g00010	 1e-112
+ 57-  1:	tetur22g02640	tetur63g00030	  4e-79
+ 57-  2:	tetur22g02660	tetur63g00040	  2e-36
+ 57-  3:	tetur22g02740	tetur63g00050	  3e-99
+ 57-  4:	tetur22g03063	tetur63g00090	  8e-39
+ 57-  5:	tetur22g02780	tetur63g00100	  5e-21
+ 57-  6:	tetur22g03033	tetur63g00070	  2e-44
+## Alignment 58: score=592.0 e_value=2.1e-26 N=12 HE587328&HE587354 plus
+ 58-  0:	tetur28g01310	tetur55g00010	      0
+ 58-  1:	tetur28g02631	tetur55g00020	  6e-27
+ 58-  2:	tetur28g01320	tetur55g00030	 3e-165
+ 58-  3:	tetur28g01330	tetur55g00040	      0
+ 58-  4:	tetur28g01340	tetur55g00050	  2e-13
+ 58-  5:	tetur28g01370	tetur55g00080	 7e-109
+ 58-  6:	tetur28g01390	tetur55g00100	      0
+ 58-  7:	tetur28g01450	tetur55g00140	      0
+ 58-  8:	tetur28g01460	tetur55g00160	  2e-54
+ 58-  9:	tetur28g01470	tetur55g00170	      0
+ 58- 10:	tetur28g01480	tetur55g00180	  1e-41
+ 58- 11:	tetur28g01490	tetur55g00190	 1e-126
+## Alignment 59: score=185.0 e_value=5.2e-10 N=6 HE587331&HE587333 plus
+ 59-  0:	tetur31g01190	tetur33g00330	  5e-19
+ 59-  1:	tetur31g01410	tetur33g00590	  2e-19
+ 59-  2:	tetur31g01430	tetur33g00820	      0
+ 59-  3:	tetur31g01630	tetur33g01320	      0
+ 59-  4:	tetur31g01850	tetur33g01620	  2e-99
+ 59-  5:	tetur31g01890	tetur33g01630	 9e-159
+## Alignment 60: score=242.0 e_value=2.2e-06 N=5 HE587331&HE587333 minus
+ 60-  0:	tetur31g01950	tetur33g01630	 1e-122
+ 60-  1:	tetur31g01960	tetur33g01620	 2e-102
+ 60-  2:	tetur31g01970	tetur33g01610	      0
+ 60-  3:	tetur31g01980	tetur33g01550	      0
+ 60-  4:	tetur31g02000	tetur33g01500	  7e-70
+## Alignment 61: score=246.0 e_value=6.3e-08 N=5 HE587331&HE587339 minus
+ 61-  0:	tetur31g00010	tetur39g00110	  3e-46
+ 61-  1:	tetur31g00050	tetur39g00050	      0
+ 61-  2:	tetur31g00070	tetur39g00040	  4e-13
+ 61-  3:	tetur31g00080	tetur39g00030	      0
+ 61-  4:	tetur31g00090	tetur39g00010	  1e-44
+## Alignment 62: score=246.0 e_value=3.4e-07 N=5 HE587332&HE587358 plus
+ 62-  0:	tetur32g01500	tetur59g00020	 7e-159
+ 62-  1:	tetur32g02397	tetur59g00130	 4e-128
+ 62-  2:	tetur32g02387	tetur59g00100	 2e-150
+ 62-  3:	tetur32g01510	tetur59g00030	 2e-101
+ 62-  4:	tetur32g02357	tetur59g00050	      0
+## Alignment 63: score=271.0 e_value=2.8e-09 N=6 HE587335&HE587335 plus
+ 63-  0:	tetur35g01550	tetur35g01210	 4e-162
+ 63-  1:	tetur35g01600	tetur35g01630	 1e-126
+ 63-  2:	tetur35g00890	tetur35g01240	 1e-128
+ 63-  3:	tetur35g00920	tetur35g01250	  5e-82
+ 63-  4:	tetur35g00940	tetur35g01290	  1e-72
+ 63-  5:	tetur35g01120	tetur35g01330	  3e-34
+## Alignment 64: score=219.0 e_value=6.3e-07 N=5 HE587335&HE587335 plus
+ 64-  0:	tetur35g01550	tetur35g01040	 6e-151
+ 64-  1:	tetur35g01560	tetur35g01640	 1e-107
+ 64-  2:	tetur35g01570	tetur35g01290	  7e-99
+ 64-  3:	tetur35g01600	tetur35g01610	 3e-114
+ 64-  4:	tetur35g00900	tetur35g01540	 3e-111
+## Alignment 65: score=293.0 e_value=9.1e-09 N=6 HE587336&HE587341 minus
+ 65-  0:	tetur36g00010	tetur41g00200	  2e-80
+ 65-  1:	tetur36g00030	tetur41g00180	  1e-44
+ 65-  2:	tetur36g00040	tetur41g00150	 5e-126
+ 65-  3:	tetur36g00090	tetur41g00120	      0
+ 65-  4:	tetur36g00120	tetur41g00080	      0
+ 65-  5:	tetur36g00160	tetur41g00010	 1e-101
+## Alignment 66: score=247.0 e_value=4.1e-07 N=5 HE587340&HE587388 minus
+ 66-  0:	tetur40g00200	tetur95g00090	  9e-54
+ 66-  1:	tetur40g00392	tetur95g00060	  3e-69
+ 66-  2:	tetur40g00210	tetur95g00050	  7e-46
+ 66-  3:	tetur40g00230	tetur95g00040	      0
+ 66-  4:	tetur40g00260	tetur95g00010	      0
