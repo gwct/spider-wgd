@@ -2,15 +2,13 @@ This repository hosts raw data for "A comprehensive examination of Chelicerate g
 
 Find below the paths and descriptions to relevant files:
 
-| Path | Description |
-| ---- | ----------- |
-| `data/19spec/aln/` | Nucleotide (and peptide) alignments used as input for species tree and gene tree inference. Also includes summary files for alignments. |
-| `data/19spec/grampa/` | GRAMPA results. |
-| `data/19spec/trees/` | The species trees and gene trees used in the study.  |
-| `data/Dot_Plots/` | MCScanX results and dot plots. |
-| `data/duppipe/` | duppipe results and raw figures. |
-| `data/orthopipe/` | orthopipe results. |
-| `manuscript/figs/` | Raw figures from the manuscript. |
-| `manuscript/scripts/` | Scripts to generate the figures. |
-| `manuscript/supplement/` | Supplemental tables for the manuscript. |
-| `scripts/` | The scripts used for the analyses, from running BLAST to GRAMPA. |
+| Path                   | Description |
+| ---------------------- | ----------- |
+| `data/COGE/`           | COGE results and dot plots. |
+| `data/duppipe/`        | DupPipe Ks results and raw figures. |
+| `data/feature-counts/` | Annotation summaries of the genomes used. |
+| `data/GRAMPA/19spec`   | GRAMPA results, including alignments, gene and species trees, and summary files. |
+| `data/hox/`            | hox gene search results. |
+| `data/MCScanX/`        | MCScanX results and dot plots. |
+| `data/orthopipe/`      | orthopipe results. |
+| `scripts/`             | The scripts used for the GRAMPA analyses. |
