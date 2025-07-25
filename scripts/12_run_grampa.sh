@@ -1,19 +1,19 @@
 #!/bin/bash
-#SBATCH --job-name=spider_grampa
+#SBATCH --job-name=spider_grampa_70
 #SBATCH --output=%x-%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=gthomas@g.harvard.edu
-#SBATCH --partition=holy-info,holy-smokes,shared
+#SBATCH --partition=shared
 #SBATCH --nodes=1
 #SBATCH --ntasks=1  
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=8g
 #SBATCH --time=48:00:00
 
-specstr="18spec"
+specstr="19spec"
 # DATASET: 16spec or 18spec or 19spec
 
-bs="90"
+bs="50"
 # The bootstrap threshold for rearrangement
 
 indir="/n/holylfs05/LABS/informatics/Users/gthomas/spiders/tree/$specstr"

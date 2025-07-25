@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --job-name=spider_astral
+#SBATCH --job-name=spider_notung_50
 #SBATCH --output=slurm_logs/%x-%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=gthomas@g.harvard.edu
-#SBATCH --partition=holy-info,shared
+#SBATCH --partition=shared
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
@@ -13,7 +13,7 @@
 specstr="19spec"
 # DATASET: 16spec or 19spec
 
-bs="90"
+bs="50"
 # The bootstrap threshold for rearrangement
 
 ####################
